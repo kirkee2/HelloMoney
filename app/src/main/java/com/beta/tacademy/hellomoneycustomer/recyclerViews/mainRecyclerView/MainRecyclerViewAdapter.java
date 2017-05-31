@@ -61,6 +61,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         //변수 초기화
         this.type = type;
         mainList = new ArrayList<>();
+        pagerAdapter = new MainFragmentPagerAdapter(fragmentManager);
     }
 
     @Override

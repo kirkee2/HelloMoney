@@ -20,7 +20,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     public void init() {
         for(int i = 0 ; i <3 ; i++){
-            items.add(new MainPageViewPagerObject(0,1,3,"12:12:3","경기도","고양시","장항동","현대타운빌","1000평",3));
+            items.add(new MainPageViewPagerObject(0,1,3,"12:12","경기도","고양시","장항동","현대타운빌","1000평",3));
         }
 
         notifyDataSetChanged();

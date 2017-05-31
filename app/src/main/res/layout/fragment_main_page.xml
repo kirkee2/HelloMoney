@@ -1,19 +1,20 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context="com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageFragment"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="296dp"
-    android:layout_height="144dp"
+    android:layout_width="wrap_content"
+    android:layout_height="500dp"
     android:orientation="vertical"
-    android:background="@drawable/ongoingQuotation">
+    android:id="@+id/linearLayout"
+    android:background="@drawable/ongoing_quotation_0">
 
     <LinearLayout
-        android:layout_width="271dp"
+        android:layout_width="match_parent"
         android:layout_height="74dp"
         android:orientation="horizontal"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="13dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp">
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp">
 
         <LinearLayout
             android:layout_width="197dp"
@@ -23,29 +24,32 @@
             <TextView
                 android:id="@+id/region"
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
-                android:layout_gravity="center"
-                android:gravity="center"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
 
             <TextView
                 android:id="@+id/aptSize"
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
-                android:layout_gravity="center"
-                android:gravity="center"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
 
             <TextView
+                android:layout_marginTop="6dp"
                 android:id="@+id/type"
                 android:layout_width="98dp"
                 android:layout_height="24dp"
                 android:background="@drawable/round_button"
                 android:text="전세자금 대출"
-                android:textSize="@dimen/medium"
+                android:textSize="@dimen/small"
                 android:textColor="@android:color/white"
                 android:gravity="center" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/subNormal"/>
         <RelativeLayout
             android:layout_width="74dp"
             android:layout_height="74dp">
@@ -58,31 +62,32 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/circle"
-                android:text="10"
                 android:textSize="@dimen/large"
                 android:textColor="@color/normalTypo"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="48dp"
-                android:layout_height="11dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/currentQuotation"
+                android:text="@string/current_quotation"
                 android:textColor="@color/subNormal"
-                android:textSize="@dimen/small"/>
+                android:textSize="@dimen/tiny"/>
         </RelativeLayout>
     </LinearLayout>
 
 
     <TextView
+        android:id="@+id/leftTime"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:gravity="center"
         android:text="마강까지 02:22 남았습니다."
         android:textColor="@color/pointTypo"
-        android:textSize="@dimen/large"
+        android:textSize="@dimen/medium"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="13dp"/>
-</android.support.v7.widget.CardView>
+</LinearLayout>

@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity{
 
     //RecyclerView에 해더 추가
     public void addHeaders(){
-        //mainRecyclerViewAdapter.initHeader();
+        mainRecyclerViewAdapter.initHeader();
     }
 
     //RecyclerView에 아이템 추가
