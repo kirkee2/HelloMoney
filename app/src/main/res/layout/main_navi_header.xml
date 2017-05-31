@@ -1,78 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="160dp"
     android:background="@color/basement"
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:layout_weight="100"
     android:weightSum="100">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_gravity="start"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/normalTypo"
-        android:text="@string/my_loan" />
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="50">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/basement"
-        android:orientation="horizontal"
-        android:layout_weight="100"
-        android:weightSum="100">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="5"
+            android:textColor="@color/normalTypo"
+            android:layout_centerInParent="true"
+            android:id="@+id/ongoingLoan" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ongoing_loan"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/normalTypo"
+            android:layout_below="@+id/ongoingLoan"
+            android:layout_centerHorizontal="true" />
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="50">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:text="5"
-                android:textColor="@color/normalTypo"
-                android:layout_centerInParent="true"
-                android:id="@+id/ongoingLoan" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ongoing_loan"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/normalTypo"
-                android:layout_below="@+id/ongoingLoan"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
+    </RelativeLayout>
 
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="50">
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="50">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:text="3"
-                android:textColor="@color/normalTypo"
-                android:layout_centerInParent="true"
-                android:id="@+id/finishLoan" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/finish_loan"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/normalTypo"
-                android:layout_below="@+id/finishLoan"
-                android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="3"
+            android:textColor="@color/normalTypo"
+            android:layout_centerInParent="true"
+            android:id="@+id/finishLoan" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/finish_loan"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/normalTypo"
+            android:layout_below="@+id/finishLoan"
+            android:layout_centerHorizontal="true" />
 
-        </RelativeLayout>
-
-    </LinearLayout>
-
-
+    </RelativeLayout>
 </LinearLayout>
+
+

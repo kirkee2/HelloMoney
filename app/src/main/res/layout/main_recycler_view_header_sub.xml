@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="155dp"
+    android:layout_height="163dp"
     android:background="@color/basement">
 
     <View
@@ -13,7 +13,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="38dp"
         android:background="@color/basement"
         android:layout_gravity="bottom"/>
 
@@ -26,11 +26,11 @@
             android:layout_width="296dp"
             android:layout_height="144dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="-7dp"
             android:layout_centerHorizontal="true"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabDots"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center|bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

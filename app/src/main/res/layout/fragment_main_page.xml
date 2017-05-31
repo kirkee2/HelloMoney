@@ -2,7 +2,7 @@
     tools:context="com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageFragment"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="500dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/linearLayout"
     android:background="@drawable/ongoing_quotation_0">

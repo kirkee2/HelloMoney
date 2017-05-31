@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
 import com.bumptech.glide.Glide;
@@ -169,8 +170,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainHeaderViewHolder) holder).requestQuotation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"견적 요청 페이지로 이동",Toast.LENGTH_SHORT).show();
-
+                    HelloMoneyCustomerApplication.getInstance().startActivity(new Intent(HelloMoneyCustomerApplication.getInstance(), RequestQuotationActivity.class));
+                    //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"견적 요청 페이지로 이동",Toast.LENGTH_SHORT).show();
                 }
             });
         } else if (holder instanceof MainViewHolder) {
