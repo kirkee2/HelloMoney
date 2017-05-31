@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">헬로머니</string>
+    <string name="skip">skip</string>
+    <string name="start_intro">시작하기</string>
+    <string name="how_to">핼로머니 이용 안내</string>
+    <string name="faq">자주 묻는 질문(FAQ)</string>
+    <string name="contact">연락처(문의)</string>
+    <string name="loan_postscript">대출 후기</string>
+    <string name="ongoing_loan">진행 중 견적</string>
+    <string name="finish_loan">종료된 견적</string>
+
+    <string name="test">testing text for HelloMoney.</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>

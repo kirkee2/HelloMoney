@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/cardView"
+    android:layout_marginBottom="@dimen/card_margin_bottom"
+    android:layout_marginLeft="@dimen/card_margin_side"
+    android:layout_marginRight="@dimen/card_margin_side">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/typeImage"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/lease_loan" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@+id/typeImage"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/region"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:gravity="center|start"
+                    android:text="@string/test"
+                    android:textSize="12sp"
+                    android:textColor="@color/normalTypo"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp">
+
+                    <TextView
+                        android:id="@+id/apt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center|start"
+                        android:minWidth="100dp"
+                        android:text="@string/test"
+                        android:textSize="12sp"
+                        android:textColor="@color/normalTypo"/>
+
+                    <RatingBar
+                        android:id="@+id/starRatingBar"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="6dp"
+                        android:layout_toEndOf="@+id/apt"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="3"
+                        android:stepSize="0.5" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pastTime"
+                android:layout_width="66dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="10dp"
+                android:text="3일 전 작성"
+                android:textColor="@color/bdbdbd"
+                android:textSize="9sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="26dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginTop="18dp"
+            android:textColor="@color/pointTypo"
+            android:text="asdjbkaskjasjkdabkdasjkdbqkbaskjdslkfnbrejgekrjfnlsdfjngbneorujivdfh;f cg"
+            android:lineSpacingExtra="6dp"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/bdbdbd" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="6dp">
+
+
+            <TextView
+                android:id="@+id/benefit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text=" +25만원 대출 조건 보기"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/next"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
