@@ -80,7 +80,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="10dp"
                 android:text="3일 전 작성"
-                android:textColor="@color/bdbdbd"
+                android:textColor="@color/subNormal"
                 android:textSize="9sp" />
 
         </RelativeLayout>
@@ -103,7 +103,7 @@
             android:layout_height="2dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:background="@color/bdbdbd" />
+            android:background="@color/subNormal" />
 
         <RelativeLayout
             android:layout_width="match_parent"

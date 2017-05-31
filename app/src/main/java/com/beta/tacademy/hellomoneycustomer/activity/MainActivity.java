@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity{
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        mainRecyclerViewAdapter = new MainRecyclerViewAdapter(this.getSupportFragmentManager());
+        mainRecyclerViewAdapter = new MainRecyclerViewAdapter(this.getSupportFragmentManager(),1);
         recyclerView.setAdapter(mainRecyclerViewAdapter);
 
         //ActionBarDrawerToggle
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity{
 
     //RecyclerView에 해더 추가
     public void addHeaders(){
-
+        //mainRecyclerViewAdapter.initHeader();
     }
 
     //RecyclerView에 아이템 추가

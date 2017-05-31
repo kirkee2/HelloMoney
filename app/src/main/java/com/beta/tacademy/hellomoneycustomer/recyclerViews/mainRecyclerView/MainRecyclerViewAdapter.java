@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
+import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -36,23 +37,29 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static final int TYPE_HEADER_SUB_SUB = 2;
     public static final int TYPE_ITEM = 3;
 
+    private static final int NO_MY_QUOTATION =0;
+    private static final int YES_MY_QUOTATION =1;
+
+    private MainFragmentPagerAdapter pagerAdapter;
+
     private ArrayList<MainValueObject> mainList;
+    private int type;
 
     public void addMember(MainValueObject mainValueObject){
         mainList.add(mainValueObject); //아이템 추가
     }
 
-    public void addHeader(String valueObject){
-        //pagerAdapter.add(valueObject); //헤더 아이템 추가
+    public void initHeader(){
+        pagerAdapter.init(); //헤더 아이템 추가
     }
 
     public void updateImage(){
         notifyDataSetChanged(); //데이터 변경 사실 알림
     }
 
-    public MainRecyclerViewAdapter(FragmentManager fragmentManager){
+    public MainRecyclerViewAdapter(FragmentManager fragmentManager,int type){
         //변수 초기화
-
+        this.type = type;
         mainList = new ArrayList<>();
     }
 
@@ -65,9 +72,12 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (viewType == TYPE_ITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_items, parent, false);
             return new MainViewHolder(view);
+        }else if(viewType == TYPE_HEADER_SUB){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header_sub, parent, false);
+            return new MainHeaderSubViewHolder(view);
         }else if(viewType == TYPE_HEADER){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header, parent, false);
-            return new MainHeaderSubSubViewHolder(view);
+            return new MainHeaderViewHolder(view);
         }else if(viewType == TYPE_HEADER_SUB_SUB){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header_sub_sub, parent, false);
             return new MainHeaderSubSubViewHolder(view);
@@ -79,12 +89,24 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemViewType(int position) {
         //position의 type 반환
-        if (position == 0){
-            return TYPE_HEADER;
-        }else if (position == 1){
-            return TYPE_HEADER_SUB_SUB;
+        if(type == NO_MY_QUOTATION){
+            if (position == 0){
+                return TYPE_HEADER;
+            }else if (position == 1){
+                return TYPE_HEADER_SUB_SUB;
+            }else{
+                return TYPE_ITEM;
+            }
         }else{
-            return TYPE_ITEM;
+            if (position == 0){
+                return TYPE_HEADER;
+            }else if (position == 1){
+                return TYPE_HEADER_SUB;
+            }else if (position == 2){
+                return TYPE_HEADER_SUB_SUB;
+            }else{
+                return TYPE_ITEM;
+            }
         }
     }
 
@@ -122,6 +144,15 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
+    private class MainHeaderSubViewHolder extends RecyclerView.ViewHolder {
+        ViewPager viewPager;
+        TabLayout tabLayout;
+        private MainHeaderSubViewHolder(View itemView) {
+            super(itemView);
+            viewPager = (ViewPager) itemView.findViewById(R.id.pager);
+            tabLayout = (TabLayout) itemView.findViewById(R.id.tabDots);
+        }
+    }
 
     private class MainHeaderSubSubViewHolder extends RecyclerView.ViewHolder {
 
@@ -132,17 +163,22 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        //final MainValueObject valueObject = mainList.get(position-1);
 
         if(holder instanceof MainHeaderViewHolder){
-            ((MainHeaderViewHolder) holder).requestQuotation.setOnClickListener(new View.OnClickListener(){
+            ((MainHeaderViewHolder) holder).requestQuotation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"견적 요청 페이지로 이동",Toast.LENGTH_SHORT).show();
+
                 }
             });
         } else if (holder instanceof MainViewHolder) {
-            final MainValueObject valueObject = mainList.get(position-2);
+            final MainValueObject valueObject;
+            if(type == NO_MY_QUOTATION){
+                valueObject = mainList.get(position-2);
+            }else{
+                valueObject = mainList.get(position-3);
+            }
 
             if(valueObject.getType() == 0){
                 ((MainViewHolder) holder).typeImage.setImageResource(R.drawable.lease_loan);
@@ -173,13 +209,19 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
         }else if (holder instanceof MainHeaderSubSubViewHolder) {
         }else {
-
+            ((MainHeaderSubViewHolder) holder).viewPager.setAdapter(pagerAdapter);
+            ((MainHeaderSubViewHolder) holder).tabLayout.setupWithViewPager(((MainHeaderSubViewHolder) holder).viewPager, true);
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return mainList.size()+2; //전체 item의 갯수 반환
+        if(type == NO_MY_QUOTATION){
+            return mainList.size()+2;
+        }else{
+            return mainList.size()+3;
+        }
+ //전체 item의 갯수 반환
     }
 }
