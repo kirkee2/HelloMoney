@@ -43,11 +43,11 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private MainFragmentPagerAdapter pagerAdapter;
 
-    private ArrayList<MainValueObject> mainList;
+    private ArrayList<MainValueObject> mainValueObjectArrayList;
     private int type;
 
     public void addMember(MainValueObject mainValueObject){
-        mainList.add(mainValueObject); //아이템 추가
+        mainValueObjectArrayList.add(mainValueObject); //아이템 추가
     }
 
     public void initHeader(){
@@ -61,7 +61,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public MainRecyclerViewAdapter(FragmentManager fragmentManager,int type){
         //변수 초기화
         this.type = type;
-        mainList = new ArrayList<>();
+        mainValueObjectArrayList = new ArrayList<>();
         pagerAdapter = new MainFragmentPagerAdapter(fragmentManager);
     }
 
@@ -126,7 +126,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         private MainViewHolder(View itemView) {
             super(itemView);
-            typeImage = (ImageView) itemView.findViewById(R.id.typeImage);;
+            typeImage = (ImageView) itemView.findViewById(R.id.typeImage);
             region = (TextView)itemView.findViewById(R.id.region);
             apt = (TextView)itemView.findViewById(R.id.apt);
             starRatingBar = (RatingBar)itemView.findViewById(R.id.starRatingBar);
@@ -177,9 +177,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else if (holder instanceof MainViewHolder) {
             final MainValueObject valueObject;
             if(type == NO_MY_QUOTATION){
-                valueObject = mainList.get(position-2);
+                valueObject = mainValueObjectArrayList.get(position-2);
             }else{
-                valueObject = mainList.get(position-3);
+                valueObject = mainValueObjectArrayList.get(position-3);
             }
 
             if(valueObject.getType() == 0){
@@ -220,9 +220,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemCount() {
         if(type == NO_MY_QUOTATION){
-            return mainList.size()+2;
+            return mainValueObjectArrayList.size()+2;
         }else{
-            return mainList.size()+3;
+            return mainValueObjectArrayList.size()+3;
         }
  //전체 item의 갯수 반환
     }
