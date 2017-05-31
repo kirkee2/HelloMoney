@@ -52,10 +52,10 @@ public class IntroActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if(position == 3){
                     tab.setVisibility(TabLayout.INVISIBLE);
-                    startButton.setVisibility(View.INVISIBLE);
+                    startButton.setVisibility(View.VISIBLE);
                 }else{
                     tab.setVisibility(TabLayout.VISIBLE);
-                    startButton.setVisibility(View.VISIBLE);
+                    startButton.setVisibility(View.INVISIBLE);
                 }
             }
 

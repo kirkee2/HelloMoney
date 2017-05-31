@@ -67,7 +67,7 @@
                         android:layout_toEndOf="@+id/apt"
                         android:isIndicator="false"
                         android:numStars="5"
-                        android:rating="3"
+                        android:rating="3.5"
                         android:stepSize="0.5" />
                 </RelativeLayout>
             </LinearLayout>

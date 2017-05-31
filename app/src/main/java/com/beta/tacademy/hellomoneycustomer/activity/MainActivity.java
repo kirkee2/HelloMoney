@@ -25,6 +25,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity{
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
     private View naviHeader;
+    private MainRecyclerViewAdapter mainRecyclerViewAdapter;
 
     private long backPressedTime = 0;
     @Override
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity{
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         naviList = (ListView)findViewById(R.id.navi_drawer);
         refreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshLayout);
-        naviHeader = getLayoutInflater().inflate(R.layout.main_navi_header, null, false);
+        naviHeader = getLayoutInflater().inflate(R.layout.main_navi_header, naviList, false);
 
         //Toolbar
 
@@ -68,6 +71,10 @@ public class MainActivity extends AppCompatActivity{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
 
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        mainRecyclerViewAdapter = new MainRecyclerViewAdapter(this.getSupportFragmentManager());
+        recyclerView.setAdapter(mainRecyclerViewAdapter);
 
         //ActionBarDrawerToggle
 
@@ -177,6 +184,8 @@ public class MainActivity extends AppCompatActivity{
 
     //RecyclerView에 아이템 추가
     public void addItems(){
-
+        for(int i = 0 ; i< 20; i++) {
+            mainRecyclerViewAdapter.addMember(new MainValueObject(1,1,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
+        }
     }
 }
