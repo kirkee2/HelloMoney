@@ -14,6 +14,8 @@
     <string name="main_button_ment">새 견적요청 하기</string>
     <string name="current_quotation">현재 견적 수</string>
     <string name="request_quotation">견적 요청</string>
+    <string name="my_quotation">내 견적 요청함</string>
+
 
 
     <string name="test">testing text for HelloMoney.</string>

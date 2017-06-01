@@ -22,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
@@ -41,6 +43,11 @@ public class MainActivity extends AppCompatActivity{
     private ProgressBar progressBar;
     private View naviHeader;
     private MainRecyclerViewAdapter mainRecyclerViewAdapter;
+    private RelativeLayout relativeLayoutOne;
+    private RelativeLayout relativeLayoutTwo;
+    private TextView myOngoingQuotation;
+    private TextView myDoneQuotation;
+
 
     private long backPressedTime = 0;
     @Override
@@ -55,6 +62,11 @@ public class MainActivity extends AppCompatActivity{
         naviList = (ListView)findViewById(R.id.navi_drawer);
         refreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshLayout);
         naviHeader = getLayoutInflater().inflate(R.layout.main_navi_header, naviList, false);
+
+        relativeLayoutOne = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutOne);
+        relativeLayoutTwo = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutTwo);
+        myOngoingQuotation = (TextView)naviHeader.findViewById(R.id.myOngoingQuotation);
+        myDoneQuotation = (TextView)naviHeader.findViewById(R.id.myDoneQuotation);
 
         //Toolbar
 
@@ -109,6 +121,23 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        relativeLayoutOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
+                intent.putExtra("page",0);
+                startActivity(intent);
+            }
+        });
+
+        relativeLayoutTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
+                intent.putExtra("page",1);
+                startActivity(intent);
+            }
+        });
         new MainAsyncTask().execute(); //HTML 파싱 수행
     }
 

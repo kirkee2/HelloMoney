@@ -191,6 +191,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainViewHolder) holder).region.setText(valueObject.getRegion1() +" "+ valueObject.getRegion2() + " "+ valueObject.getRegion3());
             ((MainViewHolder) holder).apt.setText(valueObject.getApt());
             ((MainViewHolder) holder).starRatingBar.setRating(valueObject.getStar());
+            ((MainViewHolder) holder).starRatingBar.setEnabled(false);
             ((MainViewHolder) holder).pastTime.setText(valueObject.getPastTime());
             ((MainViewHolder) holder).content.setText(valueObject.getContent());
 
