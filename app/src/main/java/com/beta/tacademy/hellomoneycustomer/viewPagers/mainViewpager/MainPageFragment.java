@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beta.tacademy.hellomoneycustomer.Connection.WebHook;
 import com.beta.tacademy.hellomoneycustomer.R;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class MainPageFragment extends Fragment {
+
     MainPageViewPagerObject mainPageViewPagerObject;
     TextView region;
     TextView aptSize;
@@ -30,9 +32,26 @@ public class MainPageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public MainPageFragment(MainPageViewPagerObject mainPageViewPagerObject) {
-        this.mainPageViewPagerObject = mainPageViewPagerObject;
+    public static MainPageFragment newInstance(MainPageViewPagerObject mainPageViewPagerObject) {
+        MainPageFragment fragment = new MainPageFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("mainPageViewPagerObject", mainPageViewPagerObject);
+        fragment.setArguments(args);
+        return fragment;
     }
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.mainPageViewPagerObject = getArguments().getParcelable("mainPageViewPagerObject");
+        }else{
+        }
+    }
+
+
 
 
     @Override

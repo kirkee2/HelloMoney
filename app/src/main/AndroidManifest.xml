@@ -29,7 +29,8 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.RequestQuotationActivity"></activity>
+        <activity android:name=".activity.RequestQuotationActivity" />
+        <activity android:name=".activity.MyQuotationActivity"></activity>
     </application>
 
 </manifest>

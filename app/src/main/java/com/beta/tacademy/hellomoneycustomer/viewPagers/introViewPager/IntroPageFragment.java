@@ -12,6 +12,9 @@ import android.widget.ImageView;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.MainActivity;
+import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageFragment;
+import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
+
 public class IntroPageFragment extends Fragment {
 
     private ImageView imageView;
@@ -21,8 +24,20 @@ public class IntroPageFragment extends Fragment {
         this.page = 0;
     }
 
-    public IntroPageFragment(int page) {
-        this.page = page;
+    public static IntroPageFragment newInstance(int page) {
+        IntroPageFragment fragment = new IntroPageFragment();
+        Bundle args = new Bundle();
+        args.putInt("page", page);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            page = getArguments().getInt("page");
+        }
     }
 
     @Override

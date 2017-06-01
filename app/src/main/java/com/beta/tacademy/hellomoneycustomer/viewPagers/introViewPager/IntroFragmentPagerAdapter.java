@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class IntroFragmentPagerAdapter extends FragmentPagerAdapter {
-    ArrayList<Integer> items = new ArrayList<Integer>();
+    ArrayList<Integer> items = new ArrayList<>();
 
     public IntroFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -27,7 +27,7 @@ public class IntroFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new IntroPageFragment(items.get(position));
+        return IntroPageFragment.newInstance(items.get(position));
     }
 
     @Override
