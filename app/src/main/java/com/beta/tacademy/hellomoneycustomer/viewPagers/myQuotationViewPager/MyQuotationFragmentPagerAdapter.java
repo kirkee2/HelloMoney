@@ -4,34 +4,50 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroPageFragment;
+import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
 import java.util.ArrayList;
 
 
 public class MyQuotationFragmentPagerAdapter extends FragmentPagerAdapter {
-    ArrayList<Integer> items;
+    ArrayList<MainPageViewPagerObject> itemOne;
+    ArrayList<MainPageViewPagerObject> itemTwo;
 
     public MyQuotationFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
-        items = new ArrayList<>();
+        itemOne = new ArrayList<>();
+        itemTwo = new ArrayList<>();
     }
 
-    public void init() {
-        for(int i = 0 ; i <2 ; i++){
-            items.add(i);
-        }
+    public void initOne(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+        itemOne = mainPageViewPagerObjectArrayList;
+    }
 
-        notifyDataSetChanged();
+    public void initTwo(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+        itemTwo = mainPageViewPagerObjectArrayList;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return MyQuotationFragment.newInstance(items.get(position));
+        if(position == 0){
+            return MyQuotationFragment.newInstance(itemOne);
+        }else{
+            return MyQuotationFragment.newInstance(itemTwo);
+        }
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return 2;
+    }
+
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if(position == 0){
+            return "진행 중";
+        }else{
+            return "완료";
+        }
     }
 }

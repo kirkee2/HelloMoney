@@ -16,7 +16,10 @@ import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroFragmentPagerAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
+import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.myQuotationViewPager.MyQuotationFragmentPagerAdapter;
+
+import java.util.ArrayList;
 
 public class MyQuotationActivity extends AppCompatActivity {
     private ViewPager viewPager;
@@ -24,6 +27,8 @@ public class MyQuotationActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private MyQuotationFragmentPagerAdapter myQuotationFragmentPagerAdapter;
+    private ArrayList<MainPageViewPagerObject> mainPageViewPagerObject;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class MyQuotationActivity extends AppCompatActivity {
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
+        mainPageViewPagerObject = new ArrayList<>();
 
         myQuotationFragmentPagerAdapter = new MyQuotationFragmentPagerAdapter(getSupportFragmentManager());
 
@@ -51,11 +57,11 @@ public class MyQuotationActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager, true);
         viewPager.setAdapter(myQuotationFragmentPagerAdapter);
-        myQuotationFragmentPagerAdapter.init();
 
         Intent intent = getIntent();
 
         viewPager.setCurrentItem(intent.getIntExtra("page",0));
+        add();
     }
 
     //back 버튼 클릭 시 이벤트 설정.
@@ -65,13 +71,35 @@ public class MyQuotationActivity extends AppCompatActivity {
     }
 
 
-
-
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void add(){
+        ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectOne = new ArrayList<>();
+        ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectTwo = new ArrayList<>();
+
+        for(int i = 0 ; i < 10 ;i++){
+            if(i%3 ==0){
+                mainPageViewPagerObject.add(new MainPageViewPagerObject(0,1,3,"12:12","경기도","고양시","장항동","현대타운빌","1000평",3));
+            }else{
+                mainPageViewPagerObject.add(new MainPageViewPagerObject(0,0,3,"12:12","경기도","언니","나 마음에","안들죠??","1000평",3));
+            }
+        }
+
+        for(MainPageViewPagerObject object : mainPageViewPagerObject){
+            if(object.getOngoingStatus() == 0){
+                mainPageViewPagerObjectOne.add(object);
+            }else{
+                mainPageViewPagerObjectTwo.add(object);
+            }
+        }
+
+        myQuotationFragmentPagerAdapter.initOne(mainPageViewPagerObjectOne);
+        myQuotationFragmentPagerAdapter.initTwo(mainPageViewPagerObjectTwo);
     }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp">
@@ -12,7 +11,8 @@
         android:layout_gravity="end"
         android:background="@drawable/my_chatting_balloon"
         android:textSize="@dimen/medium"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentEnd="true"/>
 
     <TextView
         android:id="@+id/fix"
@@ -20,7 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:textSize="@dimen/medium"
-        android:layout_marginEnd="10dp"
-        android:text="수정"
-        android:textColor="@color/fix"/>
-</LinearLayout>
+        android:text="@string/fix"
+        android:layout_marginRight="10dp"
+        android:gravity="bottom"
+        android:textColor="@color/fix"
+        android:layout_alignBottom="@+id/myChattingText"
+        android:layout_toStartOf="@+id/myChattingText" />
+</RelativeLayout>

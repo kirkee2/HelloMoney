@@ -6,4 +6,6 @@
     <dimen name="small">12sp</dimen>
     <dimen name="medium">18sp</dimen>
     <dimen name="large">28sp</dimen>
+
+    <dimen name="main">500dp</dimen>
 </resources>

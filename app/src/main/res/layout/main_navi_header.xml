@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:text="5"
-            android:textColor="@color/normalTypo"
+            android:textColor="@android:color/white"
             android:layout_centerInParent="true"
             android:id="@+id/myOngoingQuotation" />
         <TextView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="@string/ongoing_loan"
             android:layout_marginTop="4dp"
-            android:textColor="@color/normalTypo"
+            android:textColor="@android:color/white"
             android:layout_below="@+id/myOngoingQuotation"
             android:layout_centerHorizontal="true" />
 
@@ -38,9 +38,9 @@
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="@color/normalTypo"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:background="@android:color/white"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayoutTwo"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:text="3"
-            android:textColor="@color/normalTypo"
+            android:textColor="@android:color/white"
             android:layout_centerInParent="true"
             android:id="@+id/myDoneQuotation" />
         <TextView
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="@string/finish_loan"
             android:layout_marginTop="4dp"
-            android:textColor="@color/normalTypo"
+            android:textColor="@android:color/white"
             android:layout_below="@+id/myDoneQuotation"
             android:layout_centerHorizontal="true" />
 

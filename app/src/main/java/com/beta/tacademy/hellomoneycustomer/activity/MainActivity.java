@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity{
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",0);
                 startActivity(intent);
+                drawer.closeDrawer(naviList);
             }
         });
 
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity{
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",1);
                 startActivity(intent);
+                drawer.closeDrawer(naviList);
             }
         });
         new MainAsyncTask().execute(); //HTML 파싱 수행
