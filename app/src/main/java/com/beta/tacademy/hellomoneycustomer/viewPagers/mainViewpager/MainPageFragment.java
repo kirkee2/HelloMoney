@@ -10,14 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.beta.tacademy.hellomoneycustomer.Connection.WebHook;
 import com.beta.tacademy.hellomoneycustomer.R;
 
-import java.util.ArrayList;
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MainPageFragment extends Fragment {
 
     MainPageViewPagerObject mainPageViewPagerObject;
@@ -48,6 +42,7 @@ public class MainPageFragment extends Fragment {
         if (getArguments() != null) {
             this.mainPageViewPagerObject = getArguments().getParcelable("mainPageViewPagerObject");
         }else{
+            this.mainPageViewPagerObject = null;
         }
     }
 
@@ -74,7 +69,7 @@ public class MainPageFragment extends Fragment {
             type.setText("주택담보 대출");
         }
 
-        currentQuotation.setText(mainPageViewPagerObject.getCurrentQuotation()+"");
+        currentQuotation.setText(String.valueOf(mainPageViewPagerObject.getCurrentQuotation()));
         leftTime.setText("마감까지 " + mainPageViewPagerObject.getLeftTime() + " 남았습니다.");
 
         linearLayout.setOnClickListener(new View.OnClickListener() {

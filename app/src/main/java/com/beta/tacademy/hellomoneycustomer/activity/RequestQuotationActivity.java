@@ -121,13 +121,13 @@ public class RequestQuotationActivity extends AppCompatActivity {
     public void addItems(){
         for(int i = 0 ; i< 20; i++) {
             if(i%2 == 0){
-                requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(0,i,"qwhqwuiehqwehwuwiiunasdnkasdasmdnjkasnjkwdfndsjndjknrwoiejiwe kwrn owrnio ergi gpom sm [wefogoewgno"));
+                requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(0,i,"언니 저 마음에 안들죠??"));
             }else{
-                requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(1,i,"asdnjasndkdanasldnkasldasjdsanldjsndajsldnasdjlasndjalsndsadjlsandlasjdnasjkdsjkdaskjdasjkdnasd"));
+                requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(1,i,"눈깔 똑바로 안 떠 이뇬아?!!"));
             }
         }
 
-        requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(0,20,"qo"));
+        requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(0,20,"qwejqweqwjkenqwejkqwneqwnejqwnjqwlnejwqkewkqjenqwjeqo"));
 
     }
 }

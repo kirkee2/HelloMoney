@@ -18,6 +18,7 @@ public class MainPageViewPagerObject implements Parcelable {
     public MainPageViewPagerObject(Parcel in) {
         readFromParcel(in);
     }
+
     public MainPageViewPagerObject(int id, int ongoingStatus, int type, String leftTime, String region1, String region2, String region3, String apt, String size, int currentQuotation) {
         this.id = id;
         this.ongoingStatus = ongoingStatus;

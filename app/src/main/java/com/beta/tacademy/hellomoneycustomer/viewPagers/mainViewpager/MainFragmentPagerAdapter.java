@@ -4,13 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroPageFragment;
-
 import java.util.ArrayList;
 
 
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
-    ArrayList<MainPageViewPagerObject> items;
+    private ArrayList<MainPageViewPagerObject> items;
 
     public MainFragmentPagerAdapter(FragmentManager fm) {
         super(fm);

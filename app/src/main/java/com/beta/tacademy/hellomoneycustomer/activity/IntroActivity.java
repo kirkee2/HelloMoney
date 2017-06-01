@@ -15,7 +15,7 @@ import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroFragm
 public class IntroActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
-    private TabLayout tab;
+    private TabLayout tabLayout;
     private TextView skip;
     private Button startButton;
 
@@ -27,7 +27,7 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
 
         viewPager = (ViewPager) findViewById(R.id.introViewPager);
-        tab = (TabLayout) findViewById(R.id.introTab);
+        tabLayout = (TabLayout) findViewById(R.id.introTab);
         introFragmentPagerAdapter = new IntroFragmentPagerAdapter(getSupportFragmentManager());
         skip = (TextView)findViewById(R.id.skip);
         startButton = (Button)findViewById(R.id.startButton);
@@ -41,7 +41,7 @@ public class IntroActivity extends AppCompatActivity {
         });
 
 
-        tab.setupWithViewPager(viewPager, true);
+        tabLayout.setupWithViewPager(viewPager, true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -51,10 +51,10 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if(position == 3){
-                    tab.setVisibility(TabLayout.INVISIBLE);
+                    tabLayout.setVisibility(TabLayout.INVISIBLE);
                     startButton.setVisibility(View.VISIBLE);
                 }else{
-                    tab.setVisibility(TabLayout.VISIBLE);
+                    tabLayout.setVisibility(TabLayout.VISIBLE);
                     startButton.setVisibility(View.INVISIBLE);
                 }
             }
