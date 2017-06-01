@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="328dp"
+    android:layout_height="82dp"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal">
+
+    <android.support.v4.widget.CircleImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="13dp"
+        android:layout_gravity="center_vertical" />
+
+    <LinearLayout
+        android:layout_width="144dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="13dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:gravity="top|start"
+            android:textSize="@dimen/small"
+            android:textColor="@color/normalTypo"
+            android:text="KB국민은행"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginBottom="3dp"
+            android:gravity="top|start"
+            android:textSize="@dimen/small"
+            android:textColor="@color/normalTypo"
+            android:text="홍길동"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="top|start"
+            android:textSize="@dimen/small"
+            android:textColor="@color/progress"
+            android:text="변동금리 | 원리금균등상환"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="99dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@color/progress">
+
+        <TextView
+            android:layout_width="79dp"
+            android:layout_height="40dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/large"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="3.4%"/>
+
+        <TextView
+            android:layout_width="79dp"
+            android:layout_height="22dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/medium"
+            android:text="@string/show_detail"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>
