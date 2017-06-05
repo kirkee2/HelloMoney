@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.Connection;
+package com.beta.tacademy.hellomoneycustomer.common.Connection;
 
 import android.os.AsyncTask;
 

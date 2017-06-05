@@ -9,9 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@drawable/ongoing_quotation_0">
-
-
+        android:background="@drawable/ongoing_quotation_fixed_done">
 
         <LinearLayout
             android:layout_width="match_parent"

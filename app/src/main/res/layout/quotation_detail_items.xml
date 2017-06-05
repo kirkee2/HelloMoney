@@ -5,12 +5,13 @@
     android:layout_gravity="center_horizontal"
     android:orientation="horizontal">
 
-    <android.support.v4.widget.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="11dp"
         android:layout_marginEnd="13dp"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/joon"/>
 
     <LinearLayout
         android:layout_width="144dp"

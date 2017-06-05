@@ -36,9 +36,10 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:background="@android:color/white"
+            android:layout_height="48dp"
             app:tabIndicatorColor="@color/progress"
-            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorHeight="5dp"
             app:tabSelectedTextColor="@color/progress"
             app:tabTextColor="@color/pointTypo" />
 

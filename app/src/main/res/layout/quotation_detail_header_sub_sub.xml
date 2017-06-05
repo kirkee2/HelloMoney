@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/basement">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="50"
+            android:background="@color/subNormal">
+
+            <TextView
+                android:layout_width="66dp"
+                android:layout_height="19dp"
+                android:textSize="@dimen/small"
+                android:textColor="@android:color/white"
+                android:gravity="center_vertical"
+                android:text="@string/quotation_result_count"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="18dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:textSize="@dimen/large"
+                android:textColor="@android:color/white"
+                android:gravity="center_vertical"
+                android:text="1"
+                android:layout_marginTop="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginBottom="11dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="50"
+            android:background="@android:color/white">
+
+            <TextView
+                android:layout_width="66dp"
+                android:layout_height="19dp"
+                android:textSize="@dimen/small"
+                android:textColor="@color/normalTypo"
+                android:gravity="center_vertical"
+                android:text="@string/average_mola"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="18dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:textSize="@dimen/large"
+                android:textColor="@color/normalTypo"
+                android:gravity="center_vertical"
+                android:text="3.3%"
+                android:layout_marginTop="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginBottom="11dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

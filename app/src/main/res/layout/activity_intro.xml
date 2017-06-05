@@ -29,7 +29,8 @@
         android:id="@+id/introTab"
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
-        app:tabIndicatorHeight="0dp"/>
+        app:tabIndicatorHeight="0dp"
+        android:layout_marginBottom="40dp"/>
 
     <Button
         android:layout_width="match_parent"
@@ -42,5 +43,8 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_gravity="bottom"
-        android:id="@+id/startButton"/>
+        android:id="@+id/startButton"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"/>
 </FrameLayout>

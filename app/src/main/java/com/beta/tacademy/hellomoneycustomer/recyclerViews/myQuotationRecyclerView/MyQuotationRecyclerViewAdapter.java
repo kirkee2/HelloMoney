@@ -2,6 +2,7 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerVi
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
@@ -83,6 +85,9 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             @Override
             public void onClick(View v) {
                 Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " + valueObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), QuotationDetailActivity.class);
+                intent.putExtra("id",valueObject.getId());
+                HelloMoneyCustomerApplication.getInstance().startActivity(intent);
             }
         });
 

@@ -15,11 +15,13 @@
     <string name="current_quotation">현재 견적 수</string>
     <string name="request_quotation">견적 요청</string>
     <string name="my_quotation">내 견적 요청함</string>
-    <string name="quotation_result">견적 요청 결괴</string>
+    <string name="quotation_result">견적 요청 결과</string>
     <string name="quotation_result_count">최종 견적 수</string>
     <string name="quotation_list">견적 리스트</string>
     <string name="average_mola">평균 금리</string>
+    <string name="quotation_detail">견적 요청 상세</string>
     <string name="show_detail">상세보기 +</string>
+    <string name="quotation_detail_write_comment">대출 후기 작성하기</string>
     <string name="fix">수정</string>
 
 

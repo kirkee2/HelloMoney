@@ -47,13 +47,13 @@ public class IntroPageFragment extends Fragment {
         imageView = (ImageView) view.findViewById(R.id.introImage);
 
         if(page == 0){
-            imageView.setBackgroundResource(R.drawable.test);
+            imageView.setBackgroundResource(R.drawable.intro1);
         }else if(page == 1){
-            imageView.setBackgroundResource(R.drawable.test);
+            imageView.setBackgroundResource(R.drawable.intro2);
         }else if(page == 2){
-            imageView.setBackgroundResource(R.drawable.test);
+            imageView.setBackgroundResource(R.drawable.intro3);
         }else{
-            imageView.setBackgroundResource(R.drawable.test);
+            imageView.setBackgroundResource(R.drawable.intro4);
         }
 
         return view;

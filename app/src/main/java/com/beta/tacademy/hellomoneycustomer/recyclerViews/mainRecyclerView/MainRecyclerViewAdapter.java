@@ -74,15 +74,15 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (viewType == TYPE_ITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_items, parent, false);
             return new MainViewHolder(view);
-        }else if(viewType == TYPE_HEADER_SUB){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header_sub, parent, false);
-            return new MainHeaderSubViewHolder(view);
         }else if(viewType == TYPE_HEADER){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header, parent, false);
             return new MainHeaderViewHolder(view);
+        }else if(viewType == TYPE_HEADER_SUB){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header_sub, parent, false);
+            return new MainSubHeaderViewHolder(view);
         }else if(viewType == TYPE_HEADER_SUB_SUB){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header_sub_sub, parent, false);
-            return new MainHeaderSubSubViewHolder(view);
+            return new MainSubSubHeaderViewHolder(view);
         }else{
             return null;
         }
@@ -146,19 +146,19 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    private class MainHeaderSubViewHolder extends RecyclerView.ViewHolder {
+    private class MainSubHeaderViewHolder extends RecyclerView.ViewHolder {
         ViewPager viewPager;
         TabLayout tabLayout;
-        private MainHeaderSubViewHolder(View itemView) {
+        private MainSubHeaderViewHolder(View itemView) {
             super(itemView);
             viewPager = (ViewPager) itemView.findViewById(R.id.pager);
             tabLayout = (TabLayout) itemView.findViewById(R.id.tabDots);
         }
     }
 
-    private class MainHeaderSubSubViewHolder extends RecyclerView.ViewHolder {
+    private class MainSubSubHeaderViewHolder extends RecyclerView.ViewHolder {
 
-        private MainHeaderSubSubViewHolder(View itemView) {
+        private MainSubSubHeaderViewHolder(View itemView) {
             super(itemView);
         }
     }
@@ -210,10 +210,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " +valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }
             });
-        }else if (holder instanceof MainHeaderSubSubViewHolder) {
+        }else if (holder instanceof MainSubSubHeaderViewHolder) {
         }else {
-            ((MainHeaderSubViewHolder) holder).viewPager.setAdapter(pagerAdapter);
-            ((MainHeaderSubViewHolder) holder).tabLayout.setupWithViewPager(((MainHeaderSubViewHolder) holder).viewPager, true);
+            ((MainSubHeaderViewHolder) holder).viewPager.setAdapter(pagerAdapter);
+            ((MainSubHeaderViewHolder) holder).tabLayout.setupWithViewPager(((MainSubHeaderViewHolder) holder).viewPager, true);
         }
 
     }
