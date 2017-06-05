@@ -23,6 +23,7 @@
             android:padding="12dp">
 
             <TextView
+                android:id="@+id/remainTime"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
@@ -39,6 +40,7 @@
                 android:layout_marginBottom="12dp">
 
                 <ImageView
+                    android:id="@+id/loanType"
                     android:layout_width="74dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="10dp"
@@ -50,6 +52,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/region"
                         android:layout_width="match_parent"
                         android:layout_height="24dp"
                         android:gravity="center_vertical"
@@ -58,6 +61,7 @@
                         android:textSize="@dimen/medium" />
 
                     <TextView
+                        android:id="@+id/apt"
                         android:layout_width="match_parent"
                         android:layout_height="24dp"
                         android:gravity="center_vertical"
@@ -66,6 +70,7 @@
                         android:textSize="@dimen/medium" />
 
                     <TextView
+                        android:id="@+id/size"
                         android:layout_width="match_parent"
                         android:layout_height="24dp"
                         android:gravity="center_vertical"
@@ -101,6 +106,7 @@
                         android:layout_marginBottom="8dp"/>
 
                     <TextView
+                        android:id="@+id/loanSum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/medium"
@@ -131,6 +137,7 @@
                         android:layout_marginBottom="8dp"/>
 
                     <TextView
+                        android:id="@+id/rateType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/medium"
@@ -169,6 +176,7 @@
                         android:layout_marginBottom="8dp"/>
 
                     <TextView
+                        android:id="@+id/loanDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/medium"
@@ -199,6 +207,7 @@
                         android:layout_marginBottom="8dp"/>
 
                     <TextView
+                        android:id="@+id/jobType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/medium"
@@ -230,6 +239,7 @@
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
+                    android:id="@+id/telephone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/medium"

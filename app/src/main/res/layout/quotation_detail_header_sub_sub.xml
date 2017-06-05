@@ -31,6 +31,7 @@
                 android:layout_centerVertical="true"/>
 
             <TextView
+                android:id="@+id/finalQuotationCount"
                 android:layout_width="33dp"
                 android:layout_height="33dp"
                 android:textSize="@dimen/large"
@@ -64,6 +65,7 @@
                 android:layout_centerVertical="true"/>
 
             <TextView
+                android:id="@+id/averageInterestRate"
                 android:layout_width="70dp"
                 android:layout_height="33dp"
                 android:textSize="@dimen/large"

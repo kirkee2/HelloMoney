@@ -1,5 +1,9 @@
 package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView;
 
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+
 /**
  * Created by kirkee on 2017. 6. 5..
  */
@@ -8,6 +12,7 @@ public class QuotationDetailHeaderObject {
     private int id;
     private int finalQuotationCount;
     private double averageInterestRate;
+    private ArrayList<Integer> rate;
     private String remainTime;
     private int loanType;
     private String region1;
@@ -21,10 +26,11 @@ public class QuotationDetailHeaderObject {
     private int jobType;
     private String telephone;
 
-    public QuotationDetailHeaderObject(int id, int finalQuotationCount, double averageInterestRate, String remainTime, int loanType, String region1, String region2, String region3, String apt, String size, int loanSum, int rateType, int loanDate, int jobType, String telephone) {
+    public QuotationDetailHeaderObject(int id, int finalQuotationCount, double averageInterestRate, ArrayList<Integer> rate, String remainTime, int loanType, String region1, String region2, String region3, String apt, String size, int loanSum, int rateType, int loanDate, int jobType, String telephone) {
         this.id = id;
         this.finalQuotationCount = finalQuotationCount;
         this.averageInterestRate = averageInterestRate;
+        this.rate = rate;
         this.remainTime = remainTime;
         this.loanType = loanType;
         this.region1 = region1;
@@ -157,5 +163,13 @@ public class QuotationDetailHeaderObject {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public ArrayList<Integer> getRate() {
+        return rate;
+    }
+
+    public void setRate(ArrayList<Integer> rate) {
+        this.rate = rate;
     }
 }
