@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailHeaderObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailRecyclerViewAdapter;
+
+import java.util.ArrayList;
 
 public class QuotationDetailActivity extends AppCompatActivity {
 
@@ -56,10 +59,20 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
 
+
+        ArrayList<Double> tmp = new ArrayList<>();
+        tmp.add(3.5);
+        tmp.add(4.5);
+        tmp.add(5.5);
+        tmp.add(6.5);
+
+
+
         recyclerView.setLayoutManager(linearLayoutManager);
-        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(1);
+        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(new QuotationDetailHeaderObject(0,tmp,"12:31",0,"서울시","상도동","동작구","미래아파트","300평",30000,0,"1992.07.12",0,"010-6263-0135"));
         recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-    }
+
+   }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

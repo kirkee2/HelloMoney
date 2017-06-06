@@ -10,9 +10,7 @@ import java.util.ArrayList;
 
 public class QuotationDetailHeaderObject {
     private int id;
-    private int finalQuotationCount;
-    private double averageInterestRate;
-    private ArrayList<Integer> rate;
+    private ArrayList<Double> rate;
     private String remainTime;
     private int loanType;
     private String region1;
@@ -22,14 +20,12 @@ public class QuotationDetailHeaderObject {
     private String size;
     private int loanSum;
     private int rateType;
-    private int loanDate;
+    private String loanDate;
     private int jobType;
     private String telephone;
 
-    public QuotationDetailHeaderObject(int id, int finalQuotationCount, double averageInterestRate, ArrayList<Integer> rate, String remainTime, int loanType, String region1, String region2, String region3, String apt, String size, int loanSum, int rateType, int loanDate, int jobType, String telephone) {
+    public QuotationDetailHeaderObject(int id, ArrayList<Double> rate, String remainTime, int loanType, String region1, String region2, String region3, String apt, String size, int loanSum, int rateType, String loanDate, int jobType, String telephone) {
         this.id = id;
-        this.finalQuotationCount = finalQuotationCount;
-        this.averageInterestRate = averageInterestRate;
         this.rate = rate;
         this.remainTime = remainTime;
         this.loanType = loanType;
@@ -51,22 +47,6 @@ public class QuotationDetailHeaderObject {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getFinalQuotationCount() {
-        return finalQuotationCount;
-    }
-
-    public void setFinalQuotationCount(int finalQuotationCount) {
-        this.finalQuotationCount = finalQuotationCount;
-    }
-
-    public double getAverageInterestRate() {
-        return averageInterestRate;
-    }
-
-    public void setAverageInterestRate(double averageInterestRate) {
-        this.averageInterestRate = averageInterestRate;
     }
 
     public String getRemainTime() {
@@ -141,11 +121,11 @@ public class QuotationDetailHeaderObject {
         this.rateType = rateType;
     }
 
-    public int getLoanDate() {
+    public String getLoanDate() {
         return loanDate;
     }
 
-    public void setLoanDate(int loanDate) {
+    public void setLoanDate(String loanDate) {
         this.loanDate = loanDate;
     }
 
@@ -165,11 +145,11 @@ public class QuotationDetailHeaderObject {
         this.telephone = telephone;
     }
 
-    public ArrayList<Integer> getRate() {
+    public ArrayList<Double> getRate() {
         return rate;
     }
 
-    public void setRate(ArrayList<Integer> rate) {
+    public void setRate(ArrayList<Double> rate) {
         this.rate = rate;
     }
 }
