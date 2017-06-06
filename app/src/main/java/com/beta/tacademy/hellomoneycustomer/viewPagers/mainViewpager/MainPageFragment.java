@@ -1,6 +1,7 @@
 package com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 
 public class MainPageFragment extends Fragment {
 
@@ -75,6 +79,9 @@ public class MainPageFragment extends Fragment {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), QuotationDetailActivity.class);
+                intent.putExtra("id",mainPageViewPagerObject.getId());
+                HelloMoneyCustomerApplication.getInstance().startActivity(intent);
                 Toast.makeText(getActivity(),"id = " + mainPageViewPagerObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
             }
         });
