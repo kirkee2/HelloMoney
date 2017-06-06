@@ -60,13 +60,13 @@ public class QuotationDetailActivity extends AppCompatActivity {
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
 
 
-        ArrayList<Double> tmp = new ArrayList<>();
-        tmp.add(3.5);
-        tmp.add(4.5);
-        tmp.add(5.5);
-        tmp.add(6.5);
-
-
+        ArrayList<Float> tmp = new ArrayList<>();
+        tmp.add(5F);
+        tmp.add(4.5F);
+        tmp.add(3.5F);
+        tmp.add(2.5F);
+        tmp.add(5.5F);
+        tmp.add(3F);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(new QuotationDetailHeaderObject(0,tmp,"12:31",0,"서울시","상도동","동작구","미래아파트","300평",30000,0,"1992.07.12",0,"010-6263-0135"));

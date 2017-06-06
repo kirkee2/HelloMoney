@@ -16,6 +16,11 @@ import android.widget.TextView;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 
@@ -93,10 +98,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     private class QuotationDetailSubHeaderViewHolder extends RecyclerView.ViewHolder {
-
+        BarChart barChart;
         private QuotationDetailSubHeaderViewHolder(View itemView) {
             super(itemView);
-
+            barChart = (BarChart) itemView.findViewById(R.id.barChart);
         }
     }
 
@@ -142,7 +147,51 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
         if(holder instanceof QuotationDetailHeaderViewHolder){
         } else if (holder instanceof QuotationDetailSubHeaderViewHolder) {
-            //MAP 라이즈
+            final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
+
+            ArrayList<BarEntry> entries = new ArrayList<>();
+            ArrayList<BarEntry> entriesMin = new ArrayList<>();
+            float min = 100;
+            int minIndex = 0;
+            for(int i = 0 ; i <valueObject.getRate().size() ; i++){
+                if(valueObject.getRate().get(i) < min){
+                    min = valueObject.getRate().get(i);
+                    minIndex = i;
+                }
+                entries.add(new BarEntry(i*0.5F,valueObject.getRate().get(i)));
+            }
+
+            entriesMin.add(entries.get(minIndex));
+            entries.remove(minIndex);
+
+            Description d = new Description();
+            d.setText("");
+
+            BarDataSet dataSet = new BarDataSet(entries, "이자율");
+            BarDataSet dataSetMin = new BarDataSet(entriesMin, "최저");
+
+            dataSet.setColor(0xFF00BFA5);
+            dataSet.setHighlightEnabled(false);
+            dataSet.setValueTextSize(10);
+
+            dataSetMin.setColor(0xFFFF4081);
+            dataSetMin.setHighlightEnabled(false);
+            dataSetMin.setValueTextSize(10);
+
+            BarData data = new BarData(dataSet);
+            data.addDataSet(dataSetMin);
+
+            data.setBarWidth(0.15F);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setData(data);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.getAxisRight().setEnabled(false);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.getXAxis().setEnabled(false);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDescription(d);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setEnabled(false);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.animateXY(2000, 2000);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setScaleEnabled(false);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.invalidate();
+
         }else if (holder instanceof QuotationDetailSubSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 

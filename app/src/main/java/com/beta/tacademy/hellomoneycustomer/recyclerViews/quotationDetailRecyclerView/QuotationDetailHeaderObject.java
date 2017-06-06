@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class QuotationDetailHeaderObject {
     private int id;
-    private ArrayList<Double> rate;
+    private ArrayList<Float> rate;
     private String remainTime;
     private int loanType;
     private String region1;
@@ -24,7 +24,7 @@ public class QuotationDetailHeaderObject {
     private int jobType;
     private String telephone;
 
-    public QuotationDetailHeaderObject(int id, ArrayList<Double> rate, String remainTime, int loanType, String region1, String region2, String region3, String apt, String size, int loanSum, int rateType, String loanDate, int jobType, String telephone) {
+    public QuotationDetailHeaderObject(int id, ArrayList<Float> rate, String remainTime, int loanType, String region1, String region2, String region3, String apt, String size, int loanSum, int rateType, String loanDate, int jobType, String telephone) {
         this.id = id;
         this.rate = rate;
         this.remainTime = remainTime;
@@ -145,11 +145,11 @@ public class QuotationDetailHeaderObject {
         this.telephone = telephone;
     }
 
-    public ArrayList<Double> getRate() {
+    public ArrayList<Float> getRate() {
         return rate;
     }
 
-    public void setRate(ArrayList<Double> rate) {
+    public void setRate(ArrayList<Float> rate) {
         this.rate = rate;
     }
 }
