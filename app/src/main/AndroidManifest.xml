@@ -16,7 +16,9 @@
         <meta-data
             android:name="com.beta.tacademy.hellomoneycustomer.module.HelloMoneyCustomerGlideModule"
             android:value="GlideModule" />
-        <activity android:name=".activity.SplashScreenActivity"
+
+        <activity
+            android:name=".activity.SplashScreenActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,15 +28,21 @@
         </activity>
         <activity
             android:name=".activity.IntroActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.RequestQuotationActivity"
+        <activity
+            android:name=".activity.RequestQuotationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MyQuotationActivity"
+        <activity
+            android:name=".activity.MyQuotationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.QuotationDetailActivity"
+        <activity
+            android:name=".activity.QuotationDetailActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.OperationGuideActivity"
+            android:screenOrientation="portrait"/>
     </application>
+
 </manifest>

@@ -64,13 +64,6 @@ public class MyQuotationActivity extends AppCompatActivity {
         add();
     }
 
-    //back 버튼 클릭 시 이벤트 설정.
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();

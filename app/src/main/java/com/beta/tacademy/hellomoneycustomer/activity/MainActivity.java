@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity{
 
             switch (position) {
                 case 1:
+                    startActivity(new Intent(MainActivity.this,OperationGuideActivity.class));
                     break;
                 case 2:
                     break;

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">헬로머니</string>
-    <string name="skip">skip</string>
+    <string name="skip">건너뛰기</string>
+    <string name="end">완료</string>
     <string name="start_intro">시작하기</string>
     <string name="how_to">핼로머니 이용 안내</string>
     <string name="faq">자주 묻는 질문(FAQ)</string>
@@ -21,6 +22,7 @@
     <string name="average_mola">평균 금리</string>
     <string name="quotation_detail">견적 요청 상세</string>
     <string name="show_detail">상세보기 +</string>
+    <string name="operation_guide">이용 안내</string>
     <string name="quotation_detail_write_comment">대출 후기 작성하기</string>
     <string name="fix">수정</string>
 
