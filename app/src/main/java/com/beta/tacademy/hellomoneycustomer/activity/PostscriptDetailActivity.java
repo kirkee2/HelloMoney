@@ -187,7 +187,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         goCounselor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
     }

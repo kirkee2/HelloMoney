@@ -44,7 +44,8 @@
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChart"
                 android:layout_width="match_parent"
-                android:layout_height="168dp" />
+                android:layout_height="168dp"
+                android:background="@android:color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
