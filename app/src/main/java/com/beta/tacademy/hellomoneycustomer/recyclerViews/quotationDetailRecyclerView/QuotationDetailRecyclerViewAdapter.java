@@ -1,5 +1,6 @@
 package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView;
 
+import android.app.Activity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -12,17 +13,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
+import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,16 +40,23 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public static final int TYPE_HEADER_SUB_SUB_SUB = 3;
     public static final int TYPE_ITEM = 4;
 
+    private Activity activity;
+
     private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
     private QuotationDetailHeaderObject quotationDetailHeaderObject;
 
-    public void addMember(QuotationDetailObject quotationDetailObject) {
+    public void addItem(QuotationDetailObject quotationDetailObject) {
         quotationDetailObjectArrayList.add(quotationDetailObject); //아이템 추가
     }
 
-    public QuotationDetailRecyclerViewAdapter(QuotationDetailHeaderObject quotationDetailHeaderObject){
+    public void initItem(ArrayList<QuotationDetailObject> quotationDetailObjectArrayList) {
+        this.quotationDetailObjectArrayList = quotationDetailObjectArrayList; //아이템 추가
+    }
+
+    public QuotationDetailRecyclerViewAdapter(Activity activity,QuotationDetailHeaderObject quotationDetailHeaderObject){
         //변수 초기화
         quotationDetailObjectArrayList = new ArrayList<>();
+        this.activity = activity;
         this.quotationDetailHeaderObject = quotationDetailHeaderObject;
     }
 
@@ -82,10 +97,21 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     private class QuotationDetailViewHolder extends RecyclerView.ViewHolder {
+        TextView bank;
+        TextView name;
+        TextView loanType;
+        TextView interestRate;
+        CircleImageView image;
+        CardView cardView;
 
         private QuotationDetailViewHolder(View itemView) {
             super(itemView);
-
+            cardView = (CardView)itemView.findViewById(R.id.cardView);
+            bank = (TextView)itemView.findViewById(R.id.bank);
+            name = (TextView)itemView.findViewById(R.id.name);
+            loanType = (TextView)itemView.findViewById(R.id.loanType);
+            interestRate = (TextView)itemView.findViewById(R.id.interestRate);
+            image = (CircleImageView)itemView.findViewById(R.id.image);
         }
     }
 
@@ -187,7 +213,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.getXAxis().setEnabled(false);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDescription(d);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.setEnabled(false);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.animateXY(2000, 2000);
+            ((QuotationDetailSubHeaderViewHolder) holder).barChart.animateY(500);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.setScaleEnabled(false);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.invalidate();
@@ -235,7 +261,30 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
            ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(valueObject.getTelephone());
         }else {
+            final QuotationDetailObject valueObject  = quotationDetailObjectArrayList.get(position-4);
 
+            ((QuotationDetailViewHolder) holder).bank.setText(valueObject.getBank());
+            ((QuotationDetailViewHolder) holder).name.setText(valueObject.getName());
+            ((QuotationDetailViewHolder) holder).interestRate.setText(String.valueOf(valueObject.getInterestRate())+"%");
+
+            if(valueObject.getLoanType() == 0){
+                ((QuotationDetailViewHolder) holder).loanType.setText("고정금리");
+            }else{
+                ((QuotationDetailViewHolder) holder).loanType.setText("변동금리");
+            }
+            Glide.with(activity)
+                    .load(valueObject.getImageUrl())
+                    .animate(android.R.anim.slide_in_left)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.error)
+                    .into(((QuotationDetailViewHolder) holder).image);
+
+            ((QuotationDetailViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " + valueObject.getId(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

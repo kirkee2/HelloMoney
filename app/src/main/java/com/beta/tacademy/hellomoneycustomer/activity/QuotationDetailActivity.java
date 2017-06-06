@@ -69,9 +69,10 @@ public class QuotationDetailActivity extends AppCompatActivity {
         tmp.add(3F);
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(new QuotationDetailHeaderObject(0,tmp,"12:31",0,"서울시","상도동","동작구","미래아파트","300평",30000,0,"1992.07.12",0,"010-6263-0135"));
+        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(this,new QuotationDetailHeaderObject(0,tmp,"12:31",0,"서울시","상도동","동작구","미래아파트","300평",30000,0,"1992.07.12",0,"010-6263-0135"));
         recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
 
+        addItems();
    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -83,6 +84,12 @@ public class QuotationDetailActivity extends AppCompatActivity {
     }
 
     public void addItems(){
-        //quotationDetailRecyclerViewAdapter.addMember(new QuotationDetailObject(i,1,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
+        for(int i = 0 ; i < 10 ; i++){
+            if(i%2 ==0){
+                quotationDetailRecyclerViewAdapter.addItem(new QuotationDetailObject(i,"신한은행","이건준",0,3.3,"http://cphoto.asiae.co.kr/listimglink/6/2016122719355313871_1.png"));
+            }else{
+                quotationDetailRecyclerViewAdapter.addItem(new QuotationDetailObject(i,"우리은행","엄마",1,4,"http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg"));
+            }
+        }
     }
 }
