@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/basement"
+    android:background="@android:color/white"
     android:padding="6dp">
 
     <com.github.mikephil.charting.charts.BarChart

@@ -41,8 +41,10 @@
         <activity
             android:name=".activity.QuotationDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.OperationGuideActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.OperationGuideActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.PostscriptDetailActivity"></activity>
     </application>
 
 </manifest>

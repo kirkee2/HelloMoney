@@ -193,8 +193,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             Description d = new Description();
             d.setText("");
 
-            BarDataSet dataSet = new BarDataSet(entries, "이자율");
-            BarDataSet dataSetMin = new BarDataSet(entriesMin, "최저");
+            BarDataSet dataSet = new BarDataSet(entries, "금리");
+            BarDataSet dataSetMin = new BarDataSet(entriesMin, "최저 금리");
 
             dataSet.setColor(0xFF00BFA5);
             dataSet.setHighlightEnabled(false);
