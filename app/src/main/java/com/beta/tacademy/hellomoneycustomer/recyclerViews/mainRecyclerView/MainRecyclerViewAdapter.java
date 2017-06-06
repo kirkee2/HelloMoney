@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
@@ -182,7 +183,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 valueObject = mainValueObjectArrayList.get(position-3);
             }
 
-            if(valueObject.getType() == 0){
+            if(valueObject.getLoanType() == 0){
                 ((MainViewHolder) holder).typeImage.setImageResource(R.drawable.lease_loan);
             }else{
                 ((MainViewHolder) holder).typeImage.setImageResource(R.drawable.secured_loan);
@@ -207,7 +208,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " +valueObject.getId(),Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), PostscriptDetailActivity.class);
+                    intent.putExtra("id",valueObject.getId());
+                    HelloMoneyCustomerApplication.getInstance().startActivity(intent);
+                    //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " +valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }
             });
         }else if (holder instanceof MainSubSubHeaderViewHolder) {

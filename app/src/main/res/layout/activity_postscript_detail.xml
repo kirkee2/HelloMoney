@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/basement"
     tools:context="com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity">
 
     <LinearLayout
@@ -120,7 +121,8 @@
             android:layout_width="328dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -180,8 +182,6 @@
                         android:text="@string/go_counselor"/>
                 </LinearLayout>
 
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,6 +190,14 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/typeImage"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="26dp"
+                            android:layout_marginTop="16dp"
+                            android:src="@drawable/lease_loan" />
 
                         <LinearLayout
                             android:id="@+id/linearLayout"
@@ -265,7 +273,6 @@
                         android:lineSpacingExtra="6dp"
                         android:textSize="12sp" />
                 </LinearLayout>
-
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
