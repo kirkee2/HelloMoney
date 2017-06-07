@@ -1,6 +1,10 @@
 package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -292,5 +296,23 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public int getItemCount() {
         return quotationDetailObjectArrayList.size()+4;
         //전체 item의 갯수 반환
+    }
+
+    private class requestQuotationDialog extends Dialog {
+
+        Button no;
+        Button yes;
+        public requestQuotationDialog(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            setContentView(R.layout.request_counsel_dialog);
+
+            
+        }
     }
 }

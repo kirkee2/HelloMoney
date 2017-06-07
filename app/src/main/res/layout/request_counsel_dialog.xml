@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="328dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        android:paddingBottom="21dp"
+        android:paddingTop="21dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:background="@color/progress">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/image"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="126dp"
+            android:layout_height="30dp"
+            android:orientation="vertical"
+            android:layout_marginBottom="9dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:id="@+id/bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/small"
+                android:layout_gravity="center_vertical"
+                android:text="국민은행"/>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/small"
+                android:layout_gravity="center_vertical"
+                android:text="홍길동"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/goCounselor"
+            android:layout_width="96dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="9dp"
+            android:layout_marginTop="9dp"
+            android:textSize="@dimen/medium"
+            android:textColor="@color/progress"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="@string/go_counselor"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="296dp"
+        android:layout_height="48dp"
+        android:textColor="@color/pointTypo"
+        android:textSize="@dimen/medium"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/subNormal"
+        android:textSize="@dimen/small"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:text="최종 변경일 : 2016.07.12"
+        android:gravity="end"/>
+
+    <LinearLayout
+        android:layout_width="296dp"
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        android:background="@color/basement"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingStart="12dp"
+            android:paddingBottom="6dp">
+
+            <RelativeLayout
+                android:layout_width="148dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/subNormal"
+                    android:textSize="@dimen/small"
+                    android:text="@string/loan_interest_rate"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/progress"
+                    android:textSize="@dimen/medium"
+                    android:text="3.8%"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="148dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/subNormal"
+                    android:textSize="@dimen/small"
+                    android:text="@string/interest_type"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/normalTypo"
+                    android:textSize="@dimen/medium"
+                    android:text="변동 금리"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingStart="12dp"
+            android:paddingBottom="6dp">
+
+
+            <RelativeLayout
+                android:layout_width="148dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/subNormal"
+                    android:textSize="@dimen/small"
+                    android:text="@string/monthly_repay_money"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/normalTypo"
+                    android:textSize="@dimen/medium"
+                    android:text="890,000원"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="148dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/subNormal"
+                    android:textSize="@dimen/small"
+                    android:text="@string/repay_type"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/normalTypo"
+                    android:textSize="@dimen/medium"
+                    android:text="원리금 균등상환"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normalTypo"
+            android:textSize="@dimen/small"
+            android:text="연체 이자율"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normalTypo"
+            android:textSize="@dimen/medium"
+            android:text="90일 미만 : 대출 금리 + 8%"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normalTypo"
+            android:textSize="@dimen/medium"
+            android:text="90일 이상 : 대출 금리 + 9%(최고 연체 이자율 : 16%)"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normalTypo"
+            android:textSize="@dimen/small"
+            android:text="중도 상환 수수료"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normalTypo"
+            android:textSize="@dimen/medium"
+            android:text="조기 상환 원금 X 1.4% X [(3년 대출 경과 일 수 / 3년)]"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/normalTypo"
+            android:textSize="@dimen/medium"
+            android:text="매년 대출 잔액의 10%까지 중도 상환 수수료 면제"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/textView5"
+            android:layout_marginEnd="20dp"
+            android:text="@string/back"
+            android:textColor="@color/pointTypo"
+            android:textSize="@dimen/medium" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/request_counsel"
+            android:textColor="@color/progress"
+            android:textSize="@dimen/medium" />
+    </RelativeLayout>
+</LinearLayout>

@@ -25,8 +25,15 @@
     <string name="operation_guide">이용 안내</string>
     <string name="quotation_detail_write_comment">대출 후기 작성하기</string>
     <string name="postscript_detail">대출 후기 상세</string>
+    <string name="loan_interest_rate">대출 금리</string>
+    <string name="interest_type">금리 방식</string>
     <string name="go_counselor">상담사 보기</string>
     <string name="counselor_detail">상담사 상세</string>
+    <string name="monthly_repay_money">월 평균 상환액</string>
+    <string name="repay_type">상환 방식</string>
+    <string name="back">뒤로 가기</string>
+    <string name="request_counsel">상담 신청하기</string>
+
     <string name="fix">수정</string>
 
 
