@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/basement">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/bank"
+            android:layout_width="296dp"
+            android:layout_height="24dp"
+            android:textSize="@dimen/medium"
+            android:textColor="@color/normalTypo"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="296dp"
+            android:layout_height="24dp"
+            android:textSize="@dimen/medium"
+            android:textColor="@color/normalTypo"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="296dp"
+        android:layout_height="48dp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/medium"
+        android:background="@color/progress"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textColor="@color/subNormal"
+        android:textSize="@dimen/medium"
+        android:gravity="bottom|start"
+        android:layout_marginStart="6dp"
+        android:paddingBottom="6dp"
+        android:text="@string/loan_postscript"/>
+
+
+</LinearLayout>

@@ -52,7 +52,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center|start"
-                        android:minWidth="100dp"
+                        android:maxWidth="200dp"
                         android:text="@string/test"
                         android:textSize="12sp"
                         android:textColor="@color/normalTypo"/>
