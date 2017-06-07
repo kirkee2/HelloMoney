@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity{
                     startActivity(new Intent(MainActivity.this,FAQActivity.class));
                     break;
                 case 3:
+                    startActivity(new Intent(MainActivity.this,ContactActivity.class));
                     break;
             }
 

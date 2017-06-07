@@ -35,6 +35,15 @@
     <string name="request_counsel">상담 신청하기</string>
     <string name="write_comment">후기 작성하기</string>
     <string name="write_comment_please">후기를 작성해주세요.</string>
+    <string name="hello_money_service_contact">핼로머니 서비스 문</string>
+    <string name="kakao_talk">카카오톡</string>
+    <string name="kakao_talk_id">/@hellomoney</string>
+    <string name="telephone">전화번호</string>
+    <string name="hello_money_telephone">070-8237-8282</string>
+    <string name="email">이메일</string>
+    <string name="hello_money_email">help@hellomoney.co.kr</string>
+    <string name="operation_time">운영시간</string>
+    <string name="hello_money_operation_time">평일 10:00 ~ 19:00</string>
 
     <string name="fix">수정</string>
 
