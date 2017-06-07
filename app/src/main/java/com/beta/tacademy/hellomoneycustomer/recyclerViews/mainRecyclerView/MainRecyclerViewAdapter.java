@@ -47,7 +47,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ArrayList<MainValueObject> mainValueObjectArrayList;
     private int type;
 
-    public void addMember(MainValueObject mainValueObject){
+    public void addItem(MainValueObject mainValueObject){
         mainValueObjectArrayList.add(mainValueObject); //아이템 추가
     }
 

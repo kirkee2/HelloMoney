@@ -187,7 +187,9 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         goCounselor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(PostscriptDetailActivity.this,CounselorDetailActivity.class);
+                intent.putExtra("id",counselorId);
+                startActivity(intent);
             }
         });
     }

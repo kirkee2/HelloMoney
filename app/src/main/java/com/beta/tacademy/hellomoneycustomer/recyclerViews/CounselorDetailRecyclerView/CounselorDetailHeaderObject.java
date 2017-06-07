@@ -5,16 +5,26 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.CounselorDetailRecycl
  */
 
 public class CounselorDetailHeaderObject {
+    private int counselorId;
     private String imageUrl;
     private String bank;
     private String name;
     private String introductionMent;
 
-    public CounselorDetailHeaderObject(String imageUrl, String bank, String name, String introductionMent) {
+    public CounselorDetailHeaderObject(int counselorId, String imageUrl, String bank, String name, String introductionMent) {
+        this.counselorId = counselorId;
         this.imageUrl = imageUrl;
         this.bank = bank;
         this.name = name;
         this.introductionMent = introductionMent;
+    }
+
+    public int getCounselorId() {
+        return counselorId;
+    }
+
+    public void setCounselorId(int counselorId) {
+        this.counselorId = counselorId;
     }
 
     public String getImageUrl() {
