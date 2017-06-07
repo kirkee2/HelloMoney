@@ -6,15 +6,20 @@
     android:layout_marginBottom="12dp"
     android:layout_marginTop="6dp">
 
-    <Button
-        android:id="@+id/writeComment"
-        android:layout_width="294dp"
+    <android.support.v7.widget.CardView
+        android:layout_width="348dp"
         android:layout_height="match_parent"
-        style="?android:attr/borderlessButtonStyle"
-        android:text="@string/quotation_detail_write_comment"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="@dimen/medium"
-        android:background="@color/progress"/>
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/writeComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="@string/quotation_detail_write_comment"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:textSize="@dimen/medium"
+            android:background="@color/progress"/>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

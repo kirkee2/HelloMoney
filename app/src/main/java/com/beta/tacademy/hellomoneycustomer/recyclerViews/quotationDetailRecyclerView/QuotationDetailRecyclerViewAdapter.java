@@ -11,10 +11,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -289,10 +295,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailFooterViewHolder) holder).writeComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
-                    requestQuotationDialog.setInfo(valueObject.getId());
+                    WriteCommentDialog writeCommentDialog = new WriteCommentDialog(activity);
+                    writeCommentDialog.setInfo(valueObject.getId());
 
-                    requestQuotationDialog.show();
+                    writeCommentDialog.show();
                 }
             });
         }else {
@@ -394,6 +400,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             setContentView(R.layout.request_counsel_dialog);
             image = (CircleImageView)findViewById(R.id.image);
             bank = (TextView)findViewById(R.id.bank);
+            name = (TextView)findViewById(R.id.name);
             goCounselor = (TextView)findViewById(R.id.goCounselor);
             loanName = (TextView)findViewById(R.id.loanName);
             finalRegisterDate = (TextView)findViewById(R.id.finalRegisterDate);
@@ -450,7 +457,103 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     Toast.makeText(getContext(),"id = "+ id +" 를 선택하셨습니다.",Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
 
+    private class WriteCommentDialog extends Dialog {
+
+        private int id;
+        private CircleImageView image;
+        private TextView bank;
+        private TextView name;
+        private RatingBar ratingBar;
+        private EditText comment;
+        private TextView back;
+        private TextView writeComment;
+
+        private String imageTmp;
+        private String bankTmp;
+        private String nameTmp;
+
+        public WriteCommentDialog(@NonNull Context context) {
+            super(context);
+        }
+
+        public void setInfo(int id){
+            this.id = id;
+            imageTmp = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
+            bankTmp = "외환은행";
+            nameTmp = "이건준";
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.write_comment_dialog);
+            image = (CircleImageView)findViewById(R.id.image);
+            bank = (TextView)findViewById(R.id.bank);
+            name = (TextView)findViewById(R.id.name);
+            back = (TextView)findViewById(R.id.back);
+            writeComment = (TextView)findViewById(R.id.writeComment);
+            ratingBar = (RatingBar)findViewById(R.id.starRatingBar);
+            comment = (EditText)findViewById(R.id.comment);
+
+            Glide.with(activity)
+                    .load(imageTmp)
+                    .animate(android.R.anim.slide_in_left)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.error)
+                    .into(image);
+
+            bank.setText(bankTmp);
+            name.setText(nameTmp);
+            ratingBar.setRating(4);
+
+            comment.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            comment.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+            comment.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        Toast.makeText(getContext(),"id = "+ id +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            comment.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(comment.getText().length() >= 100){
+                        Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"100자 이상은 작성하실 수 없습니다.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+            writeComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(),"id = "+ id +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

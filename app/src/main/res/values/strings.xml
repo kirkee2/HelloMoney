@@ -33,6 +33,8 @@
     <string name="repay_type">상환 방식</string>
     <string name="back">뒤로 가기</string>
     <string name="request_counsel">상담 신청하기</string>
+    <string name="write_comment">후기 작성하기</string>
+    <string name="write_comment_please">후기를 작성해주세요.</string>
 
     <string name="fix">수정</string>
 
