@@ -43,14 +43,13 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
 
     private ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList;
 
-    public void addMember(RequestQuotationValueObject requestQuotationValueObject){
+    public void addItem(RequestQuotationValueObject requestQuotationValueObject){
         requestQuotationValueObjectArrayList.add(requestQuotationValueObject); //아이템 추가
     }
 
-    public void updateImage(){
-        notifyDataSetChanged(); //데이터 변경 사실 알림
+    public void initItem(ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList){
+        this.requestQuotationValueObjectArrayList = requestQuotationValueObjectArrayList;
     }
-
     public RequestQuotationRecyclerViewAdapter(){
         //변수 초기화
         requestQuotationValueObjectArrayList = new ArrayList<>();
@@ -109,12 +108,16 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
         if(holder instanceof RequestQuotationRecyclerViewAdapter.SystemChattingViewHolder){
 
             ((SystemChattingViewHolder) holder).systemChatting.setText(valueObject.getText());
-            ((SystemChattingViewHolder) holder).info.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계입니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
+            if(valueObject.isInfo()){
+                ((SystemChattingViewHolder) holder).info.setVisibility(View.INVISIBLE);
+            }else{
+                ((SystemChattingViewHolder) holder).info.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         } else{
             ((MyChattingViewHolder) holder).myChatting.setText(valueObject.getText());
             ((MyChattingViewHolder) holder).fix.setOnClickListener(new View.OnClickListener() {

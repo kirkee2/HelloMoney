@@ -11,7 +11,6 @@
         android:layout_gravity="end"
         android:background="@drawable/my_chatting_balloon"
         android:textSize="@dimen/medium"
-        android:layout_marginBottom="10dp"
         android:layout_alignParentEnd="true"/>
 
     <TextView
@@ -21,9 +20,11 @@
         android:layout_gravity="end"
         android:textSize="@dimen/medium"
         android:text="@string/fix"
+        android:layout_marginTop="6dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="bottom"
         android:textColor="@color/fix"
-        android:layout_alignBottom="@+id/myChattingText"
-        android:layout_toStartOf="@+id/myChattingText" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/myChattingText" />
 </RelativeLayout>

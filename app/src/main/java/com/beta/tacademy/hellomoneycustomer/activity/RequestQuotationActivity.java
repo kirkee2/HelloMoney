@@ -20,6 +20,8 @@ import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecycl
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 
+import java.util.ArrayList;
+
 public class RequestQuotationActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -119,15 +121,9 @@ public class RequestQuotationActivity extends AppCompatActivity {
     }
 
     public void addItems(){
-        for(int i = 0 ; i< 20; i++) {
-            if(i%2 == 0){
-                requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(0,i,"언니 저 마음에 안들죠??"));
-            }else{
-                requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(1,i,"눈깔 똑바로 안 떠 이뇬아?!!"));
-            }
-        }
-
-        requestQuotationRecyclerViewAdapter.addMember(new RequestQuotationValueObject(0,20,"qwejqweqwjkenqwejkqwneqwnejqwnjqwlnejwqkewkqjenqwjeqo"));
-
+        ArrayList<RequestQuotationValueObject> tmp = new ArrayList<>();
+        tmp.add(new RequestQuotationValueObject(0,0,"반갑습니다 :)\n지금부터 최저 금리 대출을 확인하기 위해 꼭 필요한 7가지 사항을 알려주세요.",false));
+        tmp.add(new RequestQuotationValueObject(0,0,"먼저, 어떤 대출을 받을려고\n하시나요??\n(아래에서 선택해주세요.)",false));
+        requestQuotationRecyclerViewAdapter.initItem(tmp);
     }
 }

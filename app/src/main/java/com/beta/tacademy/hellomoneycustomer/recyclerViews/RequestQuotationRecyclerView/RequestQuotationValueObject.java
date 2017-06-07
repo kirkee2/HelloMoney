@@ -8,11 +8,21 @@ public class RequestQuotationValueObject {
     private int type;
     private int step;
     private String text;
+    private boolean isInfo;
 
-    public RequestQuotationValueObject(int type, int step, String text) {
+    public RequestQuotationValueObject(int type, int step, String text, boolean isInfo) {
         this.type = type;
         this.step = step;
         this.text = text;
+        this.isInfo = isInfo;
+    }
+
+    public boolean isInfo() {
+        return isInfo;
+    }
+
+    public void setInfo(boolean info) {
+        isInfo = info;
     }
 
     public int getType() {
