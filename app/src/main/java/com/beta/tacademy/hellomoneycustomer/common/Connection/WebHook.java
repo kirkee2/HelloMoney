@@ -23,7 +23,7 @@ public class WebHook extends AsyncTask<String, Void, Void> {
             e.printStackTrace();
         }
 
-        result = con.postString(con.getURL(), json);
+        //result = con.postString(con.getURL(), json);
 
         return null;
     }

@@ -185,7 +185,7 @@
                             android:layout_marginTop="9dp"
                             android:textSize="@dimen/medium"
                             android:textColor="@color/progress"
-                            android:background="@android:color/white"
+                            android:background="@drawable/round_button_white"
                             android:gravity="center"
                             android:text="@string/go_counselor"/>
                     </LinearLayout>

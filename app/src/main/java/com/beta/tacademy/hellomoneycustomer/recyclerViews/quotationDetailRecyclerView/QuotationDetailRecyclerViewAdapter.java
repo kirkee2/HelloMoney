@@ -3,6 +3,7 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecycl
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -20,6 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.CounselorDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
@@ -286,7 +290,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " + valueObject.getId(),Toast.LENGTH_SHORT).show();
+                    RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
+                    requestQuotationDialog.setInfo(valueObject.getId());
+
+                    requestQuotationDialog.show();
+                    //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " + valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -298,21 +306,123 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         //전체 item의 갯수 반환
     }
 
-    private class requestQuotationDialog extends Dialog {
+    private class RequestQuotationDialog extends Dialog {
 
-        Button no;
-        Button yes;
-        public requestQuotationDialog(@NonNull Context context) {
+        private int id;
+        private CircleImageView image;
+        private TextView bank;
+        private TextView name;
+        private TextView goCounselor;
+        private TextView loanName;
+        private TextView finalRegisterDate;
+        private TextView loanInterestRate;
+        private TextView interestType;
+        private TextView monthlyRepayMoney;
+        private TextView repayType;
+        private TextView interestRateInfo1;
+        private TextView interestRateInfo2;
+        private TextView feeInfo1;
+        private TextView feeInfo2;
+        private TextView back;
+        private TextView requestCounsel;
+
+        private String imageTmp;
+        private String bankTmp;
+        private String nameTmp;
+        private String loanNameTmp;
+        private String finalRegisterDateTmp;
+        private String loanInterestRateTmp;
+        private String interestTypeTmp;
+        private String monthlyRepayMoneyTmp;
+        private String repayTypeTmp;
+        private String interestRateInfo1Tmp;
+        private String interestRateInfo2Tmp;
+        private String feeInfo1Tmp;
+        private String feeInfo2Tmp;
+
+        public RequestQuotationDialog(@NonNull Context context) {
             super(context);
+        }
+
+        public void setInfo(int id){
+            this.id = id;
+            imageTmp = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
+            bankTmp = "외환은행";
+            nameTmp = "이건준";
+            loanNameTmp = "[KB국민 주택담보 대출]";
+            finalRegisterDateTmp = "최종 등록일 : 2017.05.22";
+            loanInterestRateTmp = "3.8%";
+            interestTypeTmp = "변동금리";
+            monthlyRepayMoneyTmp = "890,000원";
+            repayTypeTmp = "원리금 균등상환";
+            interestRateInfo1Tmp = "90일 미만 : 대출 금리 + 8%";
+            interestRateInfo2Tmp = "90일 이상 : 대출 금리 + 9%(최고 연체 이자율 : 16%)";
+            feeInfo1Tmp = "조기 상환 원금 X 1.4% X [(3년 대출 경과 일 수 / 3년)]";
+            feeInfo2Tmp = "매년 대출 잔액의 10%까지 중도 상환 수수료 면제";
         }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             setContentView(R.layout.request_counsel_dialog);
+            image = (CircleImageView)findViewById(R.id.image);
+            bank = (TextView)findViewById(R.id.bank);
+            goCounselor = (TextView)findViewById(R.id.goCounselor);
+            loanName = (TextView)findViewById(R.id.loanName);
+            finalRegisterDate = (TextView)findViewById(R.id.finalRegisterDate);
+            loanInterestRate = (TextView)findViewById(R.id.loanInterestRate);
+            interestType = (TextView)findViewById(R.id.interestType);
+            monthlyRepayMoney = (TextView)findViewById(R.id.monthlyRepayMoney);
+            repayType = (TextView)findViewById(R.id.repayType);
+            interestRateInfo1 = (TextView)findViewById(R.id.interestRateInfo1);
+            interestRateInfo2 = (TextView)findViewById(R.id.interestRateInfo2);
+            feeInfo1 = (TextView)findViewById(R.id.feeInfo1);
+            feeInfo2 = (TextView)findViewById(R.id.feeInfo2);
+            back = (TextView)findViewById(R.id.back);
+            requestCounsel = (TextView)findViewById(R.id.requestCounsel);
 
-            
+            Glide.with(activity)
+                    .load(imageTmp)
+                    .animate(android.R.anim.slide_in_left)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.error)
+                    .into(image);
+
+            bank.setText(bankTmp);
+            loanName.setText(loanNameTmp);
+            finalRegisterDate.setText(finalRegisterDateTmp);
+            loanInterestRate.setText(loanInterestRateTmp);
+            interestType.setText(interestTypeTmp);
+            monthlyRepayMoney.setText(monthlyRepayMoneyTmp);
+            repayType.setText(repayTypeTmp);
+            interestRateInfo1.setText(interestRateInfo1Tmp);
+            interestRateInfo2.setText(interestRateInfo2Tmp);
+            feeInfo1.setText(feeInfo1Tmp);
+            feeInfo2.setText(feeInfo2Tmp);
+
+            goCounselor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(),CounselorDetailActivity.class);
+                    intent.putExtra("id",id);
+                    HelloMoneyCustomerApplication.getInstance().startActivity(intent);
+                }
+            });
+
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+            requestCounsel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(),"id = "+ id +" 를 선택하셨습니다.",Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
     }
 }
