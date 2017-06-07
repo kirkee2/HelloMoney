@@ -1,6 +1,5 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,13 +9,9 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.CounselorDetailRecyclerView.CounselorDetailHeaderObject;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.CounselorDetailRecyclerView.CounselorDetailRecyclerViewAdapter;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView.CounselorDetailHeaderObject;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView.CounselorDetailRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailHeaderObject;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailRecyclerViewAdapter;
-
-import java.util.ArrayList;
 
 public class CounselorDetailActivity extends AppCompatActivity {
 

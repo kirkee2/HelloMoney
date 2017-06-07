@@ -44,8 +44,16 @@
         <activity
             android:name=".activity.OperationGuideActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.PostscriptDetailActivity" />
-        <activity android:name=".activity.CounselorDetailActivity"></activity>
+        <activity
+            android:name=".activity.PostscriptDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CounselorDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FAQActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.ContactActivity"></activity>
     </application>
 
 </manifest>

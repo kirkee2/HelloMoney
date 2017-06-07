@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.recyclerViews.CounselorDetailRecyclerView;
+package com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView;
 
 /**
  * Created by kirkee on 2017. 6. 7..

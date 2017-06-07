@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity{
                     startActivity(new Intent(MainActivity.this,OperationGuideActivity.class));
                     break;
                 case 2:
+                    startActivity(new Intent(MainActivity.this,FAQActivity.class));
                     break;
                 case 3:
                     break;
