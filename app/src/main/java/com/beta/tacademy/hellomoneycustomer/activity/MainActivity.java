@@ -1,6 +1,7 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -45,8 +46,6 @@ public class MainActivity extends AppCompatActivity{
     private MainRecyclerViewAdapter mainRecyclerViewAdapter;
     private RelativeLayout relativeLayoutOne;
     private RelativeLayout relativeLayoutTwo;
-    private TextView myOngoingQuotation;
-    private TextView myDoneQuotation;
 
 
     private long backPressedTime = 0;
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toast.makeText(getApplicationContext(), "UUID = " + getUUID(), Toast.LENGTH_SHORT).show();
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -65,9 +65,6 @@ public class MainActivity extends AppCompatActivity{
 
         relativeLayoutOne = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutOne);
         relativeLayoutTwo = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutTwo);
-        myOngoingQuotation = (TextView)naviHeader.findViewById(R.id.myOngoingQuotation);
-        myDoneQuotation = (TextView)naviHeader.findViewById(R.id.myDoneQuotation);
-
         //Toolbar
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정
@@ -225,5 +222,10 @@ public class MainActivity extends AppCompatActivity{
                 mainRecyclerViewAdapter.addItem(new MainValueObject(i,0,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
             }
         }
+    }
+
+    private String getUUID() {
+        SharedPreferences sharedPreferences = getSharedPreferences("helloMoney", MODE_PRIVATE);
+        return sharedPreferences.getString("UUID",null);
     }
 }

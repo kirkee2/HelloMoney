@@ -1,17 +1,21 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroFragmentPagerAdapter;
+
+import java.util.UUID;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -80,13 +84,22 @@ public class IntroActivity extends AppCompatActivity {
         introFragmentPagerAdapter.init();
     }
 
-
-
-
     // 값 저장하기
     private void savePreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("helloMoney", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if(sharedPreferences.getString("UUID",null) == null){
+            final TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+            final String tmDevice, tmSerial, androidId;
+            tmDevice = "" + tm.getDeviceId();
+            tmSerial = "" + tm.getSimSerialNumber();
+            androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+            UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+            String deviceId = deviceUuid.toString();
+            editor.putString("UUID", deviceId);
+        }
+
         editor.putBoolean("beenIntro", true);
         editor.apply();
     }
