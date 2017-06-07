@@ -1,6 +1,7 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +19,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreenActivity.this, IntroActivity.class));
-                finish();
+                if(getPreferences()){
+                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                    finish();
+                }else{
+                    startActivity(new Intent(SplashScreenActivity.this, IntroActivity.class));
+                    finish();
+                }
             }
         }, 2000);
     }
@@ -30,5 +36,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             return false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    // 값 불러오기
+    private boolean getPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("helloMoney", MODE_PRIVATE);
+        return sharedPreferences.getBoolean("beenIntro",false);
     }
 }

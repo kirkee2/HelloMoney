@@ -1,6 +1,7 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -29,12 +30,13 @@ public class IntroActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.introViewPager);
         tabLayout = (TabLayout) findViewById(R.id.introTab);
         introFragmentPagerAdapter = new IntroFragmentPagerAdapter(getSupportFragmentManager());
-        skip = (TextView)findViewById(R.id.skip);
-        startButton = (Button)findViewById(R.id.startButton);
+        skip = (TextView) findViewById(R.id.skip);
+        startButton = (Button) findViewById(R.id.startButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                savePreferences();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }
@@ -50,10 +52,10 @@ public class IntroActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 3){
+                if (position == 3) {
                     tabLayout.setVisibility(TabLayout.INVISIBLE);
                     startButton.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     tabLayout.setVisibility(TabLayout.VISIBLE);
                     startButton.setVisibility(View.INVISIBLE);
                 }
@@ -68,6 +70,7 @@ public class IntroActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                savePreferences();
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
             }
@@ -75,7 +78,16 @@ public class IntroActivity extends AppCompatActivity {
 
         viewPager.setAdapter(introFragmentPagerAdapter);
         introFragmentPagerAdapter.init();
-
     }
 
+
+
+
+    // 값 저장하기
+    private void savePreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("helloMoney", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("beenIntro", true);
+        editor.apply();
+    }
 }
