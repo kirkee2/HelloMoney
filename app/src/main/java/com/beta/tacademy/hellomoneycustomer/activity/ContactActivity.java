@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 
+import java.net.URISyntaxException;
+
 public class ContactActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -52,7 +54,11 @@ public class ContactActivity extends AppCompatActivity {
         kakaoTalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"카카오 api는 주말에 할께요 귀찮으니깐",Toast.LENGTH_SHORT).show();
+                try {
+                    startActivity(Intent.parseUri("intent://plusfriend/friend/@hellomoney#Intent;scheme=kakaoplus;package=com.kakao.talk;end", Intent.URI_INTENT_SCHEME ));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

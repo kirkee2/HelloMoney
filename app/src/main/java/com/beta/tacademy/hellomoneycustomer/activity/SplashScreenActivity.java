@@ -62,18 +62,18 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void onPermissionGranted() {
                 saveUUID();
 
-                new Handler().postDelayed(new Runnable(){
-                    @Override
-                    public void run() {
-                        if(getPreferences()){
-                            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-                            finish();
-                        }else{
+                if(getPreferences()){
+                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                    finish();
+                }else{
+                    new Handler().postDelayed(new Runnable(){
+                        @Override
+                        public void run() {
                             startActivity(new Intent(SplashScreenActivity.this, IntroActivity.class));
                             finish();
                         }
-                    }
-                }, 2000);
+                    }, 2000);
+                }
             }
 
             @Override

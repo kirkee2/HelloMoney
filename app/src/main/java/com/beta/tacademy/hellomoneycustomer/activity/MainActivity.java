@@ -127,12 +127,6 @@ public class MainActivity extends AppCompatActivity{
                 drawer.closeDrawer(naviList);
             }
         });
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
 
@@ -143,6 +137,12 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setAdapter(mainRecyclerViewAdapter);
 
         new MainAsyncTask().execute();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
     }
     //back 버튼 클릭 시 이벤트 설정.
     @Override
@@ -226,10 +226,5 @@ public class MainActivity extends AppCompatActivity{
                 mainRecyclerViewAdapter.addItem(new MainValueObject(i,0,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
             }
         }
-    }
-
-    private String getUUID() {
-        SharedPreferences sharedPreferences = getSharedPreferences("helloMoney", MODE_PRIVATE);
-        return sharedPreferences.getString("UUID",null);
     }
 }

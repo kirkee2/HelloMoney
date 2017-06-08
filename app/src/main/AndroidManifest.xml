@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
     <application
         android:name=".common.HelloMoneyCustomerApplication"
         android:allowBackup="true"
@@ -18,6 +17,17 @@
         <meta-data
             android:name="com.beta.tacademy.hellomoneycustomer.module.HelloMoneyCustomerGlideModule"
             android:value="GlideModule" />
+
+        <service android:name=".common.push.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".common.push.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".activity.SplashScreenActivity"
@@ -55,7 +65,8 @@
         <activity
             android:name=".activity.FAQActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ContactActivity"></activity>
+        <activity android:name=".activity.ContactActivity" />
+        <activity android:name=".activity.KakaoWebViewActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "679230174587",
+    "firebase_url": "https://fcmcloudmessaging-46065.firebaseio.com",
+    "project_id": "fcmcloudmessaging-46065",
+    "storage_bucket": "fcmcloudmessaging-46065.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679230174587:android:decb258380e08d26",
+        "android_client_info": {
+          "package_name": "com.semistone.fcmcloudmessaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "679230174587-bu17knsi1l53v286srr7v3m1i44mcn71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc7r3K1gOn7SnfOWTT2Q8iyo08-zfj7U0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679230174587:android:836d7defefcb8b3c",
+        "android_client_info": {
+          "package_name": "com.beta.tacademy.hellomoneycustomer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "679230174587-bu17knsi1l53v286srr7v3m1i44mcn71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc7r3K1gOn7SnfOWTT2Q8iyo08-zfj7U0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

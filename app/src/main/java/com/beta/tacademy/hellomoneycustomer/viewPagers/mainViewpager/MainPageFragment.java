@@ -79,9 +79,9 @@ public class MainPageFragment extends Fragment {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), QuotationDetailActivity.class);
+                Intent intent = new Intent(getActivity(), QuotationDetailActivity.class);
                 intent.putExtra("id",mainPageViewPagerObject.getId());
-                HelloMoneyCustomerApplication.getInstance().startActivity(intent);
+                getActivity().startActivity(intent);
                 Toast.makeText(getActivity(),"id = " + mainPageViewPagerObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
             }
         });
