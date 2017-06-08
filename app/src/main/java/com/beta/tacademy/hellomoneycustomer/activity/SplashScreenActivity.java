@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.gun0912.tedpermission.PermissionListener;
@@ -75,7 +74,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                         }
                     }
                 }, 2000);
-                Toast.makeText(SplashScreenActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -17,6 +17,13 @@ public class RequestQuotationValueObject {
         this.isInfo = isInfo;
     }
 
+    public RequestQuotationValueObject(int type, int step, String text) {
+        this.type = type;
+        this.step = step;
+        this.text = text;
+        this.isInfo = false;
+    }
+
     public boolean isInfo() {
         return isInfo;
     }

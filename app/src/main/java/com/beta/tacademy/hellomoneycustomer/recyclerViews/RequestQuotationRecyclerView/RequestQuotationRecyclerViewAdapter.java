@@ -42,6 +42,15 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
     public static final int MY_CHATTING = 1;
 
     private ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList;
+    private int previousStep;
+    private int step;
+
+    public RequestQuotationRecyclerViewAdapter(){
+        //변수 초기화
+        requestQuotationValueObjectArrayList = new ArrayList<>();
+        step = 0;
+        previousStep = 0;
+    }
 
     public void addItem(RequestQuotationValueObject requestQuotationValueObject){
         requestQuotationValueObjectArrayList.add(requestQuotationValueObject); //아이템 추가
@@ -49,10 +58,6 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
 
     public void initItem(ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList){
         this.requestQuotationValueObjectArrayList = requestQuotationValueObjectArrayList;
-    }
-    public RequestQuotationRecyclerViewAdapter(){
-        //변수 초기화
-        requestQuotationValueObjectArrayList = new ArrayList<>();
     }
 
     @Override
@@ -109,14 +114,14 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
 
             ((SystemChattingViewHolder) holder).systemChatting.setText(valueObject.getText());
             if(valueObject.isInfo()){
-                ((SystemChattingViewHolder) holder).info.setVisibility(View.INVISIBLE);
-            }else{
                 ((SystemChattingViewHolder) holder).info.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계입니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }else{
+                ((SystemChattingViewHolder) holder).info.setVisibility(View.INVISIBLE);
             }
         } else{
             ((MyChattingViewHolder) holder).myChatting.setText(valueObject.getText());

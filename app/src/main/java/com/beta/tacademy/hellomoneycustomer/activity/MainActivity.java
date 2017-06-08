@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(getApplicationContext(), "UUID = " + getUUID(), Toast.LENGTH_SHORT).show();
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,15 +74,6 @@ public class MainActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        //LayoutManager
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
-
-        //RecyclerView에 LayoutManager 설정 및 adapter 설정
-
-        recyclerView.setLayoutManager(linearLayoutManager);
-        mainRecyclerViewAdapter = new MainRecyclerViewAdapter(this.getSupportFragmentManager(),1);
-        recyclerView.setAdapter(mainRecyclerViewAdapter);
 
         //ActionBarDrawerToggle
 
@@ -137,9 +127,23 @@ public class MainActivity extends AppCompatActivity{
                 drawer.closeDrawer(naviList);
             }
         });
-        new MainAsyncTask().execute(); //HTML 파싱 수행
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
+
+        //RecyclerView에 LayoutManager 설정 및 adapter 설정
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        mainRecyclerViewAdapter = new MainRecyclerViewAdapter(this.getSupportFragmentManager(),1);
+        recyclerView.setAdapter(mainRecyclerViewAdapter);
+
+        new MainAsyncTask().execute();
+    }
     //back 버튼 클릭 시 이벤트 설정.
     @Override
     public void onBackPressed() {
