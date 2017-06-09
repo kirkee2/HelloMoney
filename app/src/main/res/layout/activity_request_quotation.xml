@@ -35,11 +35,19 @@
             android:layout_weight="100"
             android:background="@color/basement"/>
 
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/step_progress"
+            android:max="100"
+            android:progress="45"/>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="56dp">
 
             <LinearLayout
+                android:id="@+id/step1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -53,22 +61,74 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="50"
-                    android:background="@color/basement"
+                    android:background="@drawable/request_button"
                     android:gravity="center"
                     android:textSize="@dimen/medium"
                     android:textColor="@color/normalTypo"
                     android:layout_marginEnd="4dp"
-                    android:text="아파트 담보 대출"/>
+                    android:text="@string/loan_type_1"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="50"
-                    android:background="@color/basement"
+                    android:background="@drawable/request_button"
                     android:gravity="center"
                     android:textSize="@dimen/medium"
                     android:textColor="@color/normalTypo"
-                    android:text="전세 자금 대출"/>
+                    android:text="@string/loan_type_2"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="100"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:textSize="@dimen/medium"
+                    android:textColor="@color/normalTypo"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/choose_apt"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:weightSum="100">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="100"
+                    android:textSize="@dimen/medium"
+                    android:textColor="@color/normalTypo"
+                    android:layout_marginEnd="4dp"
+                    android:hint="@string/write_price"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textColor="@color/subNormal"
+                    android:text="@string/send"
+                    android:textSize="@dimen/medium"
+                    android:background="@color/white"/>
             </LinearLayout>
 
 
