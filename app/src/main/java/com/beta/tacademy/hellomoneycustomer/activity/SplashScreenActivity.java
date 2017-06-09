@@ -24,7 +24,23 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        getPermission();
+        if(getPreferences()){
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                    finish();
+                }
+            }, 2000);
+        }else{
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    startActivity(new Intent(SplashScreenActivity.this, IntroActivity.class));
+                    finish();
+                }
+            }, 2000);
+        }
     }
 
     @Override
@@ -41,6 +57,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         return sharedPreferences.getBoolean("beenIntro",false);
     }
 
+    /*
     private void saveUUID() {
         final TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         final String tmDevice, tmSerial, androidId;
@@ -55,7 +72,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         editor.putString("UUID", deviceId);
         editor.apply();
     }
+    */
 
+    /*
     private void getPermission(){
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -90,4 +109,5 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .setPermissions(Manifest.permission.READ_PHONE_STATE)
                 .check();
     }
+    */
 }

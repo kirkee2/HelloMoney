@@ -16,7 +16,6 @@ import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageFra
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
 public class IntroPageFragment extends Fragment {
-
     private ImageView imageView;
     private int page;
 

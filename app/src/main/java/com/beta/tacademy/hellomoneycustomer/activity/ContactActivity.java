@@ -54,11 +54,14 @@ public class ContactActivity extends AppCompatActivity {
         kakaoTalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     startActivity(Intent.parseUri("intent://plusfriend/friend/@hellomoney#Intent;scheme=kakaoplus;package=com.kakao.talk;end", Intent.URI_INTENT_SCHEME ));
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
+
+                //startActivity(new Intent(ContactActivity.this,KakaoWebViewActivity.class));
             }
         });
     }

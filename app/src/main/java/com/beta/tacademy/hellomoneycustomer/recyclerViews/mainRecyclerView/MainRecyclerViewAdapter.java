@@ -72,10 +72,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         //Header와 Item를 구분하여 view 설정
 
-        if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_items, parent, false);
-            return new MainViewHolder(view);
-        }else if(viewType == TYPE_HEADER){
+        if(viewType == TYPE_HEADER){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header, parent, false);
             return new MainHeaderViewHolder(view);
         }else if(viewType == TYPE_HEADER_SUB){
@@ -85,7 +82,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_header_sub_sub, parent, false);
             return new MainSubSubHeaderViewHolder(view);
         }else{
-            return null;
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_items, parent, false);
+            return new MainViewHolder(view);
         }
     }
 

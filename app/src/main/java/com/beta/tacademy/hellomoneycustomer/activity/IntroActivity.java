@@ -107,6 +107,20 @@ public class IntroActivity extends AppCompatActivity {
         introFragmentPagerAdapter.init();
     }
 
+    private void saveUUID() {
+        final TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        final String tmDevice, tmSerial, androidId;
+        tmDevice = "" + tm.getDeviceId();
+        tmSerial = "" + tm.getSimSerialNumber();
+        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        String deviceId = deviceUuid.toString();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("helloMoney", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UUID", deviceId);
+        editor.apply();
+    }
     // 값 저장하기
     private void savePreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("helloMoney", MODE_PRIVATE);

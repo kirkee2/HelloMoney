@@ -46,6 +46,17 @@
     <string name="operation_time">운영시간</string>
     <string name="hello_money_operation_time">평일 10:00 ~ 19:00</string>
     <string name="check_id_and_registered_id_url">http://13.124.127.93:3000/clients/customers/</string>
+    <string name="my_request_quotation_url">http://13.124.127.93:3000/clients/requests?customerId=%s</string>
+    <string name="get_post_script_url">http://13.124.127.93:3000/clients/reviews?page=1&amp;count=30</string>
+    <string name="my_quotation_list_url">http://13.124.127.93:3000/clients/requests/%s</string>
+    <string name="quotation_detail_counselor_feedback_url">http://13.124.127.93:3000/clients/estimates?requestId=%s</string>
+    <string name="my_quotation_detail_url">http://13.124.127.93:3000/clients/estimates/%s</string>
+    <string name="request_counsel_url">http://13.124.127.93:3000/clients/requests/%s</string>
+    <string name="write_post_script_url">http://13.124.127.93:3000/clients/reviews</string>
+    <string name="detail_counselor_url">http://13.124.127.93:3000/clients/agents/%s</string>
+    <string name="detail_counselor_post_script_list_url">http://13.124.127.93:3000/clients/agents/%s/reviews</string>
+    <string name="faq_url">http://13.124.127.93:3000/commons/faqs</string>
+
 
 
     <string name="fix">수정</string>

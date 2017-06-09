@@ -1,5 +1,7 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,12 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView.CounselorDetailRecyclerViewAdapter;
+
+import java.net.URISyntaxException;
 
 public class KakaoWebViewActivity extends AppCompatActivity {
 
@@ -63,6 +68,44 @@ public class KakaoWebViewActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest webResourceRequest) {
+                String url = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    url = String.valueOf(webResourceRequest.getUrl());
+                    if (url != null && url.startsWith("intent://")) {
+                        try {
+                            Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                            Intent existPackage = getPackageManager().getLaunchIntentForPackage(intent.getPackage());
+                            if (existPackage != null) {
+                                startActivity(intent);
+                            } else {
+                                Intent marketIntent = new Intent(Intent.ACTION_VIEW);
+                                marketIntent.setData(Uri.parse("market://details?id=" + intent.getPackage()));
+                                startActivity(marketIntent);
+                            }
+                            return true;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url != null && url.startsWith("market://")) {
+                        try {
+                            Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                            if (intent != null) {
+                                startActivity(intent);
+                            }
+                            return true;
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    view.loadUrl(url);
+                    return false;
+                }else {
+                    return false;
+                }
             }
         });
     }

@@ -40,6 +40,285 @@ public class Connect {
         }
     }
 
+    public static Boolean isNetWork(Context mContext) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+
+            NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
+
+            if (info != null) {
+                for (NetworkInfo anInfo : info) {
+                    if (anInfo.getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public URL getURL(){
+        return url;
+    }
+
+    public static JSONObject post(URL url){
+        DataOutputStream printout;
+        try {
+            URLConnection urlConn = url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.connect();
+
+
+            HttpURLConnection c = (HttpURLConnection) urlConn;
+            int status = c.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    return new JSONObject(sb.toString());
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+            return null;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static JSONArray post2(URL url){
+        DataOutputStream printout;
+        try {
+            URLConnection urlConn = url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.connect();
+
+
+            HttpURLConnection c = (HttpURLConnection) urlConn;
+            int status = c.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    return new JSONArray(sb.toString());
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+            return null;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static String post3(URL url){
+        DataOutputStream printout;
+        try {
+            URLConnection urlConn = url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.connect();
+
+
+            HttpURLConnection c = (HttpURLConnection) urlConn;
+            int status = c.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    return sb.toString();
+            }
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+            return null;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+
+    public static Document post4(URL url){
+        DataOutputStream printout;
+        try {
+            URLConnection urlConn = url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.connect();
+
+
+            HttpURLConnection c = (HttpURLConnection) urlConn;
+            int status = c.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder builder;
+                    try
+                    {
+                        builder = factory.newDocumentBuilder();
+                        Document doc = builder.parse( new InputSource( new StringReader(sb.toString()) ) );
+                        return doc;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+
+            }
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+            return null;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static JSONObject postJsonObject(URL url, JSONObject json){
+        DataOutputStream printout;
+        try {
+            URLConnection urlConn = url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.connect();
+
+            printout = new DataOutputStream(urlConn.getOutputStream ());
+            String str = json.toString();
+            byte[] data=str.getBytes("UTF-8");
+            printout.write(data);
+            printout.flush();
+            printout.close();
+
+            HttpURLConnection c = (HttpURLConnection) urlConn;
+            int status = c.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    return new JSONObject(sb.toString());
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+            return null;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static JSONArray postJsonArray(URL url, JSONObject json){
+        DataOutputStream printout;
+        try {
+            URLConnection urlConn = url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            urlConn.connect();
+
+            printout = new DataOutputStream(urlConn.getOutputStream ());
+            String str = json.toString();
+            byte[] data=str.getBytes("UTF-8");
+            printout.write(data);
+            printout.flush();
+            printout.close();
+
+            HttpURLConnection c = (HttpURLConnection) urlConn;
+            int status = c.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+
+                    return new JSONArray(sb.toString());
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+            return null;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
     public static String postString(URL url, JSONObject json){
         DataOutputStream printout;
         try {
