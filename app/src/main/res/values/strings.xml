@@ -56,7 +56,9 @@
     <string name="detail_counselor_url">http://13.124.127.93:3000/clients/agents/%s</string>
     <string name="detail_counselor_post_script_list_url">http://13.124.127.93:3000/clients/agents/%s/reviews</string>
     <string name="faq_url">http://13.124.127.93:3000/commons/faqs</string>
-
+    <string name="url_success">success</string>
+    <string name="url_no_data">no data</string>
+    <string name="url_message">msg</string>
 
 
     <string name="fix">수정</string>

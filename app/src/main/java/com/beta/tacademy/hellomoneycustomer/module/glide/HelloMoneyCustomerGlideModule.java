@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.module;
+package com.beta.tacademy.hellomoneycustomer.module.glide;
 
 import android.content.Context;
 

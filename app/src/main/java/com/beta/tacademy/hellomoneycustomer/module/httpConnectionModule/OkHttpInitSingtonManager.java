@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.module.httpConectionModule;
+package com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule;
 
 import java.util.concurrent.TimeUnit;
 

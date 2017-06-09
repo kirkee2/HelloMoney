@@ -15,15 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.beta.tacademy.hellomoneycustomer.module.HelloMoneyCustomerGlideModule"
+            android:name="com.beta.tacademy.hellomoneycustomer.module.glide.HelloMoneyCustomerGlideModule"
             android:value="GlideModule" />
 
-        <service android:name=".common.push.MyFirebaseMessagingService">
+        <service android:name=".module.push.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".common.push.MyFirebaseInstanceIDService">
+        <service android:name=".module.push.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

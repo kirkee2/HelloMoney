@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.common.Connection;
+package com.beta.tacademy.hellomoneycustomer.module.webhook;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

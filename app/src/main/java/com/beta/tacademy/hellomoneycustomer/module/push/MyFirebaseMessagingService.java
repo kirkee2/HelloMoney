@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.common.push;
+package com.beta.tacademy.hellomoneycustomer.module.push;
 
 
 import android.app.NotificationManager;
