@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
-import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 import com.bumptech.glide.Glide;
@@ -40,29 +39,33 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static final int TYPE_HEADER_SUB_SUB = 2;
     public static final int TYPE_ITEM = 3;
 
-    private static final int NO_MY_QUOTATION =0;
-    private static final int YES_MY_QUOTATION =1;
+    public static final int NO_MY_QUOTATION =0;
+    public static final int YES_MY_QUOTATION =1;
 
     private MainFragmentPagerAdapter pagerAdapter;
+    private Activity activity;
 
     private ArrayList<MainValueObject> mainValueObjectArrayList;
     private int type;
 
-    public void addItem(MainValueObject mainValueObject){
-        mainValueObjectArrayList.add(mainValueObject); //아이템 추가
+    public void initItem(ArrayList<MainValueObject> mainValueObjectArrayList){
+        this.mainValueObjectArrayList = mainValueObjectArrayList; //아이템 추가
+        notifyDataSetChanged();
     }
 
     public void initHeader(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
         pagerAdapter.init(mainPageViewPagerObjectArrayList); //헤더 아이템 추가
+        notifyDataSetChanged();
     }
 
     public void updateImage(){
         notifyDataSetChanged(); //데이터 변경 사실 알림
     }
 
-    public MainRecyclerViewAdapter(FragmentManager fragmentManager,int type){
+    public MainRecyclerViewAdapter(Activity activity,FragmentManager fragmentManager,int type){
         //변수 초기화
         this.type = type;
+        this.activity = activity;
         mainValueObjectArrayList = new ArrayList<>();
         pagerAdapter = new MainFragmentPagerAdapter(fragmentManager);
     }
@@ -169,7 +172,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainHeaderViewHolder) holder).requestQuotation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HelloMoneyCustomerApplication.getInstance().startActivity(new Intent(HelloMoneyCustomerApplication.getInstance(), RequestQuotationActivity.class));
+                    activity.startActivity(new Intent(activity, RequestQuotationActivity.class));
                     //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"견적 요청 페이지로 이동",Toast.LENGTH_SHORT).show();
                 }
             });
@@ -181,10 +184,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 valueObject = mainValueObjectArrayList.get(position-3);
             }
 
-            if(valueObject.getLoanType() == 0){
-                ((MainViewHolder) holder).typeImage.setImageResource(R.drawable.lease_loan);
-            }else{
+            if(valueObject.getLoanType().equals("주택담보대출")){
                 ((MainViewHolder) holder).typeImage.setImageResource(R.drawable.secured_loan);
+            }else{
+                ((MainViewHolder) holder).typeImage.setImageResource(R.drawable.lease_loan);
             }
 
             ((MainViewHolder) holder).region.setText(valueObject.getRegion1() +" "+ valueObject.getRegion2() + " "+ valueObject.getRegion3());
@@ -194,21 +197,30 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainViewHolder) holder).pastTime.setText(valueObject.getPastTime());
             ((MainViewHolder) holder).content.setText(valueObject.getContent());
 
-            String benefitString = "+ " + valueObject.getBenefit() + "만원 대출 조건 보기";
-            final String tmp = valueObject.getBenefit() + "";
-            SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
+            if( valueObject.getBenefit() < 0){
+                String benefitString = valueObject.getBenefit() + "만원 대출 조건 보기";
+                final String tmp = valueObject.getBenefit() + "";
+                SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
 
-            builder.setSpan(new ForegroundColorSpan(ResourcesCompat.getColor(HelloMoneyCustomerApplication.getInstance().getResources(),R.color.colorPrimaryDark,null)), 0, tmp.length()+4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //builder.setSpan(new AbsoluteSizeSpan(20,true), 0, textsize, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new ForegroundColorSpan(ResourcesCompat.getColor(activity.getResources(),R.color.colorAccent,null)), 0, tmp.length()+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            ((MainViewHolder) holder).benefit.setText(builder);
+                ((MainViewHolder) holder).benefit.setText(builder);
+            }else{
+                String benefitString = "+" + valueObject.getBenefit() + "만원 대출 조건 보기";
+                final String tmp = "+"+valueObject.getBenefit() + "";
+                SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
+
+                builder.setSpan(new ForegroundColorSpan(ResourcesCompat.getColor(activity.getResources(),R.color.colorPrimaryDark,null)), 0, tmp.length()+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                ((MainViewHolder) holder).benefit.setText(builder);
+            }
 
             ((MainViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), PostscriptDetailActivity.class);
+                    Intent intent = new Intent(activity, PostscriptDetailActivity.class);
                     intent.putExtra("id",valueObject.getId());
-                    HelloMoneyCustomerApplication.getInstance().startActivity(intent);
+                    activity.startActivity(intent);
                     //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " +valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }
             });

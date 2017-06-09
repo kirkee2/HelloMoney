@@ -22,9 +22,11 @@ public class FAQRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         faqValueObjectArrayList = new ArrayList<>();
     }
 
-    public void addItem(FAQValueObject faqValueObject){
-        faqValueObjectArrayList.add(faqValueObject);
+    public void initItem(ArrayList<FAQValueObject> faqValueObjectArrayList){
+        this.faqValueObjectArrayList = faqValueObjectArrayList;
+        notifyDataSetChanged();
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.faq_recycler_view_item, parent, false);

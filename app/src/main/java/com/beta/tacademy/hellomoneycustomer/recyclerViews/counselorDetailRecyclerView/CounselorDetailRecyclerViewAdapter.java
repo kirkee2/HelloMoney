@@ -129,10 +129,10 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         } else{
             final MainValueObject valueObject = mainValueObjectArrayList.get(position-1);
 
-            if(valueObject.getLoanType() == 0){
-                ((CounselorDetailViewHolder) holder).typeImage.setImageResource(R.drawable.lease_loan);
-            }else{
+            if(valueObject.getLoanType().equals("주택담보대출")){
                 ((CounselorDetailViewHolder) holder).typeImage.setImageResource(R.drawable.secured_loan);
+            }else{
+                ((CounselorDetailViewHolder) holder).typeImage.setImageResource(R.drawable.lease_loan);
             }
 
             ((CounselorDetailViewHolder) holder).region.setText(valueObject.getRegion1() +" "+ valueObject.getRegion2() + " "+ valueObject.getRegion3());

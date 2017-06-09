@@ -23,7 +23,6 @@ public class OperationGuideActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private TextView end;
-    private Button endButton;
     private Toolbar toolbar;
     private IntroFragmentPagerAdapter introFragmentPagerAdapter;
     @Override
@@ -36,7 +35,6 @@ public class OperationGuideActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.introTab);
         introFragmentPagerAdapter = new IntroFragmentPagerAdapter(getSupportFragmentManager());
         end = (TextView)findViewById(R.id.end);
-        endButton = (Button)findViewById(R.id.endButton);
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
@@ -50,37 +48,9 @@ public class OperationGuideActivity extends AppCompatActivity {
         toolbar.setTitle(getResources().getString(R.string.operation_guide));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
 
-        endButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
 
         tabLayout.setupWithViewPager(viewPager, true);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if(position == 3){
-                    tabLayout.setVisibility(TabLayout.INVISIBLE);
-                    endButton.setVisibility(View.VISIBLE);
-                }else{
-                    tabLayout.setVisibility(TabLayout.VISIBLE);
-                    endButton.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         end.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,6 +4,7 @@ package com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,13 @@ public class MainPageFragment extends Fragment {
         currentQuotation.setText(String.valueOf(mainPageViewPagerObject.getCurrentQuotation()));
         leftTime.setText("마감까지 " + mainPageViewPagerObject.getLeftTime() + " 남았습니다.");
 
+        if(mainPageViewPagerObject.getOngoingStatus().equals("견적접수중")){
+            linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_interection_waiting));
+        }else if(mainPageViewPagerObject.getOngoingStatus().equals("선택대기중") || mainPageViewPagerObject.getOngoingStatus().equals("상담중") || mainPageViewPagerObject.getOngoingStatus().equals("심사중") || mainPageViewPagerObject.getOngoingStatus().equals("승인완료")){
+            linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
+        }else{
+            linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_done));
+        }
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

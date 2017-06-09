@@ -61,9 +61,9 @@ public class CounselorDetailActivity extends AppCompatActivity {
     public void addItems(){
         for(int i = 0 ; i< 20; i++) {
             if(i%2 == 0){
-                counselorDetailRecyclerViewAdapter.addItem(new MainValueObject(i,1,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
+                counselorDetailRecyclerViewAdapter.addItem(new MainValueObject(i,"전세 자금 대출","1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
             }else{
-                counselorDetailRecyclerViewAdapter.addItem(new MainValueObject(i,0,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
+                counselorDetailRecyclerViewAdapter.addItem(new MainValueObject(i,"전세 자금 대출","1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
             }
         }
     }

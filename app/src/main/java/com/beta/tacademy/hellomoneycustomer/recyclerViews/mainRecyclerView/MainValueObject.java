@@ -2,7 +2,7 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView;
 
 public class MainValueObject {
     private int id;
-    private int loanType;
+    private String loanType;
     private String pastTime;
     private String region1;
     private String region2;
@@ -20,7 +20,7 @@ public class MainValueObject {
         this.id = id;
     }
 
-    public MainValueObject(int id, int loanType, String pastTime, String region1, String region2, String region3, String apt, int star, String content, int benefit) {
+    public MainValueObject(int id, String loanType, String pastTime, String region1, String region2, String region3, String apt, int star, String content, double benefit) {
         this.id = id;
         this.loanType = loanType;
         this.pastTime = pastTime;
@@ -30,14 +30,14 @@ public class MainValueObject {
         this.apt = apt;
         this.star = star;
         this.content = content;
-        this.benefit =benefit;
+        this.benefit =(int)benefit;
     }
 
-    public int getLoanType() {
+    public String getLoanType() {
         return loanType;
     }
 
-    public void setLoanType(int loanType) {
+    public void setLoanType(String loanType) {
         this.loanType = loanType;
     }
 

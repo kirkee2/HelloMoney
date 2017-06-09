@@ -1,8 +1,10 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,13 +21,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
-import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
@@ -38,10 +40,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity{
@@ -55,9 +55,14 @@ public class MainActivity extends AppCompatActivity{
     private View naviHeader;
     private MainRecyclerViewAdapter mainRecyclerViewAdapter;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
+    private ArrayList<MainValueObject> mainValueObjectArrayList;
     private RelativeLayout relativeLayoutOne;
     private RelativeLayout relativeLayoutTwo;
+    private FragmentManager fragmentManager;
+    private Activity activity;
 
+    private TextView myOngoingQuotation;
+    private TextView myDoneQuotation;
 
     private long backPressedTime = 0;
     @Override
@@ -75,8 +80,13 @@ public class MainActivity extends AppCompatActivity{
 
         relativeLayoutOne = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutOne);
         relativeLayoutTwo = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutTwo);
+        myOngoingQuotation = (TextView) naviHeader.findViewById(R.id.myOngoingQuotation);
+        myDoneQuotation = (TextView) naviHeader.findViewById(R.id.myDoneQuotation);
+        fragmentManager = this.getSupportFragmentManager();
+        activity = this;
 
         mainPageViewPagerObjectArrayList = new ArrayList<>();
+        mainValueObjectArrayList = new ArrayList<>();
         //Toolbar
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정
@@ -146,8 +156,6 @@ public class MainActivity extends AppCompatActivity{
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        mainRecyclerViewAdapter = new MainRecyclerViewAdapter(this.getSupportFragmentManager(),1);
-        recyclerView.setAdapter(mainRecyclerViewAdapter);
 
         new MyQuotationList().execute();
         //new MainAsyncTask().execute();
@@ -205,7 +213,7 @@ public class MainActivity extends AppCompatActivity{
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_request_quotation_url), CommonClass.getUUID(),"true"))
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_url),CommonClass.getUUID(),"true"))
                         .get()
                         .build();
 
@@ -225,7 +233,7 @@ public class MainActivity extends AppCompatActivity{
                         Log.e("json에러", jsone.toString());
                     }
                 }else{
-                    return 1;
+                    return 2;
                 }
             }catch (UnknownHostException une) {
             } catch (UnsupportedEncodingException uee) {
@@ -251,9 +259,9 @@ public class MainActivity extends AppCompatActivity{
                         }
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
-
+                        return 1;
                     }else{
-                        return 2;
+                        return 3;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -262,18 +270,24 @@ public class MainActivity extends AppCompatActivity{
                 return 4;
             }
 
-            return 3;
+            return 5;
         }
 
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0){
-                new WebHook().execute("옴    " + mainPageViewPagerObjectArrayList.size());
-                initHeaders(mainPageViewPagerObjectArrayList);
+                mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.YES_MY_QUOTATION);
+                recyclerView.setAdapter(mainRecyclerViewAdapter);
 
-                new PostscriptList().execute();
+                initHeaders(mainPageViewPagerObjectArrayList);
+                new MyQuotationOngoingDoneCount().execute();
+            }else if(result == 1){
+                mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.NO_MY_QUOTATION);
+                recyclerView.setAdapter(mainRecyclerViewAdapter);
+
+                new MyQuotationOngoingDoneCount().execute();
             }else{
-                new WebHook().execute("안옴 asdas dasd asd result ===== " + result);
+                new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
             }
 
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
@@ -282,14 +296,85 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private class PostscriptList extends AsyncTask<Void, Void, JSONArray>{
+    private class MyQuotationOngoingDoneCount extends AsyncTask<Void, Void, JSONObject>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected JSONArray doInBackground(Void... params) {
+        protected JSONObject doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
+
+            JSONObject jsonObject = null;
+
+            try{
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                Request request = new Request.Builder()
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_ongoing_done_url), CommonClass.getUUID()))
+                        .get()
+                        .build();
+
+                //동기 방식
+                response = toServer.newCall(request).execute();
+
+                flag = response.isSuccessful();
+
+                String returedJSON;
+
+                if(flag){ //성공했다면
+                    returedJSON = response.body().string();
+
+                    jsonObject = new JSONObject(returedJSON);
+
+                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                        JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
+                        return data;
+                    }else{
+                        return null;
+                    }
+
+                }else{
+                    return  null;
+                }
+            }catch (UnknownHostException une) {
+            } catch (UnsupportedEncodingException uee) {
+            } catch (Exception e) {
+            } finally{
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            if(result == null){
+                new WebHook().execute("MainActivity 내 견적 진행중, 완료 갯수 안옴 result ===== " + result);
+            }else{
+                try {
+                    myOngoingQuotation.setText(String.valueOf(result.get("uncompleted_count")));
+                    myDoneQuotation.setText(String.valueOf(result.get("completed_count")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                new PostscriptList().execute();
+            }
+        }
+    }
+
+    private class PostscriptList extends AsyncTask<Void, Void, Integer>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
@@ -309,18 +394,18 @@ public class MainActivity extends AppCompatActivity{
 
                 flag = response.isSuccessful();
 
-                String returedJSON1;
+                String returedJSON;
 
                 if(flag){ //성공했다면
-                    returedJSON1 = response.body().string();
+                    returedJSON = response.body().string();
 
                     try {
-                        jsonObject = new JSONObject(returedJSON1);
+                        jsonObject = new JSONObject(returedJSON);
                     }catch(JSONException jsone){
                         Log.e("json에러", jsone.toString());
                     }
                 }else{
-                    return  null;
+                    return 2;
                 }
             }catch (UnknownHostException une) {
             } catch (UnsupportedEncodingException uee) {
@@ -335,39 +420,38 @@ public class MainActivity extends AppCompatActivity{
                 try {
                     if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
                         JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
-                        return data;
+
+                        for(int i = 0 ; i < data.length(); i++){
+                            try {
+                                JSONObject jsonData = (JSONObject)data.get(i);
+                                mainValueObjectArrayList.add(new MainValueObject((int)jsonData.get("review_id"),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("register_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),(int)jsonData.get("score"),String.valueOf(jsonData.get("content")),(double)jsonData.get("benefit")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return 0;
+                    }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                        return 1;
+                    }else{
+                        return 3;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else{
+                return 4;
             }
 
-            return null;
+            return 5;
         }
 
         @Override
-        protected void onPostExecute(JSONArray result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == null){
-                new WebHook().execute("안옴");
+        protected void onPostExecute(Integer result) {
+            if(result == 0){
+                initItems(mainValueObjectArrayList);
+            }else if(result == 1){
             }else{
-                new WebHook().execute("후기 목록");
-                for(int i = 0 ; i < result.length(); i++){
-                    try {
-                        JSONObject jsonObject = (JSONObject)result.get(i);
-                        //mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject((int)jsonObject.get("review_id"),(String)jsonObject.get("status"),(String)jsonObject.get("loan_type"),(String)jsonObject.get("end_time"),(String)jsonObject.get("region_1"),(String)jsonObject.get("region_2"),(String)jsonObject.get("region_3"),(String)jsonObject.get("apt_name"),(String)jsonObject.get("apt_size_supply") + "/" + (String)jsonObject.get("apt_size_exclusive"),1));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        new WebHook().execute("2           " + i + "                   "+ String.valueOf(result.get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+                new WebHook().execute("MainActivity 후기 목록 안옴 result ===== " + result);
             }
         }
     }
@@ -377,8 +461,6 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-
-
             switch (position) {
                 case 1:
                     startActivity(new Intent(MainActivity.this,OperationGuideActivity.class));
@@ -390,7 +472,6 @@ public class MainActivity extends AppCompatActivity{
                     startActivity(new Intent(MainActivity.this,ContactActivity.class));
                     break;
             }
-
             drawer.closeDrawer(naviList);
         }
     }
@@ -401,13 +482,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     //RecyclerView에 아이템 추가
-    public void addItems(){
-        for(int i = 0 ; i< 20; i++) {
-            if(i%2 == 0){
-                mainRecyclerViewAdapter.addItem(new MainValueObject(i,1,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
-            }else{
-                mainRecyclerViewAdapter.addItem(new MainValueObject(i,0,"1시간 전","서울시","동작구","장항동","무슨 아파트",3,"대출 모집인이 겁나 좋아조아무너웜누어ㅜ 안좋아 졸려",25));
-            }
-        }
+    public void initItems(ArrayList<MainValueObject> mainValueObjectArrayList){
+        mainRecyclerViewAdapter.initItem(mainValueObjectArrayList);
     }
 }
