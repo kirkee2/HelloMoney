@@ -19,6 +19,7 @@ import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecycl
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationValueObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
+import com.daasuu.ahp.AnimateHorizontalProgressBar;
 
 import java.util.ArrayList;
 
@@ -34,10 +35,14 @@ public class RequestQuotationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_quotation);
 
+        AnimateHorizontalProgressBar progressBar = (AnimateHorizontalProgressBar) findViewById(R.id.animate_progress_bar);
+        progressBar.setMax(1000);
+        progressBar.setProgress(400);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        //progressBar = (ProgressBar)findViewById(R.id.progressBar);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        //progressBar = (ProgressBar)findViewById(R.id.progressBar);
         requestQuotationRecyclerViewAdapter = new RequestQuotationRecyclerViewAdapter();
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.

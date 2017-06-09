@@ -35,27 +35,40 @@
             android:layout_weight="100"
             android:background="@color/basement"/>
 
+        <com.daasuu.ahp.AnimateHorizontalProgressBar
+            android:id="@+id/animate_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ahp_backgroundColor="#e0e0e0"
+            app:ahp_progressColor="#1de9b6" />
+        <!--
         <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+            android:background="@color/white"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/step_progress"
             android:max="100"
             android:progress="45"/>
+            -->
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
             <LinearLayout
                 android:id="@+id/step1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:orientation="horizontal"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
-                android:weightSum="100">
+                android:weightSum="100"
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -82,22 +95,23 @@
             <LinearLayout
                 android:id="@+id/step2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:orientation="horizontal"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
-                android:weightSum="100">
+                android:weightSum="100"
+                android:background="@color/progress"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="100"
-                    android:background="@drawable/request_button"
                     android:gravity="center"
                     android:textSize="@dimen/medium"
-                    android:textColor="@color/normalTypo"
+                    android:textColor="@color/white"
                     android:layout_marginEnd="4dp"
                     android:text="@string/choose_apt"/>
             </LinearLayout>
@@ -105,13 +119,109 @@
             <LinearLayout
                 android:id="@+id/step3"
                 android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:weightSum="100"
+                android:visibility="gone"
+                android:background="@color/white">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="100"
+                    android:textSize="@dimen/medium"
+                    android:textColor="@color/normalTypo"
+                    android:background="@color/white"
+                    android:layout_marginEnd="4dp"
+                    android:textColorHint="#e0e0e0"
+                    android:hint="@string/write_price"/>
+
+                <Button
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:textColor="@color/subNormal"
+                    android:text="@string/send"
+                    android:textSize="@dimen/medium"
+                    android:gravity="center"
+                    android:background="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:weightSum="100"
+                android:background="@color/white"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100"
+                    android:layout_marginBottom="8dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/request_button"
+                        android:gravity="center"
+                        android:textSize="@dimen/medium"
+                        android:textColor="@color/normalTypo"
+                        android:layout_marginEnd="4dp"
+                        android:text="@string/loan_type_1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/request_button"
+                        android:gravity="center"
+                        android:textSize="@dimen/medium"
+                        android:textColor="@color/normalTypo"
+                        android:text="@string/loan_type_1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/request_button"
+                        android:gravity="center"
+                        android:textSize="@dimen/medium"
+                        android:textColor="@color/normalTypo"
+                        android:layout_marginEnd="4dp"
+                        android:text="@string/loan_type_1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step5"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
-                android:weightSum="100">
+                android:weightSum="100"
+                android:visibility="gone"
+                android:background="@color/white">
 
                 <EditText
                     android:layout_width="0dp"
@@ -124,6 +234,7 @@
                     android:hint="@string/write_price"/>
 
                 <Button
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:textColor="@color/subNormal"
@@ -133,8 +244,98 @@
                     android:background="@color/white"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/step6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:weightSum="100"
+                android:background="@color/white">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:weightSum="100">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/request_button"
+                        android:gravity="center"
+                        android:textSize="@dimen/medium"
+                        android:textColor="@color/normalTypo"
+                        android:layout_marginEnd="4dp"
+                        android:text="@string/loan_type_1"/>
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/request_button"
+                        android:gravity="center"
+                        android:textSize="@dimen/medium"
+                        android:textColor="@color/normalTypo"
+                        android:text="@string/loan_type_1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/request_button"
+                        android:gravity="center"
+                        android:textSize="@dimen/medium"
+                        android:textColor="@color/normalTypo"
+                        android:layout_marginEnd="4dp"
+                        android:text="@string/loan_type_1"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step7"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:weightSum="100"
+                android:visibility="gone"
+                android:background="@color/white">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="100"
+                    android:textSize="@dimen/medium"
+                    android:textColor="@color/normalTypo"
+                    android:background="@color/white"
+                    android:layout_marginEnd="4dp"
+                    android:textColorHint="#e0e0e0"
+                    android:hint="@string/write_price"/>
+
+                <Button
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:textColor="@color/subNormal"
+                    android:text="@string/send"
+                    android:textSize="@dimen/medium"
+                    android:gravity="center"
+                    android:background="@color/white"/>
+            </LinearLayout>
         </FrameLayout>
     </LinearLayout>
 
