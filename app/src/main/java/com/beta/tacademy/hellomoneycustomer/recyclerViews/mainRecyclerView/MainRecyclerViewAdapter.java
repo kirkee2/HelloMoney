@@ -28,6 +28,7 @@ import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
+import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -51,8 +52,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         mainValueObjectArrayList.add(mainValueObject); //아이템 추가
     }
 
-    public void initHeader(){
-        pagerAdapter.init(); //헤더 아이템 추가
+    public void initHeader(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+        pagerAdapter.init(mainPageViewPagerObjectArrayList); //헤더 아이템 추가
     }
 
     public void updateImage(){
@@ -164,7 +165,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
         if(holder instanceof MainHeaderViewHolder){
             ((MainHeaderViewHolder) holder).requestQuotation.setOnClickListener(new View.OnClickListener() {
                 @Override

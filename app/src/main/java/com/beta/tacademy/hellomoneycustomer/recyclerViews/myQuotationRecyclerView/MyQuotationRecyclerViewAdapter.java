@@ -72,11 +72,7 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         ((MyQuotationViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " " +  valueObject.getRegion3());
 
         ((MyQuotationViewHolder) holder).aptSize.setText(valueObject.getApt() + " / " + valueObject.getSize());
-        if(valueObject.getType() == 0){
-            ((MyQuotationViewHolder) holder).type.setText("전세자금 대출");
-        }else{
-            ((MyQuotationViewHolder) holder).type.setText("주택담보 대출");
-        }
+        ((MyQuotationViewHolder) holder).type.setText(valueObject.getType());
 
         ((MyQuotationViewHolder) holder).currentQuotation.setText(String.valueOf(valueObject.getCurrentQuotation()));
         ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + valueObject.getLeftTime() + " 남았습니다.");

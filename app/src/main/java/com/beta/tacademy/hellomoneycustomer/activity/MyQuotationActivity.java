@@ -27,7 +27,8 @@ public class MyQuotationActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private MyQuotationFragmentPagerAdapter myQuotationFragmentPagerAdapter;
-    private ArrayList<MainPageViewPagerObject> mainPageViewPagerObject;
+    private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
+
 
 
     @Override
@@ -39,7 +40,7 @@ public class MyQuotationActivity extends AppCompatActivity {
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        mainPageViewPagerObject = new ArrayList<>();
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
 
         myQuotationFragmentPagerAdapter = new MyQuotationFragmentPagerAdapter(getSupportFragmentManager());
 
@@ -79,14 +80,14 @@ public class MyQuotationActivity extends AppCompatActivity {
 
         for(int i = 0 ; i < 10 ;i++){
             if(i%3 ==0){
-                mainPageViewPagerObject.add(new MainPageViewPagerObject(0,1,3,"12:12","경기도","고양시","장항동","현대타운빌","1000평",3));
+                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject(0,"대출완료","전세자금대출","12:12","경기도","고양시","장항동","현대타운빌","1000평",3));
             }else{
-                mainPageViewPagerObject.add(new MainPageViewPagerObject(0,0,3,"12:12","경기도","언니","나 마음에","안들죠??","1000평",3));
+                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject(0,"대출완료","전세자금대출","12:12","경기도","언니","나 마음에","안들죠??","1000평",3));
             }
         }
 
-        for(MainPageViewPagerObject object : mainPageViewPagerObject){
-            if(object.getOngoingStatus() == 0){
+        for(MainPageViewPagerObject object : mainPageViewPagerObjectArrayList){
+            if(!object.getOngoingStatus().equals("대출완료")){
                 mainPageViewPagerObjectOne.add(object);
             }else{
                 mainPageViewPagerObjectTwo.add(object);

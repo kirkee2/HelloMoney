@@ -23,10 +23,12 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
+import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity{
     private ProgressBar progressBar;
     private View naviHeader;
     private MainRecyclerViewAdapter mainRecyclerViewAdapter;
+    private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
     private RelativeLayout relativeLayoutOne;
     private RelativeLayout relativeLayoutTwo;
 
@@ -72,6 +75,8 @@ public class MainActivity extends AppCompatActivity{
 
         relativeLayoutOne = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutOne);
         relativeLayoutTwo = (RelativeLayout) naviHeader.findViewById(R.id.relativeLayoutTwo);
+
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
         //Toolbar
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정
@@ -144,12 +149,13 @@ public class MainActivity extends AppCompatActivity{
         mainRecyclerViewAdapter = new MainRecyclerViewAdapter(this.getSupportFragmentManager(),1);
         recyclerView.setAdapter(mainRecyclerViewAdapter);
 
-        //new MainAsyncTask().execute(); //
+        new MyQuotationList().execute();
+        //new MainAsyncTask().execute();
         //new MainAsyncTask2().execute(); //
         //new MainAsyncTask3().execute(); //
         //new MainAsyncTask4().execute(); //상세보기
         //new MainAsyncTask5().execute();//상담 요청
-        new MainAsyncTask6().execute(); //후기작성
+        //new MainAsyncTask6().execute(); //후기작성
         //new MainAsyncTask7().execute();
         //new MainAsyncTask8().execute();
         //new MainAsyncTask9().execute();
@@ -179,8 +185,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    //http 통신으로 HTML을 받아와 원하는 정보만을 파싱하여 저장해두는 AsyncTask
-    private class MainAsyncTask extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
+    private class MyQuotationList extends AsyncTask<Void, Void, Integer>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -189,48 +194,128 @@ public class MainActivity extends AppCompatActivity{
         }
 
         @Override
-        protected ArrayList doInBackground(Void... params) {
-            boolean flag1;
-            boolean flag2;
-            Response response1 = null;
-            Response response2 = null;
-            OkHttpClient toServer1;
-            OkHttpClient toServer2;
+        protected Integer doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
 
-            JSONObject jsonObject1 = null;
-            JSONObject jsonObject2 = null;
+            JSONObject jsonObject = null;
 
             try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-                toServer2 = OkHttpInitSingtonManager.getOkHttpClient();
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
-                Request request1 = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_request_quotation_url), CommonClass.getUUID()))
+                Request request = new Request.Builder()
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_url), CommonClass.getUUID(),"true"))
                         .get()
                         .build();
 
-                Request request2 = new Request.Builder()
+                //동기 방식
+                response = toServer.newCall(request).execute();
+
+                flag = response.isSuccessful();
+
+                String returedJSON;
+
+                if(flag){ //성공했다면
+                    returedJSON = response.body().string();
+
+                    try {
+                        jsonObject = new JSONObject(returedJSON);
+                    }catch(JSONException jsone){
+                        Log.e("json에러", jsone.toString());
+                    }
+                }else{
+                    return 1;
+                }
+            }catch (UnknownHostException une) {
+            } catch (UnsupportedEncodingException uee) {
+            } catch (Exception e) {
+            } finally{
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                }
+            }
+
+            if(jsonObject != null){
+                try {
+                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                        JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
+
+                        for(int i = 0 ; i < data.length(); i++){
+                            try {
+                                JSONObject jsonData = (JSONObject)data.get(i);
+                                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject((int)jsonData.get("request_id"),String.valueOf(jsonData.get("status")),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("end_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),String.valueOf(jsonData.get("apt_size_supply") + "(" + jsonData.get("apt_size_exclusive") +"m2)"),(int)jsonData.get("estimate_count")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return 0;
+                    }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+
+                    }else{
+                        return 2;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                return 4;
+            }
+
+            return 3;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            if(result == 0){
+                new WebHook().execute("옴    " + mainPageViewPagerObjectArrayList.size());
+                initHeaders(mainPageViewPagerObjectArrayList);
+
+                new PostscriptList().execute();
+            }else{
+                new WebHook().execute("안옴 asdas dasd asd result ===== " + result);
+            }
+
+            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
+            progressBar.setVisibility(View.GONE);
+            refreshLayout.setEnabled(true);
+        }
+    }
+
+    private class PostscriptList extends AsyncTask<Void, Void, JSONArray>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected JSONArray doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
+
+            JSONObject jsonObject = null;
+
+            try{
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                Request request = new Request.Builder()
                         .url(getResources().getString(R.string.get_post_script_url))
                         .get()
                         .build();
 
                 //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-                response2 = toServer2.newCall(request2).execute();
+                response = toServer.newCall(request).execute();
 
-                flag1 = response1.isSuccessful();
-                flag2 = response1.isSuccessful();
+                flag = response.isSuccessful();
 
                 String returedJSON1;
-                String returedJSON2;
 
-                if(flag1 && flag2){ //성공했다면
-                    returedJSON1 = response1.body().string();
-                    returedJSON2 = response2.body().string();
+                if(flag){ //성공했다면
+                    returedJSON1 = response.body().string();
 
                     try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                        jsonObject2 = new JSONObject(returedJSON2);
+                        jsonObject = new JSONObject(returedJSON1);
                     }catch(JSONException jsone){
                         Log.e("json에러", jsone.toString());
                     }
@@ -241,37 +326,27 @@ public class MainActivity extends AppCompatActivity{
             } catch (UnsupportedEncodingException uee) {
             } catch (Exception e) {
             } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-
-                if(response2 != null){
-                    response2.close(); //3.* 이상에서는 반드시 닫아 준다.
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
                 }
             }
 
-            if(jsonObject1 != null && jsonObject2 != null){
+            if(jsonObject != null){
                 try {
-                    if(jsonObject1.get("msg").equals("success") && jsonObject2.get("msg").equals("success")){
-                        JSONArray data1= jsonObject1.getJSONArray("data");
-                        JSONArray data2= jsonObject2.getJSONArray("data");
-                        ArrayList<JSONArray> tmp = new ArrayList();
-                        tmp.add(data1);
-                        tmp.add(data2);
-                        return tmp;
+                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                        JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
+                        return data;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }else{
-
             }
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<JSONArray> result) {
+        protected void onPostExecute(JSONArray result) {
             //RecyclerView에 해더 및 아이템 추가
             //addHeaders();
             //addItems();
@@ -279,804 +354,25 @@ public class MainActivity extends AppCompatActivity{
             if(result == null){
                 new WebHook().execute("안옴");
             }else{
-
-                new WebHook().execute("내 견적 목록");
-                for(int i = 0 ; i < result.get(0).length(); i++){
-                    try {
-                        new WebHook().execute("1           " + i + "                   "+ String.valueOf(result.get(0).get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
                 new WebHook().execute("후기 목록");
-                for(int i = 0 ; i < result.get(1).length(); i++){
+                for(int i = 0 ; i < result.length(); i++){
                     try {
-                        new WebHook().execute("2           " + i + "                   " + String.valueOf(result.get(1).get(i)));
+                        JSONObject jsonObject = (JSONObject)result.get(i);
+                        //mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject((int)jsonObject.get("review_id"),(String)jsonObject.get("status"),(String)jsonObject.get("loan_type"),(String)jsonObject.get("end_time"),(String)jsonObject.get("region_1"),(String)jsonObject.get("region_2"),(String)jsonObject.get("region_3"),(String)jsonObject.get("apt_name"),(String)jsonObject.get("apt_size_supply") + "/" + (String)jsonObject.get("apt_size_exclusive"),1));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        new WebHook().execute("2           " + i + "                   "+ String.valueOf(result.get(i)));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
-
-    //http 통신으로 HTML을 받아와 원하는 정보만을 파싱하여 저장해두는 AsyncTask
-    private class MainAsyncTask2 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ArrayList doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                Request request1 = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_quotation_list_url), "1"))
-                        .get()
-                        .build();
-
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        JSONArray data1= jsonObject1.getJSONArray("data");
-                        ArrayList<JSONArray> tmp = new ArrayList();
-                        tmp.add(data1);
-                        return tmp;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONArray> result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == null){
-                new WebHook().execute("안옴");
-            }else{
-
-                new WebHook().execute("내 견적 리스트");
-                for(int i = 0 ; i < result.get(0).length(); i++){
-                    try {
-                        new WebHook().execute("3           " + i + "                   "+ String.valueOf(result.get(0).get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
-
-    private class MainAsyncTask3 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ArrayList doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                Request request1 = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_quotation_detail_url),"1"))
-                        .get()
-                        .build();
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        JSONArray data1= jsonObject1.getJSONArray("data");
-                        ArrayList<JSONArray> tmp = new ArrayList();
-                        tmp.add(data1);
-                        return tmp;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONArray> result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == null){
-                new WebHook().execute("안옴");
-            }else{
-
-                new WebHook().execute("내 견적 상세");
-                for(int i = 0 ; i < result.get(0).length(); i++){
-                    try {
-                        new WebHook().execute("4           " + i + "                   "+ String.valueOf(result.get(0).get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
-
-    private class MainAsyncTask4 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ArrayList doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                Request request1 = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.quotation_detail_counselor_feedback_url),"1"))
-                        .get()
-                        .build();
-
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        JSONArray data1= jsonObject1.getJSONArray("data");
-                        ArrayList<JSONArray> tmp = new ArrayList();
-                        tmp.add(data1);
-                        return tmp;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONArray> result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == null){
-                new WebHook().execute("안옴");
-            }else{
-
-                new WebHook().execute("내 견적 상담 피드백 리스트");
-                for(int i = 0 ; i < result.get(0).length(); i++){
-                    try {
-                        new WebHook().execute("5           " + i + "                   " + String.valueOf(result.get(0).get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
         }
     }
 
 
-    private class MainAsyncTask5 extends AsyncTask<Void, Void, Integer>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                RequestBody postBody = new FormBody.Builder()
-                        .add("selectedEstimateId","7")
-                        .add("status","상담중")
-                        .build();
-
-                Request request1 = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.request_counsel_url),"1"))
-                        .put(postBody)
-                        .build();
-
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        //JSONArray data1= jsonObject1.getJSONArray("data");
-                        //ArrayList<JSONArray> tmp = new ArrayList();
-                        //tmp.add(data1);
-                        return 1;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return 0;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == 0){
-                new WebHook().execute("안옴");
-            }else{
-                new WebHook().execute("상담 신청하기 성공");
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
-
-    private class MainAsyncTask6 extends AsyncTask<Void, Void, Integer>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                RequestBody postBody = new FormBody.Builder()
-                        .add("requestId","1")
-                        .add("content","하하")
-                        .add("score","4.5")
-                        .build();
-
-                Request request1 = new Request.Builder()
-                        .url(getResources().getString(R.string.write_post_script_url))
-                        .put(postBody)
-                        .build();
-
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        //JSONArray data1= jsonObject1.getJSONArray("data");
-                        //ArrayList<JSONArray> tmp = new ArrayList();
-                        //tmp.add(data1);
-                        return 1;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return 0;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == 0){
-                new WebHook().execute("안옴");
-            }else{
-                new WebHook().execute("후기 작성 성공");
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
-
-    private class MainAsyncTask7 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ArrayList doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                Request request1 = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.detail_counselor_url),"agent1@naver.com"))
-                        .get()
-                        .build();
-
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        JSONArray data1= jsonObject1.getJSONArray("data");
-                        ArrayList<JSONArray> tmp = new ArrayList();
-                        tmp.add(data1);
-                        return tmp;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONArray> result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == null){
-                new WebHook().execute("안옴");
-            }else{
-
-                new WebHook().execute("대출 모집인 상세");
-                for(int i = 0 ; i < result.get(0).length(); i++){
-                    try {
-                        new WebHook().execute("6           " + i + "                   " + String.valueOf(result.get(0).get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
-
-    private class MainAsyncTask8 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ArrayList doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                Request request1 = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.detail_counselor_post_script_list_url),"agent1@naver.com"))
-                        .get()
-                        .build();
-
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        JSONArray data1= jsonObject1.getJSONArray("data");
-                        ArrayList<JSONArray> tmp = new ArrayList();
-                        tmp.add(data1);
-                        return tmp;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONArray> result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == null){
-                new WebHook().execute("안옴");
-            }else{
-
-                new WebHook().execute("대출 모집인 후기 리스트");
-                for(int i = 0 ; i < result.get(0).length(); i++){
-                    try {
-                        new WebHook().execute("7           " + i + "                   " + String.valueOf(result.get(0).get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
-
-
-    private class MainAsyncTask9 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //시작 전에 ProgressBar를 보여주어 사용자와 interact
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ArrayList doInBackground(Void... params) {
-            boolean flag1;
-            Response response1 = null;
-
-            OkHttpClient toServer1;
-
-
-            JSONObject jsonObject1 = null;
-
-            try{
-                toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                Request request1 = new Request.Builder()
-                        .url(getResources().getString(R.string.faq_url))
-                        .get()
-                        .build();
-
-                //동기 방식
-                response1 = toServer1.newCall(request1).execute();
-
-                flag1 = response1.isSuccessful();
-
-                String returedJSON1;
-
-                if(flag1){ //성공했다면
-                    returedJSON1 = response1.body().string();
-
-                    try {
-                        jsonObject1 = new JSONObject(returedJSON1);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return  null;
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response1 != null) {
-                    response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(jsonObject1 != null){
-                try {
-                    if(jsonObject1.get("msg").equals("success")){
-                        JSONArray data1= jsonObject1.getJSONArray("data");
-                        ArrayList<JSONArray> tmp = new ArrayList();
-                        tmp.add(data1);
-                        return tmp;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else{
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<JSONArray> result) {
-            //RecyclerView에 해더 및 아이템 추가
-            //addHeaders();
-            //addItems();
-
-            if(result == null){
-                new WebHook().execute("안옴");
-            }else{
-
-                new WebHook().execute("faq 리스트");
-                for(int i = 0 ; i < result.get(0).length(); i++){
-                    try {
-                        new WebHook().execute("8           " + i + "                   " + String.valueOf(result.get(0).get(i)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-        }
-    }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
@@ -1100,8 +396,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     //RecyclerView에 해더 추가
-    public void addHeaders(){
-        mainRecyclerViewAdapter.initHeader();
+    public void initHeaders(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+        mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList);
     }
 
     //RecyclerView에 아이템 추가

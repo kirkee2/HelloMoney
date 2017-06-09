@@ -67,11 +67,8 @@ public class MainPageFragment extends Fragment {
 
         region.setText(mainPageViewPagerObject.getRegion1() + " " + mainPageViewPagerObject.getRegion2() + " " +  mainPageViewPagerObject.getRegion3());
         aptSize.setText(mainPageViewPagerObject.getApt() + " / " + mainPageViewPagerObject.getSize());
-        if(mainPageViewPagerObject.getType() == 0){
-            type.setText("전세자금 대출");
-        }else{
-            type.setText("주택담보 대출");
-        }
+        type.setText(mainPageViewPagerObject.getType());
+
 
         currentQuotation.setText(String.valueOf(mainPageViewPagerObject.getCurrentQuotation()));
         leftTime.setText("마감까지 " + mainPageViewPagerObject.getLeftTime() + " 남았습니다.");

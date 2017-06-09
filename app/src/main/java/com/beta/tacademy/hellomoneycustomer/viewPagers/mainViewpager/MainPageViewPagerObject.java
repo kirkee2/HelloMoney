@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 public class MainPageViewPagerObject implements Parcelable {
     private int id;
-    private int ongoingStatus;
-    private int type;
+    private String ongoingStatus;
+    private String type;
     private String leftTime;
     private String region1;
     private String region2;
@@ -19,7 +19,7 @@ public class MainPageViewPagerObject implements Parcelable {
         readFromParcel(in);
     }
 
-    public MainPageViewPagerObject(int id, int ongoingStatus, int type, String leftTime, String region1, String region2, String region3, String apt, String size, int currentQuotation) {
+    public MainPageViewPagerObject(int id, String ongoingStatus, String type, String leftTime, String region1, String region2, String region3, String apt, String size, int currentQuotation) {
         this.id = id;
         this.ongoingStatus = ongoingStatus;
         this.type = type;
@@ -41,20 +41,20 @@ public class MainPageViewPagerObject implements Parcelable {
         this.id = id;
     }
 
-    public int getOngoingStatus() {
+    public String getOngoingStatus() {
         return ongoingStatus;
     }
 
-    public void setOngoingStatus(int ongoingStatus) {
+    public void setOngoingStatus(String ongoingStatus) {
         this.ongoingStatus = ongoingStatus;
     }
 
-    public int getType() {
+    public String getType() {
 
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -122,8 +122,8 @@ public class MainPageViewPagerObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeInt(this.ongoingStatus);
-        dest.writeInt(this.type);
+        dest.writeString(this.ongoingStatus);
+        dest.writeString(this.type);
         dest.writeString(this.leftTime);
         dest.writeString(this.region1);
         dest.writeString(this.region2);
@@ -136,8 +136,8 @@ public class MainPageViewPagerObject implements Parcelable {
 
     private void readFromParcel(Parcel in){
         this.id = in.readInt();
-        this.ongoingStatus = in.readInt();
-        this.type = in.readInt();
+        this.ongoingStatus = in.readString();
+        this.type = in.readString();
         this.leftTime = in.readString();
         this.region1 = in.readString();
         this.region2 = in.readString();

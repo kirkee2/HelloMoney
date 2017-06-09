@@ -144,7 +144,7 @@ public class IntroActivity extends AppCompatActivity {
                     String msg = null;
 
                     try{
-                        toServer = OKHttp3ApplyCookieManager.getOkHttpApplyCookieClient();
+                        toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                         Request request = new Request.Builder()
                                 .url(getResources().getString(R.string.check_id_and_registered_id_url)+CommonClass.getUUID())
@@ -213,7 +213,7 @@ public class IntroActivity extends AppCompatActivity {
             String msg = null;
 
             try{
-                toServer = OKHttp3ApplyCookieManager.getOkHttpApplyCookieClient();
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 RequestBody postBody = new FormBody.Builder()
                         .add("customerId", CommonClass.getUUID())
