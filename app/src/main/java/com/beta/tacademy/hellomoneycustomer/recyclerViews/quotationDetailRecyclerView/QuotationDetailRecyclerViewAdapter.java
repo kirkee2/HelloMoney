@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +57,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public static final int TYPE_ITEM = 4;
     public static final int TYPE_FOOTER = 5;
 
+    public static final int NO_WRITE_COMMENT =0;
+    public static final int YES_WRITE_COMMENT =1;
+
+    private int type;
+
     private Activity activity;
 
     private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
@@ -68,8 +75,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         this.quotationDetailObjectArrayList = quotationDetailObjectArrayList; //아이템 추가
     }
 
-    public QuotationDetailRecyclerViewAdapter(Activity activity,QuotationDetailHeaderObject quotationDetailHeaderObject){
+    public QuotationDetailRecyclerViewAdapter(Activity activity,int type,QuotationDetailHeaderObject quotationDetailHeaderObject){
         //변수 초기화
+        this.type = type;
         quotationDetailObjectArrayList = new ArrayList<>();
         this.activity = activity;
         this.quotationDetailHeaderObject = quotationDetailHeaderObject;
@@ -78,24 +86,43 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        if(viewType == TYPE_HEADER){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header, parent, false);
-            return new QuotationDetailHeaderViewHolder(view);
-        }else if(viewType == TYPE_HEADER_SUB){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub, parent, false);
-            return new QuotationDetailSubHeaderViewHolder(view);
-        }else if(viewType == TYPE_HEADER_SUB_SUB){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub, parent, false);
-            return new QuotationDetailSubSubHeaderViewHolder(view);
-        }else if(viewType == TYPE_HEADER_SUB_SUB_SUB){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub_sub, parent, false);
-            return new QuotationDetailSubSubSubHeaderViewHolder(view);
-        }else if(viewType == TYPE_FOOTER){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_footer_write_comment, parent, false);
-            return new QuotationDetailFooterViewHolder(view);
+        if(type == NO_WRITE_COMMENT){
+            if(viewType == TYPE_HEADER){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header, parent, false);
+                return new QuotationDetailHeaderViewHolder(view);
+            }else if(viewType == TYPE_HEADER_SUB){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub, parent, false);
+                return new QuotationDetailSubHeaderViewHolder(view);
+            }else if(viewType == TYPE_HEADER_SUB_SUB){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub, parent, false);
+                return new QuotationDetailSubSubHeaderViewHolder(view);
+            }else if(viewType == TYPE_HEADER_SUB_SUB_SUB){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub_sub, parent, false);
+                return new QuotationDetailSubSubSubHeaderViewHolder(view);
+            }else if(viewType == TYPE_FOOTER){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_footer_write_comment, parent, false);
+                return new QuotationDetailFooterViewHolder(view);
+            }else{
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_items, parent, false);
+                return new QuotationDetailViewHolder(view);
+            }
         }else{
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_items, parent, false);
-            return new QuotationDetailViewHolder(view);
+            if(viewType == TYPE_HEADER){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header, parent, false);
+                return new QuotationDetailHeaderViewHolder(view);
+            }else if(viewType == TYPE_HEADER_SUB){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub, parent, false);
+                return new QuotationDetailSubHeaderViewHolder(view);
+            }else if(viewType == TYPE_HEADER_SUB_SUB){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub, parent, false);
+                return new QuotationDetailSubSubHeaderViewHolder(view);
+            }else if(viewType == TYPE_HEADER_SUB_SUB_SUB){
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub_sub, parent, false);
+                return new QuotationDetailSubSubSubHeaderViewHolder(view);
+            }else{
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_items, parent, false);
+                return new QuotationDetailViewHolder(view);
+            }
         }
     }
 
@@ -180,6 +207,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         TextView loanDate;
         TextView jobtype;
         TextView telephone;
+        LinearLayout linearLayout;
 
         private QuotationDetailSubSubSubHeaderViewHolder(View itemView) {
             super(itemView);
@@ -193,6 +221,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             loanDate = (TextView)itemView.findViewById(R.id.loanDate);
             jobtype = (TextView)itemView.findViewById(R.id.jobType);
             telephone = (TextView)itemView.findViewById(R.id.telephone);
+            linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
         }
     }
 
@@ -204,6 +233,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         } else if (holder instanceof QuotationDetailSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 
+            /*
             ArrayList<BarEntry> entries = new ArrayList<>();
             ArrayList<BarEntry> entriesMin = new ArrayList<>();
             float min = 100;
@@ -237,6 +267,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             data.addDataSet(dataSetMin);
 
             data.setBarWidth(0.15F);
+
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.setData(data);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.getAxisRight().setEnabled(false);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.getXAxis().setEnabled(false);
@@ -246,10 +277,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.setScaleEnabled(false);
             ((QuotationDetailSubHeaderViewHolder) holder).barChart.invalidate();
-
+               */
         }else if (holder instanceof QuotationDetailSubSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 
+            /*
             ((QuotationDetailSubSubHeaderViewHolder) holder).finalQuotationCount.setText(String.valueOf(valueObject.getRate().size()));
             double tmp = 0;
             for(int i = 0 ; i < valueObject.getRate().size() ; i++){
@@ -258,37 +290,35 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
             tmp = tmp/(double)valueObject.getRate().size();
             ((QuotationDetailSubSubHeaderViewHolder) holder).averageInterestRate.setText(String.valueOf(tmp));
+            */
 
         }else if (holder instanceof QuotationDetailSubSubSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText("마감까지 " + valueObject.getRemainTime()+ " 남았습니다.");
-            if(valueObject.getLoanType() == 0 ){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanType.setImageResource(R.drawable.lease_loan);
-            }else{
+
+            if(valueObject.getLoanType().equals("주택담보대출")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanType.setImageResource(R.drawable.secured_loan);
+            }else{
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanType.setImageResource(R.drawable.lease_loan);
             }
 
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " "+ valueObject.getRegion3());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).apt.setText(valueObject.getApt());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).size.setText(valueObject.getSize());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(String.valueOf(valueObject.getLoanSum()));
-
-            if(valueObject.getRateType() == 0){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).rateType.setText("고정");
-            }else{
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).rateType.setText("변동");
-            }
-
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).rateType.setText(valueObject.getRateType());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanDate.setText(valueObject.getLoanDate());
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText(valueObject.getJobType());
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(valueObject.getTelephone());
 
-            if(valueObject.getJobType() == 0){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText("직장근로자");
+            if(valueObject.getOngoingStatus().equals("견적접수중")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_interection_waiting));
+            }else if(valueObject.getOngoingStatus().equals("선택대기중") || valueObject.getOngoingStatus().equals("상담중") || valueObject.getOngoingStatus().equals("심사중") || valueObject.getOngoingStatus().equals("승인완료")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
             }else{
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText("자영업자");
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_done));
             }
-
-           ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(valueObject.getTelephone());
         }else if (holder instanceof QuotationDetailFooterViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 

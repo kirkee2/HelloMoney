@@ -2,7 +2,11 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecycl
 
 import android.widget.ArrayAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by kirkee on 2017. 6. 5..
@@ -10,24 +14,33 @@ import java.util.ArrayList;
 
 public class QuotationDetailHeaderObject {
     private int id;
-    private ArrayList<Float> rate;
+    private String ongoingStatus;
+    //private ArrayList<Float> rate;
     private String remainTime;
-    private int loanType;
+    private String loanType;
     private String region1;
     private String region2;
     private String region3;
     private String apt;
     private String size;
     private int loanSum;
-    private int rateType;
+    private String rateType;
     private String loanDate;
-    private int jobType;
+    private String jobType;
     private String telephone;
 
-    public QuotationDetailHeaderObject(int id, ArrayList<Float> rate, String remainTime, int loanType, String region1, String region2, String region3, String apt, String size, int loanSum, int rateType, String loanDate, int jobType, String telephone) {
+    public QuotationDetailHeaderObject(int id, String ongoingStatus, String remainTime, String loanType, String region1, String region2, String region3, String apt, String size, int loanSum, String rateType, String loanDate, String jobType, String telephone) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        try {
+            Date date = sdf.parse(remainTime);
+            this.remainTime = sdf.format(date);
+            date = sdf.parse(loanDate);
+            this.loanDate = sdf.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.id = id;
-        this.rate = rate;
-        this.remainTime = remainTime;
+        this.ongoingStatus = ongoingStatus;
         this.loanType = loanType;
         this.region1 = region1;
         this.region2 = region2;
@@ -36,7 +49,6 @@ public class QuotationDetailHeaderObject {
         this.size = size;
         this.loanSum = loanSum;
         this.rateType = rateType;
-        this.loanDate = loanDate;
         this.jobType = jobType;
         this.telephone = telephone;
     }
@@ -49,6 +61,14 @@ public class QuotationDetailHeaderObject {
         this.id = id;
     }
 
+    public String getOngoingStatus() {
+        return ongoingStatus;
+    }
+
+    public void setOngoingStatus(String ongoingStatus) {
+        this.ongoingStatus = ongoingStatus;
+    }
+
     public String getRemainTime() {
         return remainTime;
     }
@@ -57,11 +77,11 @@ public class QuotationDetailHeaderObject {
         this.remainTime = remainTime;
     }
 
-    public int getLoanType() {
+    public String getLoanType() {
         return loanType;
     }
 
-    public void setLoanType(int loanType) {
+    public void setLoanType(String loanType) {
         this.loanType = loanType;
     }
 
@@ -113,11 +133,11 @@ public class QuotationDetailHeaderObject {
         this.loanSum = loanSum;
     }
 
-    public int getRateType() {
+    public String getRateType() {
         return rateType;
     }
 
-    public void setRateType(int rateType) {
+    public void setRateType(String rateType) {
         this.rateType = rateType;
     }
 
@@ -129,11 +149,11 @@ public class QuotationDetailHeaderObject {
         this.loanDate = loanDate;
     }
 
-    public int getJobType() {
+    public String getJobType() {
         return jobType;
     }
 
-    public void setJobType(int jobType) {
+    public void setJobType(String jobType) {
         this.jobType = jobType;
     }
 
@@ -143,13 +163,5 @@ public class QuotationDetailHeaderObject {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-    }
-
-    public ArrayList<Float> getRate() {
-        return rate;
-    }
-
-    public void setRate(ArrayList<Float> rate) {
-        this.rate = rate;
     }
 }

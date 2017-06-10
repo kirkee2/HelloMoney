@@ -11,7 +11,7 @@
         android:layout_width="348dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/ongoing_quotation_done"
+        android:id="@+id/linearLayout"
         android:orientation="vertical"
         android:padding="27dp">
 
