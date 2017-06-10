@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:visibility="gone"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/progress" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,4 +40,13 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/progress" />
 </FrameLayout>

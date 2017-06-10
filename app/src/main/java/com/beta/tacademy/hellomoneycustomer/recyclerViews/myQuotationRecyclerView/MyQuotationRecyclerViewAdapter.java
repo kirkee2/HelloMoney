@@ -1,5 +1,6 @@
 package com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,20 +23,20 @@ import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageVie
 
 import java.util.ArrayList;
 
-/**
- * Created by kirkee on 2017. 5. 31..
- */
 
 public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjects;
+    private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
+    private Activity activity;
 
-    public MyQuotationRecyclerViewAdapter(){
+    public MyQuotationRecyclerViewAdapter(Activity activity){
         //변수 초기화
-        mainPageViewPagerObjects = new ArrayList<>();
+        this.activity = activity;
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
     }
 
     public void init(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
-        mainPageViewPagerObjects = mainPageViewPagerObjectArrayList; //아이템 추가
+        this.mainPageViewPagerObjectArrayList = mainPageViewPagerObjectArrayList; //아이템 추가
+        notifyDataSetChanged();
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final MainPageViewPagerObject valueObject = mainPageViewPagerObjects.get(position);
+        final MainPageViewPagerObject valueObject = mainPageViewPagerObjectArrayList.get(position);
 
 
         ((MyQuotationViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " " +  valueObject.getRegion3());
@@ -80,10 +81,10 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         ((MyQuotationViewHolder) holder).linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " + valueObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), QuotationDetailActivity.class);
+                Toast.makeText(activity,"id = " + valueObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, QuotationDetailActivity.class);
                 intent.putExtra("id",valueObject.getId());
-                HelloMoneyCustomerApplication.getInstance().startActivity(intent);
+                activity.startActivity(intent);
             }
         });
 
@@ -92,7 +93,7 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public int getItemCount() {
-        return mainPageViewPagerObjects.size();
+        return mainPageViewPagerObjectArrayList.size();
         //전체 item의 갯수 반환
     }
 }

@@ -47,9 +47,10 @@ public class MyQuotationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mainPageViewPagerObjectArrayList = getArguments().getParcelableArrayList("mainPageViewPagerObjectArrayList");
+            this.mainPageViewPagerObjectArrayList = getArguments().getParcelableArrayList("mainPageViewPagerObjectArrayList");
         }
-        myQuotationFragmentPagerAdapter = new MyQuotationRecyclerViewAdapter();
+
+        myQuotationFragmentPagerAdapter = new MyQuotationRecyclerViewAdapter(getActivity());
     }
 
     @Override
