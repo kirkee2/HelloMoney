@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity{
                 mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.YES_MY_QUOTATION);
                 recyclerView.setAdapter(mainRecyclerViewAdapter);
 
-                initHeaders(mainPageViewPagerObjectArrayList);
+                mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList);
                 new MyQuotationOngoingDoneCount().execute();
             }else if(result == 1){
                 mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.NO_MY_QUOTATION);
@@ -448,7 +448,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0){
-                initItems(mainValueObjectArrayList);
+                mainRecyclerViewAdapter.initItem(mainValueObjectArrayList);
             }else if(result == 1){
             }else{
                 new WebHook().execute("MainActivity 후기 목록 안옴 result ===== " + result);
@@ -474,15 +474,5 @@ public class MainActivity extends AppCompatActivity{
             }
             drawer.closeDrawer(naviList);
         }
-    }
-
-    //RecyclerView에 해더 추가
-    public void initHeaders(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
-        mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList);
-    }
-
-    //RecyclerView에 아이템 추가
-    public void initItems(ArrayList<MainValueObject> mainValueObjectArrayList){
-        mainRecyclerViewAdapter.initItem(mainValueObjectArrayList);
     }
 }

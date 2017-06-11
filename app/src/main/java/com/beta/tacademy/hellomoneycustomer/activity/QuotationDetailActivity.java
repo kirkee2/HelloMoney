@@ -53,6 +53,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private int quotationDetailId;
     private QuotationDetailHeaderObject quotationDetailHeaderObject;
+    private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
     private Activity activity;
 
     @Override
@@ -62,6 +63,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        quotationDetailObjectArrayList = new ArrayList<>();
 
         activity = this;
         Intent intent = getIntent();
@@ -191,11 +193,106 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_COMMENT,quotationDetailHeaderObject);
                     recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                 }
+
+                new QuotationFeedback().execute();
             }else{
                 new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
 
+
+
             progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private class QuotationFeedback extends AsyncTask<Void, Void, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
+
+            JSONObject jsonObject = null;
+
+            try{
+                toServer = OkHttpInitSingtonManager.getOkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url(String.format(getResources().getString(R.string.quotation_detail_counselor_feedback_url),String.valueOf(quotationDetailId)))
+                        .get()
+                        .build();
+
+                //동기 방식
+                response = toServer.newCall(request).execute();
+
+                flag = response.isSuccessful();
+
+                String returedJSON;
+
+                if(flag){ //성공했다면
+                    returedJSON = response.body().string();
+
+                    try {
+                        jsonObject = new JSONObject(returedJSON);
+                    }catch(JSONException jsone){
+                        Log.e("json에러", jsone.toString());
+                    }
+                }else{
+                    return 2;
+                }
+            }catch (UnknownHostException une) {
+            } catch (UnsupportedEncodingException uee) {
+            } catch (Exception e) {
+            } finally{
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                }
+            }
+
+            if(jsonObject != null){
+                try {
+                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                        JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
+
+                        for(int i = 0 ; i < data.length(); i++){
+                            try {
+                                JSONObject jsonData = (JSONObject)data.get(i);
+                                quotationDetailObjectArrayList.add(new QuotationDetailObject(jsonData.getInt("estimate_id"),jsonData.getString("item_bank"),jsonData.getString("name"),jsonData.getString("interest_rate_type"),jsonData.getDouble("interest_rate"),jsonData.getString("photo")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        return 0;
+                    }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                        return 1;
+                    }else{
+                        return 3;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                return 4;
+            }
+
+            return 5;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            if(result == 0){
+                quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
+            }else if(result == 1){
+
+            }else{
+                new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
+            }
         }
     }
 
@@ -393,14 +490,4 @@ public class QuotationDetailActivity extends AppCompatActivity {
         }
     }
     */
-
-    public void addItems(){
-        for(int i = 0 ; i < 10 ; i++){
-            if(i%2 ==0){
-                quotationDetailRecyclerViewAdapter.addItem(new QuotationDetailObject(i,"신한은행","이건준",0,3.3,"http://cphoto.asiae.co.kr/listimglink/6/2016122719355313871_1.png"));
-            }else{
-                quotationDetailRecyclerViewAdapter.addItem(new QuotationDetailObject(i,"우리은행","엄마",1,4,"http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg"));
-            }
-        }
-    }
 }

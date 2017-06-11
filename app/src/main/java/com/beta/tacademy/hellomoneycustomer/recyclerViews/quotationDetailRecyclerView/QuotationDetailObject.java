@@ -10,11 +10,11 @@ public class QuotationDetailObject {
     private int id;
     private String bank;
     private String name;
-    private int loanType;
+    private String loanType;
     private double interestRate;
     private String imageUrl;
 
-    public QuotationDetailObject(int id, String bank, String name, int loanType, double interestRate, String imageUrl) {
+    public QuotationDetailObject(int id, String bank, String name, String loanType, double interestRate, String imageUrl) {
         this.id = id;
         this.bank = bank;
         this.name = name;
@@ -47,11 +47,11 @@ public class QuotationDetailObject {
         this.name = name;
     }
 
-    public int getLoanType() {
+    public String getLoanType() {
         return loanType;
     }
 
-    public void setLoanType(int loanType) {
+    public void setLoanType(String loanType) {
         this.loanType = loanType;
     }
 
