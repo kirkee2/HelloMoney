@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,8 +78,31 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         ((MyQuotationViewHolder) holder).type.setText(valueObject.getType());
 
         ((MyQuotationViewHolder) holder).currentQuotation.setText(String.valueOf(valueObject.getCurrentQuotation()));
-        ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + valueObject.getLeftTime() + " 남았습니다.");
 
+        if(valueObject.getOngoingStatus().equals("견적접수중")){
+            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_interection_waiting));
+            ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + valueObject.getLeftTime() + " 남았습니다.");
+        }else if(valueObject.getOngoingStatus().equals("선택대기중")){
+            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            ((MyQuotationViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
+        }else if(valueObject.getOngoingStatus().equals("상담중")){
+            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            ((MyQuotationViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
+        }else if(valueObject.getOngoingStatus().equals("심사중")){
+            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            ((MyQuotationViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
+        }else if(valueObject.getOngoingStatus().equals("승인완료")){
+            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            ((MyQuotationViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
+        }else{
+            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_done));
+            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            ((MyQuotationViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
+        }
         ((MyQuotationViewHolder) holder).linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

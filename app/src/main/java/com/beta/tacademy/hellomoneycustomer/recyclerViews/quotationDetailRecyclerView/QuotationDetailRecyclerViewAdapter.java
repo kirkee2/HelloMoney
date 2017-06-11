@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -15,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,8 +34,12 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.CounselorDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
+import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
+import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
@@ -42,11 +49,18 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -241,38 +255,41 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 entries.add(new BarEntry(i*0.5F,(float)quotationDetailObjectArrayList.get(i).getInterestRate()));
             }
 
-            entriesMin.add(entries.get(minIndex));
-            entries.remove(minIndex);
+            if(quotationDetailObjectArrayList.size() == 0){
 
-            Description d = new Description();
-            d.setText("");
+            }else{
+                entriesMin.add(entries.get(minIndex));
+                entries.remove(minIndex);
 
-            BarDataSet dataSet = new BarDataSet(entries, "금리");
-            BarDataSet dataSetMin = new BarDataSet(entriesMin, "최저 금리");
+                Description d = new Description();
+                d.setText("");
 
-            dataSet.setColor(0xFF00BFA5);
-            dataSet.setHighlightEnabled(false);
-            dataSet.setValueTextSize(10);
+                BarDataSet dataSet = new BarDataSet(entries, "금리");
+                BarDataSet dataSetMin = new BarDataSet(entriesMin, "최저 금리");
 
-            dataSetMin.setColor(0xFFFF4081);
-            dataSetMin.setHighlightEnabled(false);
-            dataSetMin.setValueTextSize(10);
+                dataSet.setColor(0xFF00BFA5);
+                dataSet.setHighlightEnabled(false);
+                dataSet.setValueTextSize(10);
 
-            BarData data = new BarData(dataSet);
-            data.addDataSet(dataSetMin);
+                dataSetMin.setColor(0xFFFF4081);
+                dataSetMin.setHighlightEnabled(false);
+                dataSetMin.setValueTextSize(10);
 
-            data.setBarWidth(0.15F);
+                BarData data = new BarData(dataSet);
+                data.addDataSet(dataSetMin);
 
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setData(data);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.getAxisRight().setEnabled(false);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.getXAxis().setEnabled(false);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDescription(d);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setEnabled(false);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.animateY(500);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.setScaleEnabled(false);
-            ((QuotationDetailSubHeaderViewHolder) holder).barChart.invalidate();
+                data.setBarWidth(0.15F);
 
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setData(data);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.getAxisRight().setEnabled(false);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.getXAxis().setEnabled(false);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDescription(d);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setEnabled(false);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.animateY(500);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setScaleEnabled(false);
+                ((QuotationDetailSubHeaderViewHolder) holder).barChart.invalidate();
+            }
         }else if (holder instanceof QuotationDetailSubSubHeaderViewHolder) {
 
             ((QuotationDetailSubSubHeaderViewHolder) holder).finalQuotationCount.setText(String.valueOf(quotationDetailObjectArrayList.size()));
@@ -343,7 +360,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public void onClick(View v) {
                     RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
-                    requestQuotationDialog.setInfo(valueObject.getId());
+                    requestQuotationDialog.setInfo(activity,valueObject.getId());
 
                     requestQuotationDialog.show();
                     //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " + valueObject.getId(),Toast.LENGTH_SHORT).show();
@@ -363,6 +380,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     private class RequestQuotationDialog extends Dialog {
+        private Activity activity;
 
         private int id;
         private CircleImageView image;
@@ -381,6 +399,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         private TextView feeInfo2;
         private TextView back;
         private TextView requestCounsel;
+        private ProgressBar progressBar;
 
         private String imageTmp;
         private String bankTmp;
@@ -400,21 +419,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             super(context);
         }
 
-        public void setInfo(int id){
+        public void setInfo(Activity activity,int id){
+            this.activity =activity;
             this.id = id;
-            imageTmp = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
-            bankTmp = "외환은행";
-            nameTmp = "이건준";
-            loanNameTmp = "[KB국민 주택담보 대출]";
-            finalRegisterDateTmp = "최종 등록일 : 2017.05.22";
-            loanInterestRateTmp = "3.8%";
-            interestTypeTmp = "변동금리";
-            monthlyRepayMoneyTmp = "890,000원";
-            repayTypeTmp = "원리금 균등상환";
-            interestRateInfo1Tmp = "90일 미만 : 대출 금리 + 8%";
-            interestRateInfo2Tmp = "90일 이상 : 대출 금리 + 9%(최고 연체 이자율 : 16%)";
-            feeInfo1Tmp = "조기 상환 원금 X 1.4% X [(3년 대출 경과 일 수 / 3년)]";
-            feeInfo2Tmp = "매년 대출 잔액의 10%까지 중도 상환 수수료 면제";
         }
 
         @Override
@@ -437,6 +444,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             feeInfo2 = (TextView)findViewById(R.id.feeInfo2);
             back = (TextView)findViewById(R.id.back);
             requestCounsel = (TextView)findViewById(R.id.requestCounsel);
+            progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
             Glide.with(activity)
                     .load(imageTmp)
@@ -481,6 +489,199 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 }
             });
         }
+
+        private class QuotationDetail extends AsyncTask<Void, Void, Integer> {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //시작 전에 ProgressBar를 보여주어 사용자와 interact
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+                boolean flag;
+                Response response = null;
+                OkHttpClient toServer;
+
+                JSONObject jsonObject = null;
+
+                try{
+                    toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                    Request request = new Request.Builder()
+                            .url(String.format(getResources().getString(R.string.my_quotation_detail_url),String.valueOf(id)))
+                            .get()
+                            .build();
+
+                    //동기 방식
+                    response = toServer.newCall(request).execute();
+
+                    flag = response.isSuccessful();
+
+                    String returedJSON;
+
+                    if(flag){ //성공했다면
+                        returedJSON = response.body().string();
+
+                        try {
+                            jsonObject = new JSONObject(returedJSON);
+                        }catch(JSONException jsone){
+                            Log.e("json에러", jsone.toString());
+                        }
+                    }else{
+                        return 2;
+                    }
+                }catch (UnknownHostException une) {
+                } catch (UnsupportedEncodingException uee) {
+                } catch (Exception e) {
+                } finally{
+                    if(response != null) {
+                        response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                    }
+                }
+
+                if(jsonObject != null){
+                    try {
+                        if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                            JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
+
+                            quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.getInt("request_id"),data.getString("status"),String.valueOf(data.getString("register_time")),String.valueOf(data.getString("loan_type")),String.valueOf(data.getString("region_1")),String.valueOf(data.getString("region_2")),String.valueOf(data.getString("region_3")),String.valueOf(data.getString("apt_name")),String.valueOf(data.getString("apt_size_supply") + "(" + data.getString("apt_size_exclusive") +"m2)"),data.getInt("loan_amount"),String.valueOf(data.getString("interest_rate_type")),String.valueOf(data.getString("scheduled_time")),String.valueOf(data.getString("job_type")),String.valueOf(data.getString("register_number")));
+                            return 0;
+                        }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                            return 1;
+                        }else{
+                            return 3;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    return 4;
+                }
+
+                return 5;
+            }
+
+            @Override
+            protected void onPostExecute(Integer result) {
+                if(result == 0 || result == 1){
+                    if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
+                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                    }else{
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_COMMENT,quotationDetailHeaderObject);
+                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                    }
+
+                    new QuotationDetailActivity.QuotationFeedback().execute();
+                }else{
+                    new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
+                }
+
+
+
+                progressBar.setVisibility(View.GONE);
+            }
+        }
+
+        private class MainAsyncTask4 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //시작 전에 ProgressBar를 보여주어 사용자와 interact
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected ArrayList doInBackground(Void... params) {
+                boolean flag1;
+                Response response1 = null;
+
+                OkHttpClient toServer1;
+
+
+                JSONObject jsonObject1 = null;
+
+                try{
+                    toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
+
+                    Request request1 = new Request.Builder()
+                            .url(String.format(getResources().getString(R.string.quotation_detail_counselor_feedback_url),"1"))
+                            .get()
+                            .build();
+
+                    //동기 방식
+                    response1 = toServer1.newCall(request1).execute();
+
+                    flag1 = response1.isSuccessful();
+
+                    String returedJSON1;
+
+                    if(flag1){ //성공했다면
+                        returedJSON1 = response1.body().string();
+
+                        try {
+                            jsonObject1 = new JSONObject(returedJSON1);
+                        }catch(JSONException jsone){
+                            Log.e("json에러", jsone.toString());
+                        }
+                    }else{
+                        return  null;
+                    }
+                }catch (UnknownHostException une) {
+                } catch (UnsupportedEncodingException uee) {
+                } catch (Exception e) {
+                } finally{
+                    if(response1 != null) {
+                        response1.close(); //3.* 이상에서는 반드시 닫아 준다.
+                    }
+                }
+
+                if(jsonObject1 != null){
+                    try {
+                        if(jsonObject1.get("msg").equals("success")){
+                            JSONArray data1= jsonObject1.getJSONArray("data");
+                            ArrayList<JSONArray> tmp = new ArrayList();
+                            tmp.add(data1);
+                            return tmp;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<JSONArray> result) {
+                //RecyclerView에 해더 및 아이템 추가
+                //addHeaders();
+                //addItems();
+
+                if(result == null){
+                    new WebHook().execute("안옴");
+                }else{
+
+                    new WebHook().execute("내 견적 상담 피드백 리스트");
+                    for(int i = 0 ; i < result.get(0).length(); i++){
+                        try {
+                            new WebHook().execute("5           " + i + "                   " + String.valueOf(result.get(0).get(i)));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
+                progressBar.setVisibility(View.GONE);
+                refreshLayout.setEnabled(true);
+            }
+        }
+
     }
 
     private class WriteCommentDialog extends Dialog {

@@ -1,288 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="328dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
-
+    android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:orientation="horizontal"
-        android:paddingBottom="21dp"
-        android:paddingTop="21dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:background="@color/progress">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/image"
-            android:layout_gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="126dp"
-            android:layout_height="30dp"
-            android:orientation="vertical"
-            android:layout_marginBottom="9dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginStart="10dp">
-
-            <TextView
-                android:id="@+id/bank"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/small"
-                android:layout_gravity="center_vertical"/>
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/small"
-                android:layout_gravity="center_vertical"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/goCounselor"
-            android:layout_width="96dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="9dp"
-            android:layout_marginTop="9dp"
-            android:textSize="@dimen/medium"
-            android:textColor="@color/progress"
-            android:background="@drawable/round_button_white"
-            android:gravity="center"
-            android:text="@string/go_counselor"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/loanName"
-        android:layout_width="296dp"
-        android:layout_height="48dp"
-        android:textColor="@color/pointTypo"
-        android:textSize="@dimen/medium"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"/>
-
-    <TextView
-        android:id="@+id/finalRegisterDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/subNormal"
-        android:textSize="@dimen/small"
-        android:layout_gravity="end"
-        android:layout_marginEnd="16dp"
-        android:gravity="end"/>
-
-    <LinearLayout
-        android:layout_width="296dp"
-        android:layout_height="120dp"
         android:orientation="vertical"
-        android:background="@color/basement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:paddingStart="12dp"
-            android:paddingBottom="6dp">
+            android:paddingBottom="21dp"
+            android:paddingTop="21dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:background="@color/progress">
 
-            <RelativeLayout
-                android:layout_width="148dp"
-                android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/image"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="126dp"
+                android:layout_height="30dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/bank"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/subNormal"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/small"
-                    android:text="@string/loan_interest_rate"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"/>
+                    android:layout_gravity="center_vertical"/>
 
                 <TextView
-                    android:id="@+id/loanInterestRate"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/progress"
-                    android:textSize="@dimen/medium"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="148dp"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/subNormal"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/small"
-                    android:text="@string/interest_type"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"/>
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/interestType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/normalTypo"
-                    android:textSize="@dimen/medium"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"/>
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/goCounselor"
+                android:layout_width="96dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="9dp"
+                android:textSize="@dimen/medium"
+                android:textColor="@color/progress"
+                android:background="@drawable/round_button_white"
+                android:gravity="center"
+                android:text="@string/go_counselor"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/loanName"
+            android:layout_width="296dp"
+            android:layout_height="48dp"
+            android:textColor="@color/pointTypo"
+            android:textSize="@dimen/medium"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/finalRegisterDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/subNormal"
+            android:textSize="@dimen/small"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:gravity="end"/>
+
+        <LinearLayout
+            android:layout_width="296dp"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:background="@color/basement"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                android:paddingStart="12dp"
+                android:paddingBottom="6dp">
+
+                <RelativeLayout
+                    android:layout_width="148dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small"
+                        android:text="@string/loan_interest_rate"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"/>
+
+                    <TextView
+                        android:id="@+id/loanInterestRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/progress"
+                        android:textSize="@dimen/medium"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="148dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small"
+                        android:text="@string/interest_type"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"/>
+
+                    <TextView
+                        android:id="@+id/interestType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/normalTypo"
+                        android:textSize="@dimen/medium"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:paddingTop="16dp"
+                android:paddingStart="12dp"
+                android:paddingBottom="6dp">
+
+
+                <RelativeLayout
+                    android:layout_width="148dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small"
+                        android:text="@string/monthly_repay_money"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"/>
+
+                    <TextView
+                        android:id="@+id/monthlyRepayMoney"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/normalTypo"
+                        android:textSize="@dimen/medium"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="148dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/small"
+                        android:text="@string/repay_type"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"/>
+
+                    <TextView
+                        android:id="@+id/repayType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/normalTypo"
+                        android:textSize="@dimen/medium"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"/>
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:paddingStart="12dp"
-            android:paddingBottom="6dp">
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp">
 
 
-            <RelativeLayout
-                android:layout_width="148dp"
-                android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normalTypo"
+                android:textSize="@dimen/tiny"
+                android:text="연체 이자율"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/subNormal"
-                    android:textSize="@dimen/small"
-                    android:text="@string/monthly_repay_money"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"/>
+            <TextView
+                android:id="@+id/interestRateInfo1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normalTypo"
+                android:textSize="@dimen/small"/>
 
-                <TextView
-                    android:id="@+id/monthlyRepayMoney"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/normalTypo"
-                    android:textSize="@dimen/medium"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="148dp"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/subNormal"
-                    android:textSize="@dimen/small"
-                    android:text="@string/repay_type"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"/>
-
-                <TextView
-                    android:id="@+id/repayType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/normalTypo"
-                    android:textSize="@dimen/medium"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"/>
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/interestRateInfo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normalTypo"
+                android:textSize="@dimen/small"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normalTypo"
+                android:textSize="@dimen/tiny"
+                android:text="중도 상환 수수료"/>
+
+            <TextView
+                android:id="@+id/feeInfo1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normalTypo"
+                android:textSize="@dimen/small"/>
+
+            <TextView
+                android:id="@+id/feeInfo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normalTypo"
+                android:textSize="@dimen/small"/>
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/back"
+                android:textColor="@color/pointTypo"
+                android:textSize="@dimen/medium" />
+
+            <TextView
+                android:id="@+id/requestCounsel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/request_counsel"
+                android:textColor="@color/progress"
+                android:textSize="@dimen/medium" />
+        </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="280dp"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp">
-
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/normalTypo"
-            android:textSize="@dimen/tiny"
-            android:text="연체 이자율"/>
-
-        <TextView
-            android:id="@+id/interestRateInfo1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/normalTypo"
-            android:textSize="@dimen/small"/>
-
-        <TextView
-            android:id="@+id/interestRateInfo2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/normalTypo"
-            android:textSize="@dimen/small"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/normalTypo"
-            android:textSize="@dimen/tiny"
-            android:text="중도 상환 수수료"/>
-
-        <TextView
-            android:id="@+id/feeInfo1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/normalTypo"
-            android:textSize="@dimen/small"/>
-
-        <TextView
-            android:id="@+id/feeInfo2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/normalTypo"
-            android:textSize="@dimen/small"/>
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp">
-
-        <TextView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/back"
-            android:textColor="@color/pointTypo"
-            android:textSize="@dimen/medium" />
-
-        <TextView
-            android:id="@+id/requestCounsel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@string/request_counsel"
-            android:textColor="@color/progress"
-            android:textSize="@dimen/medium" />
-    </RelativeLayout>
-</LinearLayout>
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/progress" />
+</FrameLayout>

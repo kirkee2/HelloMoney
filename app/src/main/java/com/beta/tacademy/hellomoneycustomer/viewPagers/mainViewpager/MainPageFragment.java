@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,15 +73,32 @@ public class MainPageFragment extends Fragment {
 
 
         currentQuotation.setText(String.valueOf(mainPageViewPagerObject.getCurrentQuotation()));
-        leftTime.setText("마감까지 " + mainPageViewPagerObject.getLeftTime() + " 남았습니다.");
 
         if(mainPageViewPagerObject.getOngoingStatus().equals("견적접수중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_interection_waiting));
-        }else if(mainPageViewPagerObject.getOngoingStatus().equals("선택대기중") || mainPageViewPagerObject.getOngoingStatus().equals("상담중") || mainPageViewPagerObject.getOngoingStatus().equals("심사중") || mainPageViewPagerObject.getOngoingStatus().equals("승인완료")){
+            leftTime.setText("마감까지 " + mainPageViewPagerObject.getLeftTime() + " 남았습니다.");
+        }else if(mainPageViewPagerObject.getOngoingStatus().equals("선택대기중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
+            leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
+            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + "입니다.");
+        }else if(mainPageViewPagerObject.getOngoingStatus().equals("상담중")){
+            linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
+            leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
+            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + "입니다.");
+        }else if(mainPageViewPagerObject.getOngoingStatus().equals("심사중")){
+            linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
+            leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
+            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + "입니다.");
+        }else if(mainPageViewPagerObject.getOngoingStatus().equals("승인완료")){
+            linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
+            leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
+            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + " 되었습니다.");
         }else{
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_done));
+            leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
+            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + " 되었습니다.");
         }
+
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
