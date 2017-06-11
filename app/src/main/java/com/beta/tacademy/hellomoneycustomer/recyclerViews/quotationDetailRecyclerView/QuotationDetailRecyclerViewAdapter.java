@@ -396,8 +396,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public void onClick(View v) {
                     RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
-                    requestQuotationDialog.setInfo(activity,valueObject.getId());
+                    requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId());
 
+                    new WebHook().execute("estimateId = "+ valueObject.getId()  + "를 선택하셨습니다.");
                     requestQuotationDialog.show();
                 }
             });
@@ -417,7 +418,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     private class RequestQuotationDialog extends Dialog {
         private Activity activity;
 
-        private int id;
+        private int requestId;
+        private int estimateId;
         private CircleImageView image;
         private TextView bank;
         private TextView name;
@@ -460,9 +462,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             super(context);
         }
 
-        public void setInfo(Activity activity,int id){
+        public void setInfo(Activity activity,int requestId,int estimateId){
             this.activity =activity;
-            this.id = id;
+            this.requestId = requestId;
+            this.estimateId = estimateId;
         }
 
         @Override
@@ -507,7 +510,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             requestCounsel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(),"id = "+ id +" 를 선택하셨습니다.",Toast.LENGTH_SHORT).show();
+                    new WebHook().execute("requestId = "+ requestId +  "estimateId = "+ estimateId  + "를 선택하셨습니다.");
+                    new RequestCounsel().execute();
                 }
             });
 
@@ -534,7 +538,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                     Request request = new Request.Builder()
-                            .url(String.format(activity.getResources().getString(R.string.my_quotation_detail_url),String.valueOf(id)))
+                            .url(String.format(activity.getResources().getString(R.string.my_quotation_detail_url),String.valueOf(estimateId)))
                             .get()
                             .build();
 
@@ -642,11 +646,120 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 progressBar.setVisibility(View.GONE);
             }
         }
+
+        private class RequestCounsel extends AsyncTask<Void, Void, Integer>{
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //시작 전에 ProgressBar를 보여주어 사용자와 interact
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+                boolean flag;
+                Response response = null;
+
+                OkHttpClient toServer;
+
+
+                JSONObject jsonObject = null;
+
+                try{
+                    toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                    RequestBody postBody = new FormBody.Builder()
+                            .add("selectedEstimateId",String.valueOf(estimateId))
+                            .add("status","상담중")
+                            .build();
+
+                    Request request1 = new Request.Builder()
+                            .url(String.format(activity.getResources().getString(R.string.request_counsel_url),String.valueOf(requestId)))
+                            .put(postBody)
+                            .build();
+
+                    //동기 방식
+                    response = toServer.newCall(request1).execute();
+
+                    flag = response.isSuccessful();
+
+                    String returedJSON1;
+
+                    if(flag){ //성공했다면
+                        returedJSON1 = response.body().string();
+
+                        try {
+                            jsonObject = new JSONObject(returedJSON1);
+                        }catch(JSONException jsone){
+                            Log.e("json에러", jsone.toString());
+                        }
+                    }else{
+                        return 2;
+                    }
+                }catch (UnknownHostException une) {
+                } catch (UnsupportedEncodingException uee) {
+                } catch (Exception e) {
+                } finally{
+                    if(response != null) {
+                        response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                    }
+                }
+
+                if(jsonObject != null){
+                    try {
+                        if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_success))){
+                            JSONObject data= jsonObject.getJSONObject(activity.getResources().getString(R.string.url_data));
+
+                            agentId = data.getString("agent_id");
+                            imageInfo = data.getString("photo");
+                            bankInfo = data.getString("item_bank");
+                            nameInfo = data.getString("name");
+                            loanNameInfo = data.getString("item_name");
+                            finalRegisterDateInfo = data.getString("register_time");
+                            loanInterestRateInfo = data.getString("interest_rate");
+                            interestTypeInfo = data.getString("interest_rate_type");
+                            monthlyRepayMoneyInfo = data.getInt("repayment_amount_per_month");
+                            repayTypeInfo = data.getString("repayment_type");
+                            interestRateInfo1Info = String.valueOf(data.getInt("overdue_interest_rate_1"));
+                            interestRateInfo2Info = String.valueOf(data.getInt("overdue_inertest_rate_2"));
+                            interestRateInfo3Info = String.valueOf(data.getInt("overdue_inertest_rate_3"));
+                            overDueInfo1 = data.getString("overdue_time_1");
+                            overDueInfo2 = data.getString("overdue_time_2");
+                            overDueInfo3 = data.getString("overdue_time_3");
+                            feeInfo1Info = "조기 상환 원금 X 1.4% X [(3년 대출 경과 일 수/ 3년)]";
+                            feeInfo2Info = "매년 대출 잔액의 10%까지 중도 상환 수수료 면제";
+
+                            return 0;
+                        }else if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_no_data))){
+                            return 1;
+                        }else{
+                            return 3;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return 5;
+                    }
+                }else{
+                    return 4;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Integer result) {
+                if(result == 0){
+                    new WebHook().execute("상담 신청하기 성공");
+                }else{
+                    new WebHook().execute("안옴 result == " + result);
+                }
+
+                progressBar.setVisibility(View.GONE);
+            }
+        }
     }
 
     private class WriteCommentDialog extends Dialog {
 
-        private int id;
+        private int requestId;
         private Activity activity;
         private CircleImageView image;
         private TextView bank;
@@ -665,9 +778,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             super(context);
         }
 
-        public void setInfo(Activity activity,int id){
+        public void setInfo(Activity activity,int requestId){
             this.activity =activity;
-            this.id = id;
+            this.requestId = requestId;
             imageTmp = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
             bankTmp = "외환은행";
             nameTmp = "이건준";
@@ -704,7 +817,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        Toast.makeText(getContext(),"id = "+ id +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"id = "+ requestId +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
                         return true;
                     }
                     return false;
@@ -724,7 +837,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public void afterTextChanged(Editable s) {
                     if(comment.getText().length() >= 100){
-                        Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"100자 이상은 작성하실 수 없습니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"100자 이상은 작성하실 수 없습니다.",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -739,13 +852,13 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             writeComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new MainAsyncTask6().execute();
-                    Toast.makeText(getContext(),"id = "+ id +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
+                    new WritePostScript().execute();
                 }
             });
         }
 
-        private class MainAsyncTask6 extends AsyncTask<Void, Void, Integer>{
+        //// api 안됨.
+        private class WritePostScript extends AsyncTask<Void, Void, Integer>{
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();

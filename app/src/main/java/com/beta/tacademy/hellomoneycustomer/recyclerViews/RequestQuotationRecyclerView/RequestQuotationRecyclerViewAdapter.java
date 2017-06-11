@@ -52,8 +52,13 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
         previousStep = 0;
     }
 
+    public void addItem(RequestQuotationValueObject requestQuotationValueObject){
+        this.requestQuotationValueObjectArrayList.add(requestQuotationValueObject);
+        notifyDataSetChanged();
+    }
     public void initItem(ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList){
         this.requestQuotationValueObjectArrayList = requestQuotationValueObjectArrayList;
+        notifyDataSetChanged();
     }
 
     @Override

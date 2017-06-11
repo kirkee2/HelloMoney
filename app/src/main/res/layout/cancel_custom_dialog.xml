@@ -3,44 +3,75 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearLayout"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:padding="24dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:textSize="@dimen/large"
+        android:textSize="@dimen/medium"
         android:textColor="@color/pointTypo"
-        android:text="정말 취소하시겠습니까??" />
+        android:text="작성이 취소됩니다." />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="100">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textSize="@dimen/medium"
+        android:textColor="@color/normalTypo"
+        android:text="지금 이 창을 벗어나면 견적"/>
 
-        <Button
-            android:id="@+id/no"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="50"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="#afffa4a4"
-            android:text="아니오" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/medium"
+        android:textColor="@color/normalTypo"
+        android:text="요청서의 작성이 취소됩니다."/>
 
-        <Button
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/medium"
+        android:textColor="@color/normalTypo"
+        android:text="(작성하신 내용은 저장돠지 않습니다.)"/>
+
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textSize="@dimen/medium"
+        android:textColor="@color/pointTypo"
+        android:text="정말 취소하시겠습니까?" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp">
+
+
+        <TextView
             android:id="@+id/yes"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="#af8e7dff"
-            android:text="네" />
-    </LinearLayout>
+            android:textSize="@dimen/medium"
+            android:layout_toLeftOf="@+id/no"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/pointTypo"
+            android:text="네, 취소합니다." />
+        <TextView
+            android:id="@id/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/medium"
+            android:textColor="@color/progress"
+            android:layout_alignParentEnd="true"
+            android:text="아니요." />
+    </RelativeLayout>
 </LinearLayout>

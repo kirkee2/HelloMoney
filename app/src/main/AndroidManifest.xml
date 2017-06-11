@@ -66,7 +66,8 @@
             android:name=".activity.FAQActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.ContactActivity" />
-        <activity android:name=".activity.KakaoWebViewActivity"></activity>
+        <activity android:name=".activity.KakaoWebViewActivity" />
+        <activity android:name=".activity.SelectRegionAptSizeActivity"></activity>
     </application>
 
 </manifest>

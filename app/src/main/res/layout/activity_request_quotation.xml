@@ -67,10 +67,10 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
                 android:weightSum="100"
-                android:background="@color/white"
-                android:visibility="gone">
+                android:background="@color/white">
 
                 <TextView
+                    android:id="@+id/step1Text1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="50"
@@ -82,6 +82,7 @@
                     android:text="@string/loan_type_1"/>
 
                 <TextView
+                    android:id="@+id/step1Text2"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="50"
@@ -106,6 +107,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/step2Text"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="100"
@@ -126,10 +128,11 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
                 android:weightSum="100"
-                android:visibility="gone"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <EditText
+                    android:id="@+id/step3Text"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="100"
@@ -141,6 +144,7 @@
                     android:hint="@string/write_price"/>
 
                 <Button
+                    android:id="@+id/step3Button"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
@@ -171,6 +175,7 @@
                     android:weightSum="100"
                     android:layout_marginBottom="8dp">
                     <TextView
+                        android:id="@+id/step4Text1"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="50"
@@ -179,9 +184,10 @@
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
                         android:layout_marginEnd="4dp"
-                        android:text="@string/loan_type_1"/>
+                        android:text="변동금리"/>
 
                     <TextView
+                        android:id="@+id/step4Text2"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="50"
@@ -189,7 +195,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
-                        android:text="@string/loan_type_1"/>
+                        android:text="고정금리"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -198,6 +204,7 @@
                     android:orientation="horizontal"
                     android:weightSum="100">
                     <TextView
+                        android:id="@+id/step4Text3"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="50"
@@ -206,7 +213,7 @@
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
                         android:layout_marginEnd="4dp"
-                        android:text="@string/loan_type_1"/>
+                        android:text="없음"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -220,8 +227,8 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
                 android:weightSum="100"
-                android:visibility="gone"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <EditText
                     android:layout_width="0dp"
@@ -254,7 +261,8 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
                 android:weightSum="100"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -263,6 +271,7 @@
                     android:layout_marginBottom="8dp"
                     android:weightSum="100">
                     <TextView
+                        android:id="@+id/step6Text1"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="50"
@@ -271,9 +280,10 @@
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
                         android:layout_marginEnd="4dp"
-                        android:text="@string/loan_type_1"/>
+                        android:text="직장근로자"/>
 
                     <TextView
+                        android:id="@+id/step6Text2"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="50"
@@ -281,7 +291,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
-                        android:text="@string/loan_type_1"/>
+                        android:text="개인사업자"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -290,6 +300,7 @@
                     android:orientation="horizontal"
                     android:weightSum="100">
                     <TextView
+                        android:id="@+id/step6Text3"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="50"
@@ -298,7 +309,7 @@
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
                         android:layout_marginEnd="4dp"
-                        android:text="@string/loan_type_1"/>
+                        android:text="프리랜서"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -312,10 +323,11 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
                 android:weightSum="100"
-                android:visibility="gone"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <EditText
+                    android:id="@+id/step7Text"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="100"
@@ -324,9 +336,10 @@
                     android:background="@color/white"
                     android:layout_marginEnd="4dp"
                     android:textColorHint="#e0e0e0"
-                    android:hint="@string/write_price"/>
+                    android:hint="전화번호를 입력해주세요."/>
 
                 <Button
+                    android:id="@+id/step7Button"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
