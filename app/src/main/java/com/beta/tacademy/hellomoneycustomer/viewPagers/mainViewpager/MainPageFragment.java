@@ -53,8 +53,6 @@ public class MainPageFragment extends Fragment {
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,7 +68,6 @@ public class MainPageFragment extends Fragment {
         region.setText(mainPageViewPagerObject.getRegion1() + " " + mainPageViewPagerObject.getRegion2() + " " +  mainPageViewPagerObject.getRegion3());
         aptSize.setText(mainPageViewPagerObject.getApt() + " / " + mainPageViewPagerObject.getSize());
         type.setText(mainPageViewPagerObject.getType());
-
 
         currentQuotation.setText(String.valueOf(mainPageViewPagerObject.getCurrentQuotation()));
 

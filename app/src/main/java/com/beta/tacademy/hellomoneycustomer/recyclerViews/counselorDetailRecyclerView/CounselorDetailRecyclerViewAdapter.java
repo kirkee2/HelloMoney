@@ -143,14 +143,23 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((CounselorDetailViewHolder) holder).pastTime.setText(valueObject.getPastTime());
             ((CounselorDetailViewHolder) holder).content.setText(valueObject.getContent());
 
-            String benefitString = "+ " + valueObject.getBenefit() + "만원 대출 조건 보기";
-            final String tmp = valueObject.getBenefit() + "";
-            SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
+            if( valueObject.getBenefit() < 0){
+                String benefitString = valueObject.getBenefit() + "만원 대출 조건 보기";
+                final String tmp = valueObject.getBenefit() + "";
+                SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
 
-            builder.setSpan(new ForegroundColorSpan(ResourcesCompat.getColor(HelloMoneyCustomerApplication.getInstance().getResources(),R.color.colorPrimaryDark,null)), 0, tmp.length()+4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            //builder.setSpan(new AbsoluteSizeSpan(20,true), 0, textsize, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new ForegroundColorSpan(ResourcesCompat.getColor(activity.getResources(),R.color.colorAccent,null)), 0, tmp.length()+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            ((CounselorDetailViewHolder) holder).benefit.setText(builder);
+                ((CounselorDetailViewHolder) holder).benefit.setText(builder);
+            }else{
+                String benefitString = "+" + valueObject.getBenefit() + "만원 대출 조건 보기";
+                final String tmp = "+"+valueObject.getBenefit() + "";
+                SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
+
+                builder.setSpan(new ForegroundColorSpan(ResourcesCompat.getColor(activity.getResources(),R.color.colorPrimaryDark,null)), 0, tmp.length()+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                ((CounselorDetailViewHolder) holder).benefit.setText(builder);
+            }
 
             ((CounselorDetailViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener(){
                 @Override

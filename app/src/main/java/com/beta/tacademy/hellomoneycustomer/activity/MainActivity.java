@@ -158,15 +158,6 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setLayoutManager(linearLayoutManager);
 
         new MyQuotationList().execute();
-        //new MainAsyncTask().execute();
-        //new MainAsyncTask2().execute(); //
-        //new MainAsyncTask3().execute(); //
-        //new MainAsyncTask4().execute(); //상세보기
-        //new MainAsyncTask5().execute();//상담 요청
-        //new MainAsyncTask6().execute(); //후기작성
-        //new MainAsyncTask7().execute();
-        //new MainAsyncTask8().execute();
-        //new MainAsyncTask9().execute();
     }
 
     @Override
@@ -252,7 +243,7 @@ public class MainActivity extends AppCompatActivity{
                         for(int i = 0 ; i < data.length(); i++){
                             try {
                                 JSONObject jsonData = (JSONObject)data.get(i);
-                                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject((int)jsonData.get("request_id"),String.valueOf(jsonData.get("status")),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("end_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),String.valueOf(jsonData.get("apt_size_supply") + "(" + jsonData.get("apt_size_exclusive") +"m2)"),(int)jsonData.get("estimate_count")));
+                                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject(jsonData.getInt("request_id"),jsonData.getString("status"),jsonData.getString("loan_type"),jsonData.getString("end_time"),jsonData.getString("region_1"),jsonData.getString("region_2"),jsonData.getString("region_3"),jsonData.getString("apt_name"),jsonData.getString("apt_size_supply") + "(" + jsonData.getString("apt_size_exclusive") +"m2)",jsonData.getInt("estimate_count")));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -424,7 +415,7 @@ public class MainActivity extends AppCompatActivity{
                         for(int i = 0 ; i < data.length(); i++){
                             try {
                                 JSONObject jsonData = (JSONObject)data.get(i);
-                                mainValueObjectArrayList.add(new MainValueObject((int)jsonData.get("review_id"),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("register_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),(int)jsonData.get("score"),String.valueOf(jsonData.get("content")),(double)jsonData.get("benefit")));
+                                mainValueObjectArrayList.add(new MainValueObject((int)jsonData.get("review_id"),jsonData.getString("loan_type"),jsonData.getString("register_time"),jsonData.getString("region_1"),jsonData.getString("region_2"),jsonData.getString("region_3"),jsonData.getString("apt_name"),jsonData.getInt("score"),jsonData.getString("content"),jsonData.getDouble("benefit")));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

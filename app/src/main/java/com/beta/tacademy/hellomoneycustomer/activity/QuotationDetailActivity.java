@@ -158,7 +158,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
                         JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
 
-                        quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.getInt("request_id"),data.getString("status"),String.valueOf(data.getString("register_time")),String.valueOf(data.getString("loan_type")),String.valueOf(data.getString("region_1")),String.valueOf(data.getString("region_2")),String.valueOf(data.getString("region_3")),String.valueOf(data.getString("apt_name")),String.valueOf(data.getString("apt_size_supply") + "(" + data.getString("apt_size_exclusive") +"m2)"),data.getInt("loan_amount"),String.valueOf(data.getString("interest_rate_type")),String.valueOf(data.getString("scheduled_time")),String.valueOf(data.getString("job_type")),String.valueOf(data.getString("register_number")));
+                        quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.getInt("request_id"),data.getString("status"),data.getString("register_time"),data.getString("loan_type"),data.getString("region_1"),data.getString("region_2"),data.getString("region_3"),data.getString("apt_name"),data.getString("apt_size_supply") + "(" + data.getString("apt_size_exclusive") +"m2)",data.getInt("loan_amount"),data.getString("interest_rate_type"),data.getString("scheduled_time"),data.getString("job_type"),data.getString("register_number"));
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
                         return 1;
@@ -182,7 +182,9 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
                     recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                 }else{
-                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_COMMENT,quotationDetailHeaderObject);
+                    //quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
+
+                    //quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_COMMENT,quotationDetailHeaderObject);
                     recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                 }
 

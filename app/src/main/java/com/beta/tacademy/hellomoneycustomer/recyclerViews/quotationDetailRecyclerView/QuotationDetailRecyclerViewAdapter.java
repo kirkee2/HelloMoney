@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -63,8 +64,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -312,8 +315,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         }else if (holder instanceof QuotationDetailSubSubSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText("마감까지 " + valueObject.getRemainTime()+ " 남았습니다.");
-
             if(valueObject.getLoanType().equals("주택담보대출")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanType.setImageResource(R.drawable.secured_loan);
             }else{
@@ -329,6 +330,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText(valueObject.getJobType());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(valueObject.getTelephone());
 
+
+            ////
             if(valueObject.getOngoingStatus().equals("견적접수중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_interection_waiting));
             }else if(valueObject.getOngoingStatus().equals("선택대기중") || valueObject.getOngoingStatus().equals("상담중") || valueObject.getOngoingStatus().equals("심사중") || valueObject.getOngoingStatus().equals("승인완료")){
@@ -336,6 +339,32 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             }else{
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_done));
             }
+
+            if(valueObject.getOngoingStatus().equals("견적접수중")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_interection_waiting));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText("마감까지 " + valueObject.getRemainTime()+ " 남았습니다.");
+            }else if(valueObject.getOngoingStatus().equals("선택대기중")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + "입니다.");
+            }else if(valueObject.getOngoingStatus().equals("상담중")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + "입니다.");
+            }else if(valueObject.getOngoingStatus().equals("심사중")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + "입니다.");
+            }else if(valueObject.getOngoingStatus().equals("승인완료")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
+            }else{
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_done));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
+            }
+            ////
         }else if (holder instanceof QuotationDetailFooterViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 
@@ -343,7 +372,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public void onClick(View v) {
                     WriteCommentDialog writeCommentDialog = new WriteCommentDialog(activity);
-                    writeCommentDialog.setInfo(valueObject.getId());
+                    writeCommentDialog.setInfo(activity,valueObject.getId());
 
                     writeCommentDialog.show();
                 }
@@ -618,6 +647,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     private class WriteCommentDialog extends Dialog {
 
         private int id;
+        private Activity activity;
         private CircleImageView image;
         private TextView bank;
         private TextView name;
@@ -625,6 +655,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         private EditText comment;
         private TextView back;
         private TextView writeComment;
+        private ProgressBar progressBar;
 
         private String imageTmp;
         private String bankTmp;
@@ -634,7 +665,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             super(context);
         }
 
-        public void setInfo(int id){
+        public void setInfo(Activity activity,int id){
+            this.activity =activity;
             this.id = id;
             imageTmp = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
             bankTmp = "외환은행";
@@ -652,6 +684,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             writeComment = (TextView)findViewById(R.id.writeComment);
             ratingBar = (RatingBar)findViewById(R.id.starRatingBar);
             comment = (EditText)findViewById(R.id.comment);
+            progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
             Glide.with(activity)
                     .load(imageTmp)
@@ -706,9 +739,104 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             writeComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    new MainAsyncTask6().execute();
                     Toast.makeText(getContext(),"id = "+ id +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+
+        private class MainAsyncTask6 extends AsyncTask<Void, Void, Integer>{
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //시작 전에 ProgressBar를 보여주어 사용자와 interact
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+                boolean flag1;
+                Response response1 = null;
+
+                OkHttpClient toServer;
+
+
+                JSONObject jsonObject1 = null;
+
+                try{
+                    toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                    RequestBody postBody = new FormBody.Builder()
+                            .add("requestId","1")
+                            .add("content","하하")
+                            .add("score","4.5")
+                            .build();
+
+                    Request request1 = new Request.Builder()
+                            .url(activity.getResources().getString(R.string.write_post_script_url))
+                            .put(postBody)
+                            .build();
+
+                    //동기 방식
+                    response1 = toServer.newCall(request1).execute();
+
+                    flag1 = response1.isSuccessful();
+
+                    String returedJSON1;
+
+                    if(flag1){ //성공했다면
+                        returedJSON1 = response1.body().string();
+
+                        try {
+                            jsonObject1 = new JSONObject(returedJSON1);
+                        }catch(JSONException jsone){
+                            Log.e("json에러", jsone.toString());
+                        }
+                    }else{
+                        return 100;
+                    }
+                }catch (UnknownHostException une) {
+                } catch (UnsupportedEncodingException uee) {
+                } catch (Exception e) {
+                } finally{
+                    if(response1 != null) {
+                        response1.close(); //3.* 이상에서는 반드시 닫아 준다.
+                    }
+                }
+
+                if(jsonObject1 != null){
+                    try {
+                        if(jsonObject1.get("msg").equals("success")){
+                            //JSONArray data1= jsonObject1.getJSONArray("data");
+                            //ArrayList<JSONArray> tmp = new ArrayList();
+                            //tmp.add(data1);
+                            return 1;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    return 200;
+                }
+
+                return 0;
+            }
+
+            @Override
+            protected void onPostExecute(Integer result) {
+                //RecyclerView에 해더 및 아이템 추가
+                //addHeaders();
+                //addItems();
+
+                if(result == 0){
+                    new WebHook().execute("안옴");
+                }else{
+                    new WebHook().execute("result == " + result);
+                }
+
+                //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
+                progressBar.setVisibility(View.GONE);
+            }
         }
     }
 }

@@ -58,10 +58,6 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void updateImage(){
-        notifyDataSetChanged(); //데이터 변경 사실 알림
-    }
-
     public MainRecyclerViewAdapter(Activity activity,FragmentManager fragmentManager,int type){
         //변수 초기화
         this.type = type;

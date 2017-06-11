@@ -52,10 +52,6 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
         previousStep = 0;
     }
 
-    public void addItem(RequestQuotationValueObject requestQuotationValueObject){
-        requestQuotationValueObjectArrayList.add(requestQuotationValueObject); //아이템 추가
-    }
-
     public void initItem(ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList){
         this.requestQuotationValueObjectArrayList = requestQuotationValueObjectArrayList;
     }
