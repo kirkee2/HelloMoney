@@ -34,8 +34,9 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     private CounselorDetailHeaderObject counselorDetailHeaderObject;
     private ArrayList<MainValueObject> mainValueObjectArrayList;
 
-    public void addItem(MainValueObject mainValueObject){
-        mainValueObjectArrayList.add(mainValueObject); //아이템 추가
+    public void initItem(ArrayList<MainValueObject> mainValueObjectArrayList){
+        this.mainValueObjectArrayList = mainValueObjectArrayList; //아이템 추가
+        notifyDataSetChanged();
     }
 
     public CounselorDetailRecyclerViewAdapter(Activity activity,CounselorDetailHeaderObject counselorDetailHeaderObject){

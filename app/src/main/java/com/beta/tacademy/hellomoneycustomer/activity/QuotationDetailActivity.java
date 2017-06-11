@@ -191,8 +191,6 @@ public class QuotationDetailActivity extends AppCompatActivity {
                 new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
 
-
-
             progressBar.setVisibility(View.GONE);
         }
     }

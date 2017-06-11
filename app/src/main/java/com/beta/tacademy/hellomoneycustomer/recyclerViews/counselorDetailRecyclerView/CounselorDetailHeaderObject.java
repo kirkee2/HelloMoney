@@ -5,13 +5,13 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecycl
  */
 
 public class CounselorDetailHeaderObject {
-    private int counselorId;
+    private String counselorId;
     private String imageUrl;
     private String bank;
     private String name;
     private String introductionMent;
 
-    public CounselorDetailHeaderObject(int counselorId, String imageUrl, String bank, String name, String introductionMent) {
+    public CounselorDetailHeaderObject(String counselorId, String imageUrl, String bank, String name, String introductionMent) {
         this.counselorId = counselorId;
         this.imageUrl = imageUrl;
         this.bank = bank;
@@ -19,11 +19,11 @@ public class CounselorDetailHeaderObject {
         this.introductionMent = introductionMent;
     }
 
-    public int getCounselorId() {
+    public String getCounselorId() {
         return counselorId;
     }
 
-    public void setCounselorId(int counselorId) {
+    public void setCounselorId(String counselorId) {
         this.counselorId = counselorId;
     }
 

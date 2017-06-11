@@ -229,6 +229,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/normalTypo"
                 android:textSize="@dimen/small"/>
+
+            <TextView
+                android:id="@+id/interestRateInfo3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/normalTypo"
+                android:textSize="@dimen/small"/>
         </LinearLayout>
 
         <LinearLayout

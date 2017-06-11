@@ -45,6 +45,7 @@ import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerVie
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -55,7 +56,11 @@ import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.OkHttpClient;
@@ -249,9 +254,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             int minIndex = 0;
             for(int i = 0 ; i <quotationDetailObjectArrayList.size() ; i++){
                 if(quotationDetailObjectArrayList.get(i).getInterestRate() < min){
-                    min = (float) quotationDetailObjectArrayList.get(i).getInterestRate();
+                    min = (float)quotationDetailObjectArrayList.get(i).getInterestRate();
                     minIndex = i;
                 }
+
+                //Toast.makeText(activity,"asdasdsd id = "+ (float)quotationDetailObjectArrayList.get(i).getInterestRate()+" 를 선택하셨습니다.",Toast.LENGTH_SHORT).show();
                 entries.add(new BarEntry(i*0.5F,(float)quotationDetailObjectArrayList.get(i).getInterestRate()));
             }
 
@@ -363,7 +370,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     requestQuotationDialog.setInfo(activity,valueObject.getId());
 
                     requestQuotationDialog.show();
-                    //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " + valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -395,25 +401,31 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         private TextView repayType;
         private TextView interestRateInfo1;
         private TextView interestRateInfo2;
+        private TextView interestRateInfo3;
         private TextView feeInfo1;
         private TextView feeInfo2;
         private TextView back;
         private TextView requestCounsel;
         private ProgressBar progressBar;
 
-        private String imageTmp;
-        private String bankTmp;
-        private String nameTmp;
-        private String loanNameTmp;
-        private String finalRegisterDateTmp;
-        private String loanInterestRateTmp;
-        private String interestTypeTmp;
-        private String monthlyRepayMoneyTmp;
-        private String repayTypeTmp;
-        private String interestRateInfo1Tmp;
-        private String interestRateInfo2Tmp;
-        private String feeInfo1Tmp;
-        private String feeInfo2Tmp;
+        private String agentId;
+        private String imageInfo;
+        private String bankInfo;
+        private String nameInfo;
+        private String loanNameInfo;
+        private String finalRegisterDateInfo;
+        private String overDueInfo1;
+        private String overDueInfo2;
+        private String overDueInfo3;
+        private String loanInterestRateInfo;
+        private String interestTypeInfo;
+        private int monthlyRepayMoneyInfo;
+        private String repayTypeInfo;
+        private String interestRateInfo1Info;
+        private String interestRateInfo2Info;
+        private String interestRateInfo3Info;
+        private String feeInfo1Info;
+        private String feeInfo2Info;
 
         public RequestQuotationDialog(@NonNull Context context) {
             super(context);
@@ -440,38 +452,19 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             repayType = (TextView)findViewById(R.id.repayType);
             interestRateInfo1 = (TextView)findViewById(R.id.interestRateInfo1);
             interestRateInfo2 = (TextView)findViewById(R.id.interestRateInfo2);
+            interestRateInfo3 = (TextView)findViewById(R.id.interestRateInfo3);
             feeInfo1 = (TextView)findViewById(R.id.feeInfo1);
             feeInfo2 = (TextView)findViewById(R.id.feeInfo2);
             back = (TextView)findViewById(R.id.back);
             requestCounsel = (TextView)findViewById(R.id.requestCounsel);
             progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-            Glide.with(activity)
-                    .load(imageTmp)
-                    .animate(android.R.anim.slide_in_left)
-                    .placeholder(R.drawable.loading)
-                    .error(R.drawable.error)
-                    .into(image);
-
-            bank.setText(bankTmp);
-            name.setText(nameTmp);
-            loanName.setText(loanNameTmp);
-            finalRegisterDate.setText(finalRegisterDateTmp);
-            loanInterestRate.setText(loanInterestRateTmp);
-            interestType.setText(interestTypeTmp);
-            monthlyRepayMoney.setText(monthlyRepayMoneyTmp);
-            repayType.setText(repayTypeTmp);
-            interestRateInfo1.setText(interestRateInfo1Tmp);
-            interestRateInfo2.setText(interestRateInfo2Tmp);
-            feeInfo1.setText(feeInfo1Tmp);
-            feeInfo2.setText(feeInfo2Tmp);
-
             goCounselor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(),CounselorDetailActivity.class);
-                    intent.putExtra("id",id);
-                    HelloMoneyCustomerApplication.getInstance().startActivity(intent);
+                    Intent intent = new Intent(activity,CounselorDetailActivity.class);
+                    intent.putExtra("agentId",agentId);
+                    activity.startActivity(intent);
                 }
             });
 
@@ -488,6 +481,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     Toast.makeText(getContext(),"id = "+ id +" 를 선택하셨습니다.",Toast.LENGTH_SHORT).show();
                 }
             });
+
+            new QuotationDetail().execute();
         }
 
         private class QuotationDetail extends AsyncTask<Void, Void, Integer> {
@@ -510,7 +505,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                     Request request = new Request.Builder()
-                            .url(String.format(getResources().getString(R.string.my_quotation_detail_url),String.valueOf(id)))
+                            .url(String.format(activity.getResources().getString(R.string.my_quotation_detail_url),String.valueOf(id)))
                             .get()
                             .build();
 
@@ -543,145 +538,81 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
                 if(jsonObject != null){
                     try {
-                        if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
-                            JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
+                        if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_success))){
+                            JSONObject data= jsonObject.getJSONObject(activity.getResources().getString(R.string.url_data));
 
-                            quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.getInt("request_id"),data.getString("status"),String.valueOf(data.getString("register_time")),String.valueOf(data.getString("loan_type")),String.valueOf(data.getString("region_1")),String.valueOf(data.getString("region_2")),String.valueOf(data.getString("region_3")),String.valueOf(data.getString("apt_name")),String.valueOf(data.getString("apt_size_supply") + "(" + data.getString("apt_size_exclusive") +"m2)"),data.getInt("loan_amount"),String.valueOf(data.getString("interest_rate_type")),String.valueOf(data.getString("scheduled_time")),String.valueOf(data.getString("job_type")),String.valueOf(data.getString("register_number")));
+                            agentId = data.getString("agent_id");
+                            imageInfo = data.getString("photo");
+                            bankInfo = data.getString("item_bank");
+                            nameInfo = data.getString("name");
+                            loanNameInfo = data.getString("item_name");
+                            finalRegisterDateInfo = data.getString("register_time");
+                            loanInterestRateInfo = data.getString("interest_rate");
+                            interestTypeInfo = data.getString("interest_rate_type");
+                            monthlyRepayMoneyInfo = data.getInt("repayment_amount_per_month");
+                            repayTypeInfo = data.getString("repayment_type");
+                            interestRateInfo1Info = String.valueOf(data.getInt("overdue_interest_rate_1"));
+                            interestRateInfo2Info = String.valueOf(data.getInt("overdue_inertest_rate_2"));
+                            interestRateInfo3Info = String.valueOf(data.getInt("overdue_inertest_rate_3"));
+                            overDueInfo1 = data.getString("overdue_time_1");
+                            overDueInfo2 = data.getString("overdue_time_2");
+                            overDueInfo3 = data.getString("overdue_time_3");
+                            feeInfo1Info = "조기 상환 원금 X 1.4% X [(3년 대출 경과 일 수/ 3년)]";
+                            feeInfo2Info = "매년 대출 잔액의 10%까지 중도 상환 수수료 면제";
+
                             return 0;
-                        }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                        }else if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_no_data))){
                             return 1;
                         }else{
                             return 3;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        return 5;
                     }
                 }else{
                     return 4;
                 }
 
-                return 5;
             }
 
             @Override
             protected void onPostExecute(Integer result) {
                 if(result == 0 || result == 1){
-                    if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
-                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-                    }else{
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_COMMENT,quotationDetailHeaderObject);
-                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-                    }
+                    Glide.with(activity)
+                            .load(imageInfo)
+                            .animate(android.R.anim.slide_in_left)
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.error)
+                            .into(image);
 
-                    new QuotationDetailActivity.QuotationFeedback().execute();
-                }else{
-                    new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
-                }
-
-
-
-                progressBar.setVisibility(View.GONE);
-            }
-        }
-
-        private class MainAsyncTask4 extends AsyncTask<Void, Void, ArrayList<JSONArray>>{
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                //시작 전에 ProgressBar를 보여주어 사용자와 interact
-                progressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected ArrayList doInBackground(Void... params) {
-                boolean flag1;
-                Response response1 = null;
-
-                OkHttpClient toServer1;
-
-
-                JSONObject jsonObject1 = null;
-
-                try{
-                    toServer1 = OkHttpInitSingtonManager.getOkHttpClient();
-
-                    Request request1 = new Request.Builder()
-                            .url(String.format(getResources().getString(R.string.quotation_detail_counselor_feedback_url),"1"))
-                            .get()
-                            .build();
-
-                    //동기 방식
-                    response1 = toServer1.newCall(request1).execute();
-
-                    flag1 = response1.isSuccessful();
-
-                    String returedJSON1;
-
-                    if(flag1){ //성공했다면
-                        returedJSON1 = response1.body().string();
-
-                        try {
-                            jsonObject1 = new JSONObject(returedJSON1);
-                        }catch(JSONException jsone){
-                            Log.e("json에러", jsone.toString());
-                        }
-                    }else{
-                        return  null;
-                    }
-                }catch (UnknownHostException une) {
-                } catch (UnsupportedEncodingException uee) {
-                } catch (Exception e) {
-                } finally{
-                    if(response1 != null) {
-                        response1.close(); //3.* 이상에서는 반드시 닫아 준다.
-                    }
-                }
-
-                if(jsonObject1 != null){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
                     try {
-                        if(jsonObject1.get("msg").equals("success")){
-                            JSONArray data1= jsonObject1.getJSONArray("data");
-                            ArrayList<JSONArray> tmp = new ArrayList();
-                            tmp.add(data1);
-                            return tmp;
-                        }
-                    } catch (JSONException e) {
+                        Date date = sdf.parse(finalRegisterDateInfo);
+                        finalRegisterDate.setText(sdf.format(date));
+                    } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                }else{
 
+                    bank.setText(bankInfo);
+                    name.setText(nameInfo);
+                    loanName.setText("["+loanNameInfo+"]");
+                    loanInterestRate.setText(loanInterestRateInfo+"%");
+                    interestType.setText(interestTypeInfo);
+                    monthlyRepayMoney.setText(monthlyRepayMoneyInfo+"만원");
+                    repayType.setText(repayTypeInfo);
+                    interestRateInfo1.setText(overDueInfo1 + " : 대출 금리 + "+interestRateInfo1Info + "%");
+                    interestRateInfo2.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo2Info + "%");
+                    interestRateInfo3.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo3Info + "%");
+                    feeInfo1.setText(feeInfo1Info);
+                    feeInfo2.setText(feeInfo2Info);
+                }else{
+                    new WebHook().execute("QuotationDetailRecyclerViewAdapter 견적 피드백 상세 안옴 result ===== " + result);
                 }
 
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<JSONArray> result) {
-                //RecyclerView에 해더 및 아이템 추가
-                //addHeaders();
-                //addItems();
-
-                if(result == null){
-                    new WebHook().execute("안옴");
-                }else{
-
-                    new WebHook().execute("내 견적 상담 피드백 리스트");
-                    for(int i = 0 ; i < result.get(0).length(); i++){
-                        try {
-                            new WebHook().execute("5           " + i + "                   " + String.valueOf(result.get(0).get(i)));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
                 progressBar.setVisibility(View.GONE);
-                refreshLayout.setEnabled(true);
             }
         }
-
     }
 
     private class WriteCommentDialog extends Dialog {
