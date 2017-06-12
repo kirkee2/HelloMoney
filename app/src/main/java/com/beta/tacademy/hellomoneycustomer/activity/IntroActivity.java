@@ -63,6 +63,9 @@ public class IntroActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                startButton.setEnabled(false);
+                skip.setEnabled(false);
                 getPermission();
             }
         });
@@ -95,6 +98,9 @@ public class IntroActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                startButton.setEnabled(false);
+                skip.setEnabled(false);
                 getPermission();
             }
         });
@@ -107,9 +113,10 @@ public class IntroActivity extends AppCompatActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CommonClass.saveIntro();
                 CommonClass.saveUUID();
                 new IdCheck().execute();
+                CommonClass.saveIntro();
+                progressBar.setVisibility(View.INVISIBLE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
             }
@@ -269,120 +276,4 @@ public class IntroActivity extends AppCompatActivity {
             }
         }
     }
-
-    /*
-    private class IdCheckAndRegister extends AsyncTask<Void, Void, Integer> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-            boolean flag;
-            Response response = null;
-            OkHttpClient toServer;
-            String msg1 = null;
-            String msg2 = null;
-
-            try{
-                toServer = OkHttpInitSingtonManager.getOkHttpClient();
-
-                Request request = new Request.Builder()
-                        .url(getResources().getString(R.string.check_id_and_registered_id_url)+CommonClass.getUUID())
-                        .get()
-                        .build();
-                //동기 방식
-                response = toServer.newCall(request).execute();
-
-                flag = response.isSuccessful();
-                String returedJSON;
-
-                if(flag){ //성공했다면
-                    returedJSON = response.body().string();
-                    Log.e("resultJSON", returedJSON);
-                    try {
-                        JSONObject jsonObject = new JSONObject(returedJSON);
-                        msg1 = (String) jsonObject.get("msg");
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-
-                }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
-            } finally{
-                if(response != null) {
-                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
-
-            if(msg1.equals("success")){
-                return 1;
-            }else{
-                try{
-                    toServer = OkHttpInitSingtonManager.getOkHttpClient();
-
-                    RequestBody postBody = new FormBody.Builder()
-                            .add("customerId", CommonClass.getUUID())
-                            .add("fcmToken", FirebaseInstanceId.getInstance().getToken())
-                            .build();
-
-                    Request request = new Request.Builder()
-                            .url(getResources().getString(R.string.check_id_and_registered_id_url))
-                            .post(postBody)
-                            .build();
-                    //동기 방식
-                    response = toServer.newCall(request).execute();
-
-                    flag = response.isSuccessful();
-                    String returedJSON;
-                    if( flag ){ //성공했다면
-                        returedJSON = response.body().string();
-                        Log.e("resultJSON", returedJSON);
-                        try {
-                            JSONObject jsonObject = new JSONObject(returedJSON);
-                            msg2 = (String) jsonObject.get("msg");
-                        }catch(JSONException jsone){
-                            Log.e("json에러", jsone.toString());
-                        }
-                    }else{
-                    }
-                }catch (UnknownHostException une) {
-                } catch (UnsupportedEncodingException uee) {
-                } catch (Exception e) {
-                } finally{
-                    if(response != null) {
-                        response.close(); //3.* 이상에서는 반드시 닫아 준다.
-                    }
-                }
-
-                if(msg2.equals("success")){
-                    return 2;
-                }else{
-                    return 3;
-                }
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            if(result == 1){
-                Toast.makeText(IntroActivity.this,"아이디 등록 되어있음.",Toast.LENGTH_LONG).show();
-            }else if(result == 2){
-                Toast.makeText(IntroActivity.this,"아이디 등록 안되있어서 추가함.",Toast.LENGTH_LONG).show();
-            }else if(result == 3){
-                Toast.makeText(IntroActivity.this,"아이디 등록 안되있지만 추가 못함.",Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(IntroActivity.this,"에러 어딘가 걸림.",Toast.LENGTH_LONG).show();
-            }
-
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-    */
 }

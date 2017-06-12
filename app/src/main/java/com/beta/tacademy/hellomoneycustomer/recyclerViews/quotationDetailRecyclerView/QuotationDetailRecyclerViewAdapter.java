@@ -310,7 +310,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             }
 
             tmp = tmp/(double) quotationDetailObjectArrayList.size();
-            ((QuotationDetailSubSubHeaderViewHolder) holder).averageInterestRate.setText(String.valueOf(tmp)+"%");
+
+            double tmp2 = Double.parseDouble(String.format("%.1f",tmp));
+            ((QuotationDetailSubSubHeaderViewHolder) holder).averageInterestRate.setText(String.valueOf(tmp2)+"%");
 
 
         }else if (holder instanceof QuotationDetailSubSubSubHeaderViewHolder) {
@@ -325,7 +327,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " "+ valueObject.getRegion3());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).apt.setText(valueObject.getApt());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).size.setText(valueObject.getSize());
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(String.valueOf(valueObject.getLoanSum()));
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(String.valueOf(valueObject.getLoanSum())+"만원");
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).rateType.setText(valueObject.getRateType());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanDate.setText(valueObject.getLoanDate());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText(valueObject.getJobType());
@@ -647,6 +649,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     interestRateInfo3.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo3Info + "%");
                     feeInfo1.setText(feeInfo1Info);
                     feeInfo2.setText(feeInfo2Info);
+                    requestCounsel.setEnabled(true);
                 }else{
                     new WebHook().execute("QuotationDetailRecyclerViewAdapter 견적 피드백 상세 안옴 result ===== " + result);
                 }

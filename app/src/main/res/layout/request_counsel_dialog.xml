@@ -294,7 +294,8 @@
                 android:layout_alignParentEnd="true"
                 android:text="@string/request_counsel"
                 android:textColor="@color/progress"
-                android:textSize="@dimen/medium" />
+                android:textSize="@dimen/medium"
+                android:enabled="false"/>
         </RelativeLayout>
     </LinearLayout>
 
