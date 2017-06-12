@@ -51,11 +51,15 @@
     <string name="get_post_script_url">http://13.124.127.93:3000/clients/reviews?page=1&amp;count=30</string>
     <string name="my_quotation_list_url">http://13.124.127.93:3000/clients/requests/%s</string>
     <string name="quotation_detail_counselor_feedback_url">http://13.124.127.93:3000/clients/estimates?requestId=%s</string>
-    <string name="my_quotation_detail_url">http://13.124.127.93:3000/clients/estimates/%s</string>
+    <string name="my_quotation_detail_url">http://13.124.127.93:3000/clients/requests/%s</string>
+    <string name="my_quotation_feedback_detail_url">http://13.124.127.93:3000/clients/estimates/%s</string>
     <string name="request_counsel_url">http://13.124.127.93:3000/clients/requests/%s</string>
     <string name="write_post_script_url">http://13.124.127.93:3000/clients/reviews</string>
     <string name="detail_counselor_url">http://13.124.127.93:3000/clients/agents/%s</string>
     <string name="detail_counselor_post_script_list_url">http://13.124.127.93:3000/clients/agents/%s/reviews</string>
+    <string name="request_region1_url">http://13.124.127.93:3000/clients/apts/regions1/</string>
+    <string name="request_region2_url">http://13.124.127.93:3000/clients/apts/regions1/%s/regions2</string>
+    <string name="request_region3_url">http://13.124.127.93:3000/clients/apts/regions1/서울특별시/regions2/강남구/regions3</string>
     <string name="faq_url">http://13.124.127.93:3000/commons/faqs</string>
     <string name="url_success">SUCCESS</string>
     <string name="url_no_data">NO_DATA</string>
@@ -66,6 +70,7 @@
     <string name="choose_apt">아파트 선택하러 가기</string>
     <string name="loan_type_1">주택 담보 대출</string>
     <string name="loan_type_2">전세 자금 대출</string>
+    <string name="select_region_1">시/도 선택하기</string>
 
 
     <string name="fix">수정</string>

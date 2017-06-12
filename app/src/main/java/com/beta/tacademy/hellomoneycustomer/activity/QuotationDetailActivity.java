@@ -24,6 +24,7 @@ import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.Connect;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
@@ -158,7 +159,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
                         JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
 
-                        quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.getInt("request_id"),data.getString("status"),data.getString("register_time"),data.getString("loan_type"),data.getString("region_1"),data.getString("region_2"),data.getString("region_3"),data.getString("apt_name"),data.getString("apt_size_supply") + "(" + data.getString("apt_size_exclusive") +"m2)",data.getInt("loan_amount"),data.getString("interest_rate_type"),data.getString("scheduled_time"),data.getString("job_type"),data.getString("register_number"));
+                        quotationDetailHeaderObject = new QuotationDetailHeaderObject(Integer.parseInt(data.getString("request_id")),data.getString("status"),data.getString("register_time"),data.getString("loan_type"),data.getString("region_1"),data.getString("region_2"),data.getString("region_3"),data.getString("apt_name"),data.getDouble("apt_size_supply") + "(" + data.getDouble("apt_size_exclusive") +"m2)",data.getInt("loan_amount"),data.getString("interest_rate_type"),data.getString("scheduled_time"),data.getString("job_type"),data.getString("phone_number"));
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
                         return 1;
@@ -166,13 +167,26 @@ public class QuotationDetailActivity extends AppCompatActivity {
                         return 3;
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Connect con = new Connect("https://hooks.slack.com/services/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");
+
+                    JSONObject json = null;
+
+                    json = new JSONObject();
+
+                    try {
+                        json.put("text", e.toString());
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    con.postString(con.getURL(), json);
+
+                    //Toast.makeText(activity, e.toString() +" ", Toast.LENGTH_SHORT).show();
+                    return 5;
                 }
             }else{
                 return 4;
             }
-
-            return 5;
         }
 
         @Override
@@ -182,15 +196,15 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
                     recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                 }else{
-                    //quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
+                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
 
-                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_COMMENT,quotationDetailHeaderObject);
+                    //quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_COMMENT,quotationDetailHeaderObject);
                     recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                 }
 
                 new QuotationFeedback().execute();
             }else{
-                new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
+                new WebHook().execute(" 123   MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
 
             progressBar.setVisibility(View.GONE);
@@ -212,7 +226,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
             JSONObject jsonObject = null;
 
             try{
-                toServer = OkHttpInitSingtonManager.getOkHttpClient();
+                toServer =  OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
                         .url(String.format(getResources().getString(R.string.quotation_detail_counselor_feedback_url),String.valueOf(quotationDetailId)))
@@ -281,9 +295,9 @@ public class QuotationDetailActivity extends AppCompatActivity {
             if(result == 0){
                 quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
             }else if(result == 1){
-
+                new WebHook().execute("ㅁㄴㅇㄴㅁㅇ MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }else{
-                new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
+                new WebHook().execute(" askdmasldas lkdm akasdasdsad sd MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }

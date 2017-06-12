@@ -65,6 +65,7 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.FormBody;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -309,7 +310,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             }
 
             tmp = tmp/(double) quotationDetailObjectArrayList.size();
-            ((QuotationDetailSubSubHeaderViewHolder) holder).averageInterestRate.setText(String.valueOf(tmp));
+            ((QuotationDetailSubSubHeaderViewHolder) holder).averageInterestRate.setText(String.valueOf(tmp)+"%");
 
 
         }else if (holder instanceof QuotationDetailSubSubSubHeaderViewHolder) {
@@ -396,8 +397,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public void onClick(View v) {
                     RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
-                    requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId());
+                    requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId(),quotationDetailHeaderObject.getOngoingStatus());
 
+                    new WebHook().execute("requestId = "+ quotationDetailHeaderObject.getId()  + "를 선택하셨습니다.");
                     new WebHook().execute("estimateId = "+ valueObject.getId()  + "를 선택하셨습니다.");
                     requestQuotationDialog.show();
                 }
@@ -420,6 +422,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
         private int requestId;
         private int estimateId;
+        private String ongoingStatus;
         private CircleImageView image;
         private TextView bank;
         private TextView name;
@@ -462,10 +465,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             super(context);
         }
 
-        public void setInfo(Activity activity,int requestId,int estimateId){
+        public void setInfo(Activity activity,int requestId,int estimateId,String ongoingStatus){
             this.activity =activity;
             this.requestId = requestId;
             this.estimateId = estimateId;
+            this.ongoingStatus =ongoingStatus;
         }
 
         @Override
@@ -510,8 +514,12 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             requestCounsel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new WebHook().execute("requestId = "+ requestId +  "estimateId = "+ estimateId  + "를 선택하셨습니다.");
-                    new RequestCounsel().execute();
+                    if(ongoingStatus.equals("선택대기중")){
+                        new RequestCounsel().execute();
+                    }else{
+                        new RequestCounsel().execute();
+                        Toast.makeText(activity,ongoingStatus + "이므로 상담을 신청하실 수 없습니다.",Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -538,7 +546,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                     Request request = new Request.Builder()
-                            .url(String.format(activity.getResources().getString(R.string.my_quotation_detail_url),String.valueOf(estimateId)))
+                            .url(String.format(activity.getResources().getString(R.string.my_quotation_feedback_detail_url),String.valueOf(estimateId)))
                             .get()
                             .build();
 
@@ -585,8 +593,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                             monthlyRepayMoneyInfo = data.getInt("repayment_amount_per_month");
                             repayTypeInfo = data.getString("repayment_type");
                             interestRateInfo1Info = String.valueOf(data.getInt("overdue_interest_rate_1"));
-                            interestRateInfo2Info = String.valueOf(data.getInt("overdue_inertest_rate_2"));
-                            interestRateInfo3Info = String.valueOf(data.getInt("overdue_inertest_rate_3"));
+                            interestRateInfo2Info = String.valueOf(data.getInt("overdue_interest_rate_2"));
+                            interestRateInfo3Info = String.valueOf(data.getInt("overdue_interest_rate_3"));
                             overDueInfo1 = data.getString("overdue_time_1");
                             overDueInfo2 = data.getString("overdue_time_2");
                             overDueInfo3 = data.getString("overdue_time_3");
@@ -670,7 +678,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
                     RequestBody postBody = new FormBody.Builder()
                             .add("selectedEstimateId",String.valueOf(estimateId))
-                            .add("status","상담중")
                             .build();
 
                     Request request1 = new Request.Builder()
@@ -880,7 +887,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                     RequestBody postBody = new FormBody.Builder()
-                            .add("requestId","1")
+                            .add("requestId","requestId")
                             .add("content","하하")
                             .add("score","4.5")
                             .build();
@@ -923,7 +930,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                             //JSONArray data1= jsonObject1.getJSONArray("data");
                             //ArrayList<JSONArray> tmp = new ArrayList();
                             //tmp.add(data1);
-                            return 1;
+                            return 0;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -937,17 +944,13 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
             @Override
             protected void onPostExecute(Integer result) {
-                //RecyclerView에 해더 및 아이템 추가
-                //addHeaders();
-                //addItems();
-
                 if(result == 0){
-                    new WebHook().execute("안옴");
+                    Toast.makeText(activity,"후기를 등록하였습니다.",Toast.LENGTH_SHORT).show();
+                    dismiss();
                 }else{
                     new WebHook().execute("result == " + result);
                 }
 
-                //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
                 progressBar.setVisibility(View.GONE);
             }
         }
