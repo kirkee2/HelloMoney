@@ -77,7 +77,11 @@ public class SelectRegionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         ((MainViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //SelectRegionAptSizeActivity.toNextStep();
+                if(step == 4){
+                    ((SelectRegionAptSizeActivity)activity).sizeInfo(valueObject);
+                }else{
+                    ((SelectRegionAptSizeActivity)activity).toNextStep(step,valueObject);
+                }
             }
         });
     }

@@ -59,7 +59,9 @@
     <string name="detail_counselor_post_script_list_url">http://13.124.127.93:3000/clients/agents/%s/reviews</string>
     <string name="request_region1_url">http://13.124.127.93:3000/clients/apts/regions1/</string>
     <string name="request_region2_url">http://13.124.127.93:3000/clients/apts/regions1/%s/regions2</string>
-    <string name="request_region3_url">http://13.124.127.93:3000/clients/apts/regions1/서울특별시/regions2/강남구/regions3</string>
+    <string name="request_region3_url">http://13.124.127.93:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3</string>
+    <string name="request_apt_url">http://13.124.127.93:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3/%3$s/aptNames</string>
+    <string name="request_apt_size_url">http://13.124.127.93:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3/%3$s/aptNames/%4$s</string>
     <string name="faq_url">http://13.124.127.93:3000/commons/faqs</string>
     <string name="post_script_interest_url">http://13.124.127.93:3000/clients/reviews/collected/%s</string>
     <string name="post_script_detail_url">http://13.124.127.93:3000/clients/reviews/%s</string>

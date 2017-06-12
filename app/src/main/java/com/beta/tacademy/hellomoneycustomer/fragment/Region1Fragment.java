@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,15 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.activity.MainActivity;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
-import com.beta.tacademy.hellomoneycustomer.module.cookie.PersistentCookieJar;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.selectRegionRecyclerView.SelectRegionRecyclerViewAdapter;
-import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroPageFragment;
-import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,35 +33,20 @@ import okhttp3.Response;
  * A simple {@link Fragment} subclass.
  */
 public class Region1Fragment extends Fragment {
-    int page;
     RecyclerView recyclerView;
     ProgressBar progressBar;
     SelectRegionRecyclerViewAdapter selectRegionRecyclerViewAdapter;
     ArrayList<String> stringArraylist;
-    String region1;
-    String region2;
-    String region3;
-    String apt;
-    String size;
 
     public Region1Fragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            page = getArguments().getInt("page");
-        }
-    }
-
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_region, container, false);
+        View view = inflater.inflate(R.layout.fragment_region1, container, false);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
@@ -172,9 +150,9 @@ public class Region1Fragment extends Fragment {
 
                 selectRegionRecyclerViewAdapter.initItem(stringArraylist);
             }else if(result == 1){
-
+                new WebHook().execute("Region1Fragment 내 견적 목록 안옴 result ===== " + result);
             }else{
-                new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
+                new WebHook().execute("Region1Fragment 내 견적 목록 안옴 result ===== " + result);
             }
 
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정

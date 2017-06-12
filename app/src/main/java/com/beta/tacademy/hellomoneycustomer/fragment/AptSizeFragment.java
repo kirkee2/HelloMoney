@@ -4,7 +4,7 @@ package com.beta.tacademy.hellomoneycustomer.fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.selectRegionRecyclerView.SelectRegionRecyclerViewAdapter;
-import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageFragment;
-import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,34 +32,45 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Region2Fragment extends Fragment {
+public class AptSizeFragment extends Fragment {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     SelectRegionRecyclerViewAdapter selectRegionRecyclerViewAdapter;
     ArrayList<String> stringArraylist;
     String region1;
+    String region2;
+    String region3;
+    String apt;
 
-    public Region2Fragment() {
+
+    public AptSizeFragment() {
         // Required empty public constructor
     }
 
-    public static Region2Fragment newInstance(String region1) {
-        Region2Fragment fragment = new Region2Fragment();
+    public static AptSizeFragment newInstance(String region1, String region2, String region3, String apt) {
+        AptSizeFragment fragment = new AptSizeFragment();
         Bundle args = new Bundle();
         args.putString("region1", region1);
+        args.putString("region2", region2);
+        args.putString("region3", region3);
+        args.putString("apt", apt);
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.region1 = getArguments().getString("region1");
+            this.region2 = getArguments().getString("region2");
+            this.region3 = getArguments().getString("region3");
+            this.apt = getArguments().getString("apt");
         }else{
             this.region1 = null;
+            this.region2 = null;
+            this.region3 = null;
+            this.apt = null;
         }
     }
 
@@ -70,24 +78,24 @@ public class Region2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_region2, container, false);
+        View view =inflater.inflate(R.layout.fragment_size, container, false);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
         stringArraylist = new ArrayList<>();
-        selectRegionRecyclerViewAdapter = new SelectRegionRecyclerViewAdapter(getActivity(),1);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
+        selectRegionRecyclerViewAdapter = new SelectRegionRecyclerViewAdapter(getActivity(),4);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
 
-        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        new RequestRegion2().execute();
+        new RequestAptSize().execute();
 
 
         return view;
     }
 
-    private class RequestRegion2 extends AsyncTask<Void, Void, Integer> {
+    private class RequestAptSize extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -108,7 +116,7 @@ public class Region2Fragment extends Fragment {
 
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.request_region2_url), region1))
+                        .url(String.format(getResources().getString(R.string.request_apt_size_url),region1,region2,region3,apt))
                         .get()
                         .build();
 
@@ -147,7 +155,7 @@ public class Region2Fragment extends Fragment {
                         for(int i = 0 ; i < data.length(); i++){
                             try {
                                 JSONObject jsonData = (JSONObject)data.get(i);
-                                stringArraylist.add(jsonData.getString("region_2"));
+                                stringArraylist.add(jsonData.getString("apt_name"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -175,13 +183,14 @@ public class Region2Fragment extends Fragment {
 
                 selectRegionRecyclerViewAdapter.initItem(stringArraylist);
             }else if(result == 1){
-                new WebHook().execute("Region2Fragment 내 견적 목록 안옴 result ===== " + result);
+                new WebHook().execute("AptSizeFragment 내 견적 목록 안옴 result ===== " + result);
             }else{
-                new WebHook().execute("Region2Fragment 내 견적 목록 안옴 result ===== " + result);
+                new WebHook().execute("AptSizeFragment 내 견적 목록 안옴 result ===== " + result);
             }
 
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
             progressBar.setVisibility(View.GONE);
         }
     }
+
 }
