@@ -65,7 +65,7 @@
     <string name="faq_url">http://13.124.127.93:3000/commons/faqs</string>
     <string name="post_script_interest_url">http://13.124.127.93:3000/clients/reviews/collected/%s</string>
     <string name="post_script_detail_url">http://13.124.127.93:3000/clients/reviews/%s</string>
-    <string name="selected_feedback_detail_url">http://13.124.127.93:3000/clients/reviews/agent/%s</string>
+    <string name="selected_feedback_detail_url">http://13.124.127.93:3000/clients/reviews/agents/%s</string>
     <string name="url_success">SUCCESS</string>
     <string name="url_no_data">NO_DATA</string>
     <string name="url_message">msg</string>

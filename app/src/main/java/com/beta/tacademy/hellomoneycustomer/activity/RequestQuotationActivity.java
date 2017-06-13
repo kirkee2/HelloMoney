@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -233,6 +234,8 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     step3.setVisibility(View.INVISIBLE);
                     step4.setVisibility(View.VISIBLE);
                     animateHorizontalProgressBar.setProgress(42);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 }else{
 
                 }

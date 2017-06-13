@@ -57,9 +57,6 @@ public class MyQuotationActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
 
-        mainPageViewPagerObjectOneM = new ArrayList<>();
-        mainPageViewPagerObjectTwoM = new ArrayList<>();
-
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
         //Toolbar 설정
@@ -78,7 +75,11 @@ public class MyQuotationActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
 
+        mainPageViewPagerObjectOneM = new ArrayList<>();
+        mainPageViewPagerObjectTwoM = new ArrayList<>();
+
         new MyQuotationList().execute();
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

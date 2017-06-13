@@ -459,9 +459,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 public void onClick(View v) {
                     RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
                     requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId(),quotationDetailHeaderObject.getOngoingStatus());
-
-                    new WebHook().execute("requestId = "+ quotationDetailHeaderObject.getId()  + "를 선택하셨습니다.");
-                    new WebHook().execute("estimateId = "+ valueObject.getId()  + "를 선택하셨습니다.");
                     requestQuotationDialog.show();
                 }
             });
@@ -780,7 +777,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 if(jsonObject != null){
                     try {
                         if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_success))){
-                            JSONObject data= jsonObject.getJSONObject(activity.getResources().getString(R.string.url_data));
 
                             return 0;
                         }else{
@@ -799,6 +795,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             protected void onPostExecute(Integer result) {
                 if(result == 0){
                     new WebHook().execute("상담 신청하기 성공");
+                    notifyDataSetChanged();
                     dismiss();
                 }else{
                     new WebHook().execute("asdasd 안옴 result == " + result);
@@ -825,7 +822,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         private String imageInfo;
         private String bankInfo;
         private String nameInfo;
-        private double ratingBarInfo;
+        private float ratingBarInfo;
+        private String content;
 
         public WriteCommentDialog(@NonNull Context context) {
             super(context);
@@ -857,6 +855,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        content = comment.getText().toString();
+                        ratingBarInfo = ratingBar.getRating();
                         new WritePostScript().execute();
                         //Toast.makeText(getContext(),"id = "+ requestId +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
                         return true;
@@ -893,6 +893,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             writeComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    content = comment.getText().toString();
+                    ratingBarInfo = ratingBar.getRating();
                     new WritePostScript().execute();
                 }
             });
@@ -960,8 +962,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
                             nameInfo = data.getString("name");
                             imageInfo = data.getString("photo");
-                            bankInfo = data.getString("bank");;
-                            ratingBarInfo = data.getDouble("score");;
+                            bankInfo = data.getString("company_name");
 
                             return 0;
                         }else{
@@ -981,7 +982,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 if(result == 0){
                     name.setText(nameInfo);
                     bank.setText(bankInfo);
-                    ratingBar.setRating((float)ratingBarInfo);
                     Glide.with(activity)
                             .load(imageInfo)
                             .animate(android.R.anim.slide_in_left)
@@ -1008,58 +1008,61 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
             @Override
             protected Integer doInBackground(Void... params) {
-                boolean flag1;
-                Response response1 = null;
+                boolean flag;
+                Response response = null;
 
                 OkHttpClient toServer;
 
 
-                JSONObject jsonObject1 = null;
+                JSONObject jsonObject = null;
 
                 try{
                     toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
+                    comment = (EditText)findViewById(R.id.comment);
+                    progressBar = (ProgressBar)findViewById(R.id.progressBar);
+
                     RequestBody postBody = new FormBody.Builder()
-                            .add("requestId","requestId")
-                            .add("content","하하")
-                            .add("score","4.5")
+                            .add("requestId",String.valueOf(requestId))
+                            .add("content",content)
+                            .add("score",String.valueOf(ratingBarInfo))
                             .build();
 
-                    Request request1 = new Request.Builder()
+                    Request request = new Request.Builder()
                             .url(activity.getResources().getString(R.string.write_post_script_url))
-                            .put(postBody)
+                            .post(postBody)
                             .build();
 
                     //동기 방식
-                    response1 = toServer.newCall(request1).execute();
+                    response = toServer.newCall(request).execute();
 
-                    flag1 = response1.isSuccessful();
+                    flag = response.isSuccessful();
 
-                    String returedJSON1;
+                    String returedJSON;
 
-                    if(flag1){ //성공했다면
-                        returedJSON1 = response1.body().string();
+                    if(flag){ //성공했다면
+                        returedJSON = response.body().string();
 
                         try {
-                            jsonObject1 = new JSONObject(returedJSON1);
+                            jsonObject = new JSONObject(returedJSON);
                         }catch(JSONException jsone){
                             Log.e("json에러", jsone.toString());
                         }
                     }else{
-                        return 100;
+                        return 2;
                     }
                 }catch (UnknownHostException une) {
                 } catch (UnsupportedEncodingException uee) {
                 } catch (Exception e) {
                 } finally{
-                    if(response1 != null) {
-                        response1.close(); //3.* 이상에서는 반드시 닫아 준다.
+                    if(response != null) {
+                        response.close(); //3.* 이상에서는 반드시 닫아 준다.
                     }
                 }
 
-                if(jsonObject1 != null){
+                if(jsonObject != null){
                     try {
-                        if(jsonObject1.get("msg").equals("success")){
+                        if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_success))){
                             //JSONArray data1= jsonObject1.getJSONArray("data");
                             //ArrayList<JSONArray> tmp = new ArrayList();
                             //tmp.add(data1);
@@ -1067,12 +1070,13 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        return 3;
                     }
                 }else{
-                    return 200;
+                    return 1;
                 }
 
-                return 0;
+                return 4;
             }
 
             @Override
@@ -1085,6 +1089,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 }
 
                 progressBar.setVisibility(View.GONE);
+                notifyDataSetChanged();
             }
         }
     }

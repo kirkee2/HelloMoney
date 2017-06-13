@@ -2,6 +2,7 @@ package com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,9 @@ import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainPageFragment extends Fragment {
 
@@ -70,6 +74,9 @@ public class MainPageFragment extends Fragment {
         type.setText(mainPageViewPagerObject.getType());
 
         currentQuotation.setText(String.valueOf(mainPageViewPagerObject.getCurrentQuotation()));
+
+        mainPageViewPagerObject.getLeftTime();
+
 
         if(mainPageViewPagerObject.getOngoingStatus().equals("견적접수중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_interection_waiting));

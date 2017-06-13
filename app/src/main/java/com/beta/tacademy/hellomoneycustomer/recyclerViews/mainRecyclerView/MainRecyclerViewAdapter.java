@@ -26,11 +26,17 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 import com.bumptech.glide.Glide;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -190,9 +196,34 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainViewHolder) holder).apt.setText(valueObject.getApt());
             ((MainViewHolder) holder).starRatingBar.setRating(valueObject.getStar());
             ((MainViewHolder) holder).starRatingBar.setEnabled(false);
-            ((MainViewHolder) holder).pastTime.setText(valueObject.getPastTime());
             ((MainViewHolder) holder).content.setText(valueObject.getContent());
 
+            /*
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyy-mm-dd\'T\'hh:mm:ss\'Z\'", Locale.KOREA);
+            try {
+                cal.setTime(sdf.parse(valueObject.getPastTime()));
+                new WebHook().execute(cal.getTime().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+                new WebHook().execute("날자 파싱 오류");
+            }
+            */
+
+
+            /*
+            dt.parse(valueObject.getPastTime());
+            SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd'T'hh:mm:ss'Z'");
+            try {
+                Calendar calendar = dt.getCalendar();
+                new WebHook().execute(date.getYear())
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+*/
+
+
+            ((MainViewHolder) holder).pastTime.setText(valueObject.getPastTime());
             if( valueObject.getBenefit() < 0){
                 String benefitString = valueObject.getBenefit() + "만원 대출 조건 보기";
                 final String tmp = valueObject.getBenefit() + "";

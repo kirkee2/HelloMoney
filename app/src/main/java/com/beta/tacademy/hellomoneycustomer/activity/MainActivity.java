@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity{
         fragmentManager = this.getSupportFragmentManager();
         activity = this;
 
-        mainPageViewPagerObjectArrayList = new ArrayList<>();
-        mainValueObjectArrayList = new ArrayList<>();
         //Toolbar
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정
@@ -162,6 +160,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onStart(){
         super.onStart();
+
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
+        mainValueObjectArrayList = new ArrayList<>();
 
         new MyQuotationList().execute();
     }
