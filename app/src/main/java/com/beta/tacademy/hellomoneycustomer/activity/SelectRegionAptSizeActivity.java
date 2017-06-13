@@ -1,5 +1,6 @@
 package com.beta.tacademy.hellomoneycustomer.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import com.beta.tacademy.hellomoneycustomer.fragment.AptFragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.Region2Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.Region3Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.AptSizeFragment;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 
 public class SelectRegionAptSizeActivity extends AppCompatActivity {
 
@@ -113,6 +115,15 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
 
     public void sizeInfo(String info){
         size = info;
+
+        Intent intent = new Intent();
+        intent.putExtra("region1", region1);
+        intent.putExtra("region2", region2);
+        intent.putExtra("region3", region3);
+        intent.putExtra("apt", apt);
+        intent.putExtra("aptSize", size);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }

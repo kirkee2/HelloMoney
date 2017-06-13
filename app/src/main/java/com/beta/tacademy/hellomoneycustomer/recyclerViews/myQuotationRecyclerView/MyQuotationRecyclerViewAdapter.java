@@ -106,7 +106,6 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         ((MyQuotationViewHolder) holder).linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity,"id = " + valueObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(activity, QuotationDetailActivity.class);
                 intent.putExtra("id",valueObject.getId());
                 activity.startActivity(intent);

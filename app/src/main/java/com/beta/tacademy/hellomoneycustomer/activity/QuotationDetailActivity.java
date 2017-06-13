@@ -70,9 +70,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         quotationDetailId = intent.getIntExtra("id",-1);
         if(quotationDetailId == -1){
-            Toast.makeText(getApplicationContext(), "인텐트 안들어옴", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(getApplicationContext(), "id = " +quotationDetailId + " 들어옴", Toast.LENGTH_SHORT).show();
         }
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.

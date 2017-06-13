@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
@@ -40,6 +44,22 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private int previousStep;
     private boolean stepChanged;
 
+    String loanType;
+    int loanAmount;
+    String scheduledTime;
+    String interestRateType;
+    String jobType;
+    String status;
+    String region1;
+    String region2;
+    String region3;
+    String aptName;
+    String aptSize;
+    String aptKBId;
+    int aptPrice;
+    double aptSizeSupply;
+    double aptSizeExclusive;
+
     private LinearLayout step1;
     private LinearLayout step2;
     private LinearLayout step3;
@@ -47,7 +67,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private LinearLayout step5;
     private LinearLayout step6;
     private LinearLayout step7;
-
 
     private TextView step1Text1;
     private TextView step1Text2;
@@ -122,6 +141,14 @@ public class RequestQuotationActivity extends AppCompatActivity {
         requestQuotationRecyclerViewAdapter = new RequestQuotationRecyclerViewAdapter();
         recyclerView.setAdapter(requestQuotationRecyclerViewAdapter);
 
+        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if ( bottom < oldBottom) {
+                    recyclerView.smoothScrollToPosition(requestQuotationRecyclerViewAdapter.getItemCount());
+                }
+            }
+        });
 
         toolbar.setTitle(getResources().getString(R.string.request_quotation));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
@@ -133,7 +160,10 @@ public class RequestQuotationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!stepChanged){
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,0,"주택 담보 대출을 받겠습니다.",false));
+                    loanType = "주택담보대출";
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"주택 담보 대출을 받겠습니다.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
+
                     ongoingStep++;
                     previousStep++;
                     step1.setVisibility(View.INVISIBLE);
@@ -148,7 +178,10 @@ public class RequestQuotationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!stepChanged){
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,0,"전세 자금 대출을 받겠습니다.",false));
+                    loanType = "전세자금대출";
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"전세 자금 대출을 받겠습니다.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
+
                     ongoingStep++;
                     previousStep++;
                     step1.setVisibility(View.INVISIBLE);
@@ -159,35 +192,107 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 }
             }
         });
+
         step2Text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RequestQuotationActivity.this,SelectRegionAptSizeActivity.class);
-                startActivityForResult(intent,REGION_APT_SIZE_INTENT);
+                startActivityForResult(new Intent(RequestQuotationActivity.this,SelectRegionAptSizeActivity.class),REGION_APT_SIZE_INTENT);
+            }
+        });
+
+
+        step3Text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count > 0){
+                    step3Button.setTextColor(ResourcesCompat.getColor(getResources(),R.color.progress,null));
+                }else{
+                    step3Button.setTextColor(ResourcesCompat.getColor(getResources(),R.color.subNormal,null));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
         step3Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!stepChanged){
+                    loanAmount = Integer.parseInt(step3Text.getText().toString());
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,3,loanAmount + "만원입니다.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?",true));
 
+                    ongoingStep++;
+                    previousStep++;
+                    step3.setVisibility(View.INVISIBLE);
+                    step4.setVisibility(View.VISIBLE);
+                    animateHorizontalProgressBar.setProgress(42);
+                }else{
+
+                }
             }
         });
+
         step4Text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!stepChanged){
+                    interestRateType = "변동금리";
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"대출실행예정일을 알려주세요.",false));
 
+                    ongoingStep++;
+                    previousStep++;
+                    step4.setVisibility(View.INVISIBLE);
+                    step5.setVisibility(View.VISIBLE);
+                    animateHorizontalProgressBar.setProgress(56);
+                }else{
+
+                }
             }
         });
         step4Text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!stepChanged){
+                    interestRateType = "고정금리";
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"대출실행예정일을 알려주세요.",false));
+
+                    ongoingStep++;
+                    previousStep++;
+                    step4.setVisibility(View.INVISIBLE);
+                    step5.setVisibility(View.VISIBLE);
+                    animateHorizontalProgressBar.setProgress(56);
+                }else{
+
+                }
             }
         });
         step4Text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!stepChanged){
+                    interestRateType = "없음";
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"대출실행예정일을 알려주세요.",false));
+
+                    ongoingStep++;
+                    previousStep++;
+                    step4.setVisibility(View.INVISIBLE);
+                    step5.setVisibility(View.VISIBLE);
+                    animateHorizontalProgressBar.setProgress(56);
+                }else{
+
+                }
             }
         });
         step6Text1.setOnClickListener(new View.OnClickListener() {
@@ -214,6 +319,33 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REGION_APT_SIZE_INTENT) {
+                region1 = data.getStringExtra("region1");
+                region2 = data.getStringExtra("region2");
+                region3 = data.getStringExtra("region3");
+                aptName = data.getStringExtra("apt");
+                aptSize = data.getStringExtra("aptSize");
+
+                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,2,region1 + " " + region2 + " " + region3 + " " + aptName + " " + aptSize + "입니다.",false));
+                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"필요하신 대출금액을 입력해주세요.(만원 단위로)",false));
+                ongoingStep++;
+                previousStep++;
+                step2.setVisibility(View.INVISIBLE);
+                step3.setVisibility(View.VISIBLE);
+                animateHorizontalProgressBar.setProgress(28);
+            } else {
+                Toast.makeText(RequestQuotationActivity.this, "REQUEST_ACT가 아님", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            return;
+        }
     }
 
     //back 버튼 클릭 시 이벤트 설정.
@@ -273,6 +405,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
     public void addItem(RequestQuotationValueObject requestQuotationValueObject){
         requestQuotationRecyclerViewAdapter.addItem(requestQuotationValueObject);
+        recyclerView.smoothScrollToPosition(requestQuotationRecyclerViewAdapter.getItemCount());
     }
 
     public void initItems(){

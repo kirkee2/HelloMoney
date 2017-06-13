@@ -155,7 +155,7 @@ public class AptSizeFragment extends Fragment {
                         for(int i = 0 ; i < data.length(); i++){
                             try {
                                 JSONObject jsonData = (JSONObject)data.get(i);
-                                stringArraylist.add(jsonData.getString("apt_name"));
+                                stringArraylist.add(jsonData.getString("apt_size_supply") + "/" + jsonData.getString("apt_size_exclusive"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

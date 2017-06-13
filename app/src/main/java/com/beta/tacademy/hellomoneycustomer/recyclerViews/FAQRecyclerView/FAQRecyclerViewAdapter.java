@@ -4,11 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.beta.tacademy.hellomoneycustomer.R;
@@ -17,9 +19,15 @@ import java.util.ArrayList;
 
 public class FAQRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ArrayList<FAQValueObject> faqValueObjectArrayList;
+    FAQItemViewHolder previousFaqItemViewHolder;
+    TextView previousContext;
+    TextView previousTitle;
+    ImageView previousExpandToggle;
+    int previousPosition;
 
     public FAQRecyclerViewAdapter(){
         faqValueObjectArrayList = new ArrayList<>();
+        previousPosition = -100;
     }
 
     public void initItem(ArrayList<FAQValueObject> faqValueObjectArrayList){
@@ -47,7 +55,7 @@ public class FAQRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final FAQValueObject valueObject = faqValueObjectArrayList.get(position);
 
         ((FAQItemViewHolder) holder).title.setText(valueObject.getTitle());
@@ -58,6 +66,13 @@ public class FAQRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             public void onClick(View v) {
                 if(valueObject.isOpen()){
                     valueObject.setOpen(false);
+                    /*
+                    if(previousPosition == position){
+                        previousFaqItemViewHolder =null;
+                        previousPosition = -100;
+                    }
+                    */
+
                     ((FAQItemViewHolder) holder).title.setTypeface(null, Typeface.NORMAL);
                     ((FAQItemViewHolder) holder).content.animate().translationX(1000).setDuration(150).setListener(new AnimatorListenerAdapter() {
                         @Override
@@ -70,8 +85,17 @@ public class FAQRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((FAQItemViewHolder) holder).expandToggle.setImageResource(R.drawable.expendable_close);
                 }else{
                     valueObject.setOpen(true);
-                    ((FAQItemViewHolder) holder).title.setTypeface(null, Typeface.BOLD);
 
+                    /*
+                    if(previousFaqItemViewHolder !=null){
+                        previousFaqItemViewHolder.title.setTypeface(null, Typeface.NORMAL);
+                        previousFaqItemViewHolder.content.setVisibility(View.GONE);
+                        previousFaqItemViewHolder.expandToggle.setImageResource(R.drawable.expendable_close);
+                        faqValueObjectArrayList.get(previousPosition).setOpen(false);
+                    }
+                    */
+
+                    ((FAQItemViewHolder) holder).title.setTypeface(null, Typeface.BOLD);
                     ((FAQItemViewHolder) holder).content.animate().translationX(-1000).setDuration(150).setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -81,6 +105,11 @@ public class FAQRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         }
                     });
                     ((FAQItemViewHolder) holder).expandToggle.setImageResource(R.drawable.expendable_open);
+
+                    /*
+                    previousFaqItemViewHolder = (FAQItemViewHolder)holder;
+                    previousPosition = position;
+                    */
                 }
             }
         });

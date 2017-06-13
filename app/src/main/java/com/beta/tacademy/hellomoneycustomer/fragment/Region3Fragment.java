@@ -45,8 +45,8 @@ public class Region3Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static Region2Fragment newInstance(String region1,String region2) {
-        Region2Fragment fragment = new Region2Fragment();
+    public static Region3Fragment newInstance(String region1,String region2) {
+        Region3Fragment fragment = new Region3Fragment();
         Bundle args = new Bundle();
         args.putString("region1", region1);
         args.putString("region2", region2);
@@ -83,7 +83,6 @@ public class Region3Fragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         new RequestRegion3().execute();
-
 
         return view;
     }

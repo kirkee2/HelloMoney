@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustResize">
         <meta-data
             android:name="com.beta.tacademy.hellomoneycustomer.module.glide.HelloMoneyCustomerGlideModule"
             android:value="GlideModule" />
@@ -46,7 +47,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RequestQuotationActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activity.MyQuotationActivity"
             android:screenOrientation="portrait" />

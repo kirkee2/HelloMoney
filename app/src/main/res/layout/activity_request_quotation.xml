@@ -33,7 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="100"
-            android:background="@color/basement"/>
+            android:background="@color/basement"
+            android:paddingBottom="16dp"
+            android:isScrollContainer="true"/>
 
         <com.daasuu.ahp.AnimateHorizontalProgressBar
             android:id="@+id/animate_progress_bar"
@@ -137,6 +139,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="100"
                     android:textSize="@dimen/medium"
+                    android:inputType="number"
                     android:textColor="@color/normalTypo"
                     android:background="@color/white"
                     android:layout_marginEnd="4dp"

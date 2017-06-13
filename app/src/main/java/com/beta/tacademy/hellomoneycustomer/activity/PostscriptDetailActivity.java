@@ -322,16 +322,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                     if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
                         JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
 
-                        String bankTmp = "국민은행";
-                        String nameTmp = "이건준";
-                        int loanTypeTmp = 0;
-                        String imageTmp = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
-                        String regionTmp = "경기도 고양시 마두동";
-                        String aptTmp = "훼미리아파트";
-                        int starRatingBarTmp = 4;
-                        String contentTmp = "밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘밤샘";
-
-                        imageInfo = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
+                        imageInfo = data.getString("photo");
                         bankInfo = data.getString("company_name");
                         nameInfo = data.getString("name");
                         loanTypeInfo = data.getString("loan_type");
@@ -339,7 +330,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                         aptInfo = data.getString("apt_name");
                         starInfo = (float) data.getDouble("score");
                         contentInfo = data.getString("content");
-                        counselorId = "agent1@naver.com";
+                        counselorId = data.getString("agent_id");
 
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
