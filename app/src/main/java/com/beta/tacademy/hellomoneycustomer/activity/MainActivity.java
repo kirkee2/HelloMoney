@@ -157,13 +157,13 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        new MyQuotationList().execute();
     }
 
     @Override
     public void onStart(){
         super.onStart();
 
+        new MyQuotationList().execute();
     }
     //back 버튼 클릭 시 이벤트 설정.
     @Override

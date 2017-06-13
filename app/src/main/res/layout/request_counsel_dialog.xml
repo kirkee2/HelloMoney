@@ -60,7 +60,8 @@
                 android:textColor="@color/progress"
                 android:background="@drawable/round_button_white"
                 android:gravity="center"
-                android:text="@string/go_counselor"/>
+                android:text="@string/go_counselor"
+                android:enabled="false"/>
         </LinearLayout>
 
         <TextView
@@ -294,8 +295,7 @@
                 android:layout_alignParentEnd="true"
                 android:text="@string/request_counsel"
                 android:textColor="@color/progress"
-                android:textSize="@dimen/medium"
-                android:enabled="false"/>
+                android:textSize="@dimen/medium"/>
         </RelativeLayout>
     </LinearLayout>
 

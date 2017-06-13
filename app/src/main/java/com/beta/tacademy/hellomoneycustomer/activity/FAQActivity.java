@@ -63,7 +63,7 @@ public class FAQActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        toolbar.setTitle(getResources().getString(R.string.quotation_detail));
+        toolbar.setTitle(getResources().getString(R.string.faq));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -167,6 +168,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         TextView interestRate;
         CircleImageView image;
         CardView cardView;
+        ImageView check;
 
         private QuotationDetailViewHolder(View itemView) {
             super(itemView);
@@ -176,6 +178,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             loanType = (TextView)itemView.findViewById(R.id.loanType);
             interestRate = (TextView)itemView.findViewById(R.id.interestRate);
             image = (CircleImageView)itemView.findViewById(R.id.image);
+            check = (ImageView)itemView.findViewById(R.id.check);
         }
     }
 
@@ -440,6 +443,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailViewHolder) holder).interestRate.setText(String.valueOf(valueObject.getInterestRate())+"%");
             ((QuotationDetailViewHolder) holder).loanType.setText(valueObject.getLoanType());
 
+            if(quotationDetailHeaderObject.getSelectedEstimateId() == valueObject.getId()){
+                ((QuotationDetailViewHolder) holder).check.setVisibility(View.VISIBLE);
+            }
+
             Glide.with(activity)
                     .load(valueObject.getImageUrl())
                     .animate(android.R.anim.slide_in_left)
@@ -551,7 +558,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             requestCounsel = (TextView)findViewById(R.id.requestCounsel);
             progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-            goCounselor.setEnabled(false);
             goCounselor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -574,7 +580,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     if(ongoingStatus.equals("선택대기중")){
                         new RequestCounsel().execute();
                     }else{
-                        new RequestCounsel().execute();
                         Toast.makeText(activity,ongoingStatus + "이므로 상담을 신청하실 수 없습니다.",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -705,6 +710,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     feeInfo1.setText(feeInfo1Info);
                     feeInfo2.setText(feeInfo2Info);
                     goCounselor.setEnabled(true);
+                    requestCounsel.setEnabled(true);
+
                 }else{
                     new WebHook().execute("QuotationDetailRecyclerViewAdapter 견적 피드백 상세 안옴 result ===== " + result);
                 }
@@ -775,28 +782,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                         if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_success))){
                             JSONObject data= jsonObject.getJSONObject(activity.getResources().getString(R.string.url_data));
 
-                            agentId = data.getString("agent_id");
-                            imageInfo = data.getString("photo");
-                            bankInfo = data.getString("item_bank");
-                            nameInfo = data.getString("name");
-                            loanNameInfo = data.getString("item_name");
-                            finalRegisterDateInfo = data.getString("register_time");
-                            loanInterestRateInfo = data.getString("interest_rate");
-                            interestTypeInfo = data.getString("interest_rate_type");
-                            monthlyRepayMoneyInfo = data.getInt("repayment_amount_per_month");
-                            repayTypeInfo = data.getString("repayment_type");
-                            interestRateInfo1Info = String.valueOf(data.getInt("overdue_interest_rate_1"));
-                            interestRateInfo2Info = String.valueOf(data.getInt("overdue_inertest_rate_2"));
-                            interestRateInfo3Info = String.valueOf(data.getInt("overdue_inertest_rate_3"));
-                            overDueInfo1 = data.getString("overdue_time_1");
-                            overDueInfo2 = data.getString("overdue_time_2");
-                            overDueInfo3 = data.getString("overdue_time_3");
-                            feeInfo1Info = "조기 상환 원금 X 1.4% X [(3년 대출 경과 일 수/ 3년)]";
-                            feeInfo2Info = "매년 대출 잔액의 10%까지 중도 상환 수수료 면제";
-
                             return 0;
-                        }else if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_no_data))){
-                            return 1;
                         }else{
                             return 3;
                         }
@@ -813,8 +799,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             protected void onPostExecute(Integer result) {
                 if(result == 0){
                     new WebHook().execute("상담 신청하기 성공");
+                    dismiss();
                 }else{
-                    new WebHook().execute("안옴 result == " + result);
+                    new WebHook().execute("asdasd 안옴 result == " + result);
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -835,9 +822,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         private TextView writeComment;
         private ProgressBar progressBar;
 
-        private String imageTmp;
-        private String bankTmp;
-        private String nameTmp;
+        private String imageInfo;
+        private String bankInfo;
+        private String nameInfo;
+        private double ratingBarInfo;
 
         public WriteCommentDialog(@NonNull Context context) {
             super(context);
@@ -846,9 +834,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         public void setInfo(Activity activity,int requestId){
             this.activity =activity;
             this.requestId = requestId;
-            imageTmp = "http://img.visualdive.co.kr/sites/2/2015/10/gisa2.jpg";
-            bankTmp = "외환은행";
-            nameTmp = "이건준";
         }
 
         @Override
@@ -864,16 +849,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             comment = (EditText)findViewById(R.id.comment);
             progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-            Glide.with(activity)
-                    .load(imageTmp)
-                    .animate(android.R.anim.slide_in_left)
-                    .placeholder(R.drawable.loading)
-                    .error(R.drawable.error)
-                    .into(image);
-
-            bank.setText(bankTmp);
-            name.setText(nameTmp);
-            ratingBar.setRating(4);
 
             comment.setImeOptions(EditorInfo.IME_ACTION_DONE);
             comment.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -882,7 +857,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        Toast.makeText(getContext(),"id = "+ requestId +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
+                        new WritePostScript().execute();
+                        //Toast.makeText(getContext(),"id = "+ requestId +" 에 평점 " + ratingBar.getRating() +  "점과 " + comment.getText()+ " 라고 댓글을 작성하였습니다.",Toast.LENGTH_SHORT).show();
                         return true;
                     }
                     return false;
@@ -920,9 +896,108 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     new WritePostScript().execute();
                 }
             });
+
+            new SelectedFeedbackDetail().execute();
         }
 
-        //// api 안됨.
+        private class SelectedFeedbackDetail extends AsyncTask<Void, Void, Integer>{
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                //시작 전에 ProgressBar를 보여주어 사용자와 interact
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+                boolean flag;
+                Response response = null;
+
+                OkHttpClient toServer;
+
+
+                JSONObject jsonObject = null;
+
+                try{
+                    toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                    Request request = new Request.Builder()
+                            .url(String.format(activity.getResources().getString(R.string.selected_feedback_detail_url),String.valueOf(requestId)))
+                            .get()
+                            .build();
+
+                    //동기 방식
+                    response = toServer.newCall(request).execute();
+
+                    flag = response.isSuccessful();
+
+                    String returedJSON;
+
+                    if(flag){ //성공했다면
+                        returedJSON = response.body().string();
+
+                        try {
+                            jsonObject = new JSONObject(returedJSON);
+                        }catch(JSONException jsone){
+                            Log.e("json에러", jsone.toString());
+                        }
+                    }else{
+                        return 2;
+                    }
+                }catch (UnknownHostException une) {
+                } catch (UnsupportedEncodingException uee) {
+                } catch (Exception e) {
+                } finally{
+                    if(response != null) {
+                        response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                    }
+                }
+
+                if(jsonObject != null){
+                    try {
+                        if(jsonObject.get(activity.getResources().getString(R.string.url_message)).equals(activity.getResources().getString(R.string.url_success))){
+                            JSONObject data= jsonObject.getJSONObject(activity.getResources().getString(R.string.url_data));
+
+                            nameInfo = data.getString("name");
+                            imageInfo = data.getString("photo");
+                            bankInfo = data.getString("bank");;
+                            ratingBarInfo = data.getDouble("score");;
+
+                            return 0;
+                        }else{
+                            return 3;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return 5;
+                    }
+                }else{
+                    return 4;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Integer result) {
+                if(result == 0){
+                    name.setText(nameInfo);
+                    bank.setText(bankInfo);
+                    ratingBar.setRating((float)ratingBarInfo);
+                    Glide.with(activity)
+                            .load(imageInfo)
+                            .animate(android.R.anim.slide_in_left)
+                            .placeholder(R.drawable.loading)
+                            .error(R.drawable.error)
+                            .into(image);
+                }else{
+                    new WebHook().execute("asdasd 안옴 result == " + result);
+                }
+
+                progressBar.setVisibility(View.GONE);
+            }
+        }
+
+
+    //// api 안됨.
         private class WritePostScript extends AsyncTask<Void, Void, Integer>{
             @Override
             protected void onPreExecute() {

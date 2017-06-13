@@ -193,20 +193,19 @@ public class QuotationDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0 || result == 1){
-                if(!quotationDetailHeaderObject.isReviewed()){
-                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT,quotationDetailHeaderObject);
-                    recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-                }else{
-                    if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_DONE_COMMENT,quotationDetailHeaderObject);
+                //isReviewed == true -> Yes
+                if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
+                    if(!quotationDetailHeaderObject.isReviewed()) {
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity, QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT, quotationDetailHeaderObject);
                         recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-                    }else{
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
+                    }else {
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity, QuotationDetailRecyclerViewAdapter.NO_WRITE_DONE_COMMENT, quotationDetailHeaderObject);
                         recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                     }
-
+                }else{
+                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
+                    recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                 }
-
                 new QuotationFeedback().execute();
             }else{
                 new WebHook().execute(" 123   MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);

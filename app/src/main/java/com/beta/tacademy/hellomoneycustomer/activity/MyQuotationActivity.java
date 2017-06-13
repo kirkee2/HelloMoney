@@ -72,6 +72,12 @@ public class MyQuotationActivity extends AppCompatActivity {
         toolbar.setTitle(getResources().getString(R.string.my_quotation));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
 
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
         new MyQuotationList().execute();
     }
 

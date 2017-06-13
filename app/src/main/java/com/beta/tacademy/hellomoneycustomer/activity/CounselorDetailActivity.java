@@ -233,7 +233,7 @@ public class CounselorDetailActivity extends AppCompatActivity {
                         for(int i = 0 ; i < data.length(); i++){
                             try {
                                 JSONObject jsonData = (JSONObject)data.get(i);
-                                mainValueObjectArrayList.add(new MainValueObject((int)jsonData.get("review_id"),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("register_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),(int)jsonData.get("score"),String.valueOf(jsonData.get("content")),(double)jsonData.get("benefit")));
+                                mainValueObjectArrayList.add(new MainValueObject((int)jsonData.get("review_id"),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("register_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),(int)jsonData.get("score"),String.valueOf(jsonData.get("content")),jsonData.getInt("benefit")));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
