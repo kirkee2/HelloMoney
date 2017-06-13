@@ -115,10 +115,6 @@ public class IntroActivity extends AppCompatActivity {
             public void onPermissionGranted() {
                 CommonClass.saveUUID();
                 new IdCheck().execute();
-                CommonClass.saveIntro();
-                progressBar.setVisibility(View.INVISIBLE);
-                startActivity(new Intent(IntroActivity.this, MainActivity.class));
-                finish();
             }
 
             @Override
@@ -196,6 +192,11 @@ public class IntroActivity extends AppCompatActivity {
                     //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
                     if(result == 1){
                         Toast.makeText(IntroActivity.this,"아이디 등록 되어있음.",Toast.LENGTH_LONG).show();
+
+                        CommonClass.saveIntro();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                        finish();
                     }else if(result == 2){
                         new IdRegister().execute();
                     }else{
@@ -269,6 +270,10 @@ public class IntroActivity extends AppCompatActivity {
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
             if(result == 1){
                 Toast.makeText(IntroActivity.this,"아이디 등록 안되있어서 추가함.",Toast.LENGTH_LONG).show();
+                CommonClass.saveIntro();
+                progressBar.setVisibility(View.INVISIBLE);
+                startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                finish();
             }else if(result == 2){
                 Toast.makeText(IntroActivity.this,"아이디 등록 안되있지만 추가 못함.",Toast.LENGTH_LONG).show();
             }else{
