@@ -43,16 +43,6 @@
             android:layout_height="wrap_content"
             app:ahp_backgroundColor="#e0e0e0"
             app:ahp_progressColor="#1de9b6" />
-        <!--
-        <ProgressBar
-            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
-            android:background="@color/white"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/step_progress"
-            android:max="100"
-            android:progress="45"/>
-            -->
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -108,8 +98,8 @@
                 android:background="@color/progress"
                 android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/step2Text"
+                <Button
+                    android:id="@+id/step2Button"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="100"
@@ -233,25 +223,24 @@
                 android:background="@color/white"
                 android:visibility="gone">
 
-                <EditText
+                <DatePicker
+                    android:id="@+id/step5DataPicker"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
                     android:layout_weight="100"
-                    android:textSize="@dimen/medium"
-                    android:textColor="@color/normalTypo"
-                    android:background="@color/white"
-                    android:layout_marginEnd="4dp"
-                    android:hint="@string/write_price"/>
+                    android:layout_height="wrap_content"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner" />
 
                 <Button
+                    android:id="@+id/step5Button"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:textColor="@color/subNormal"
+                    android:textColor="@color/progress"
                     android:text="@string/send"
                     android:textSize="@dimen/medium"
                     android:gravity="center"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
             </LinearLayout>
 
             <LinearLayout
@@ -351,6 +340,31 @@
                     android:textSize="@dimen/medium"
                     android:gravity="center"
                     android:background="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step8"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:weightSum="100"
+                android:background="@color/progress"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/step8Button"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="100"
+                    android:gravity="center"
+                    android:textSize="@dimen/medium"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="4dp"
+                    android:text="네. 모든 정보가 맞습니다."/>
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>

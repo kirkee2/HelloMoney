@@ -144,6 +144,18 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 return TYPE_ITEM;
             }
         }else if(type == NO_WRITE_ONGOING_COMMENT){
+            /*
+            if (position == 1) {
+                return TYPE_HEADER;
+            }else if (position == 2) {
+                return TYPE_HEADER_SUB;
+            }else if (position == 3) {
+                return TYPE_HEADER_SUB_SUB_SUB;
+            }else {
+                return TYPE_ITEM;
+            }
+            */
+
             if (position == 0) {
                 return TYPE_HEADER;
             }else if (position == 1) {
@@ -153,6 +165,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             }else {
                 return TYPE_ITEM;
             }
+
         }else{
             if (position == 0) {
                 return TYPE_HEADER;
@@ -247,6 +260,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         TextView jobtype;
         TextView telephone;
         LinearLayout linearLayout;
+        TextView feedbackList;
         private TextView goCounselor;
 
         private QuotationDetailSubSubSubHeaderViewHolder(View itemView) {
@@ -262,6 +276,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             jobtype = (TextView)itemView.findViewById(R.id.jobType);
             telephone = (TextView)itemView.findViewById(R.id.telephone);
             linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
+            feedbackList = (TextView)itemView.findViewById(R.id.feedbackList);
         }
     }
 
@@ -376,6 +391,12 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         }else if (holder instanceof QuotationDetailSubSubSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 
+            if(quotationDetailObjectArrayList.size() == 0){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setVisibility(View.GONE);
+            }else{
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setVisibility(View.VISIBLE);
+            }
+
             if(valueObject.getLoanType().equals("주택담보대출")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanType.setImageResource(R.drawable.secured_loan);
             }else{
@@ -454,14 +475,17 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
             }else if(valueObject.getOngoingStatus().equals("상담중")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setText("선택된 견적");
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
             }else if(valueObject.getOngoingStatus().equals("심사중")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setText("선택된 견적");
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
             }else if(valueObject.getOngoingStatus().equals("승인완료")){
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setText("선택된 견적");
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
@@ -497,32 +521,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 valueObject = quotationDetailObjectArrayList.get(position-4);
             }else{
                 valueObject = quotationDetailObjectArrayList.get(position-3);
+                //valueObject = quotationDetailObjectArrayList.get(position);
             }
-
-            /*
-            if(quotationDetailHeaderObject.getSelectedEstimateId() == valueObject.getId()){
-                ((QuotationDetailViewHolder) holder).bank.setText(valueObject.getBank());
-                ((QuotationDetailViewHolder) holder).name.setText(valueObject.getName());
-                ((QuotationDetailViewHolder) holder).interestRate.setText(String.valueOf(valueObject.getInterestRate())+"%");
-                ((QuotationDetailViewHolder) holder).loanType.setText(valueObject.getLoanType());
-
-                Glide.with(activity)
-                        .load(valueObject.getImageUrl())
-                        .animate(android.R.anim.slide_in_left)
-                        .placeholder(R.drawable.loading)
-                        .error(R.drawable.error)
-                        .into(((QuotationDetailViewHolder) holder).image);
-
-                ((QuotationDetailViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
-                        requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId(),quotationDetailHeaderObject.getOngoingStatus());
-                        requestQuotationDialog.show();
-                    }
-                });
-            }
-            */
 
             ((QuotationDetailViewHolder) holder).bank.setText(valueObject.getBank());
             ((QuotationDetailViewHolder) holder).name.setText(valueObject.getName());

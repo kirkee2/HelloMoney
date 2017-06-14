@@ -132,80 +132,80 @@ public class IntroActivity extends AppCompatActivity {
                 .check();
     }
 
-            private class IdCheck extends AsyncTask<Void, Void, Integer> {
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    progressBar.setVisibility(View.VISIBLE);
+    private class IdCheck extends AsyncTask<Void, Void, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
+            String msg = null;
+
+            try{
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                Request request = new Request.Builder()
+                        .url(getResources().getString(R.string.check_id_and_registered_id_url)+CommonClass.getUUID())
+                        .get()
+                        .build();
+                //동기 방식
+                response = toServer.newCall(request).execute();
+
+                flag = response.isSuccessful();
+                String returedJSON;
+
+                if(flag){ //성공했다면
+                    returedJSON = response.body().string();
+                    Log.e("resultJSON", returedJSON);
+                    try {
+                        JSONObject jsonObject = new JSONObject(returedJSON);
+                        msg = (String) jsonObject.get(getResources().getString(R.string.url_message));
+                    }catch(JSONException jsone){
+                        Log.e("json에러", jsone.toString());
+                    }
+                }else{
+                    return 2;
                 }
-
-                @Override
-                protected Integer doInBackground(Void... params) {
-                    boolean flag;
-                    Response response = null;
-                    OkHttpClient toServer;
-                    String msg = null;
-
-                    try{
-                        toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
-
-                        Request request = new Request.Builder()
-                                .url(getResources().getString(R.string.check_id_and_registered_id_url)+CommonClass.getUUID())
-                                .get()
-                                .build();
-                        //동기 방식
-                        response = toServer.newCall(request).execute();
-
-                        flag = response.isSuccessful();
-                        String returedJSON;
-
-                        if(flag){ //성공했다면
-                            returedJSON = response.body().string();
-                            Log.e("resultJSON", returedJSON);
-                            try {
-                                JSONObject jsonObject = new JSONObject(returedJSON);
-                                msg = (String) jsonObject.get(getResources().getString(R.string.url_message));
-                            }catch(JSONException jsone){
-                                Log.e("json에러", jsone.toString());
-                            }
-                        }else{
-                            return 2;
-                        }
-                    }catch (UnknownHostException une) {
-                    } catch (UnsupportedEncodingException uee) {
-                    } catch (Exception e) {
-                    } finally{
-                        if(response != null) {
-                            response.close(); //3.* 이상에서는 반드시 닫아 준다.
-                        }
-                    }
-
-                    if(msg.equals(getResources().getString(R.string.url_success))){
-                        return 1;
-                    }else{
-                        return 2;
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(Integer result) {
-                    //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-                    if(result == 1){
-                        Toast.makeText(IntroActivity.this,"아이디 등록 되어있음.",Toast.LENGTH_LONG).show();
-
-                        CommonClass.saveIntro();
-                        progressBar.setVisibility(View.INVISIBLE);
-                        startActivity(new Intent(IntroActivity.this, MainActivity.class));
-                        finish();
-                    }else if(result == 2){
-                        new IdRegister().execute();
-                    }else{
-                        Toast.makeText(IntroActivity.this,"에러 아이디 체크에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
-                    }
-
-                    progressBar.setVisibility(View.GONE);
+            }catch (UnknownHostException une) {
+            } catch (UnsupportedEncodingException uee) {
+            } catch (Exception e) {
+            } finally{
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
                 }
             }
+
+            if(msg.equals(getResources().getString(R.string.url_success))){
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
+            if(result == 1){
+                Toast.makeText(IntroActivity.this,"아이디 등록 되어있음.",Toast.LENGTH_LONG).show();
+
+                CommonClass.saveIntro();
+                progressBar.setVisibility(View.INVISIBLE);
+                startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                finish();
+            }else if(result == 2){
+                new IdRegister().execute();
+            }else{
+                Toast.makeText(IntroActivity.this,"에러 아이디 체크에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
+            }
+
+            progressBar.setVisibility(View.GONE);
+        }
+    }
 
     private class IdRegister extends AsyncTask<Void, Void, Integer> {
         @Override

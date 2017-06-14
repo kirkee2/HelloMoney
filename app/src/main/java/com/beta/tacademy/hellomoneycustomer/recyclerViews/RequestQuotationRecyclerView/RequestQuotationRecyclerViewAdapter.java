@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
@@ -115,6 +116,8 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
 
             ((SystemChattingViewHolder) holder).systemChatting.setText(valueObject.getText());
             if(valueObject.isInfo()){
+                ((SystemChattingViewHolder) holder).info.setVisibility(View.VISIBLE);
+                new WebHook().execute("!@3");
                 ((SystemChattingViewHolder) holder).info.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -122,7 +125,7 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
                     }
                 });
             }else{
-                ((SystemChattingViewHolder) holder).info.setVisibility(View.INVISIBLE);
+                ((SystemChattingViewHolder) holder).info.setVisibility(View.GONE);
             }
         } else{
             ((MyChattingViewHolder) holder).myChatting.setText(valueObject.getText());

@@ -67,6 +67,7 @@ public class MyQuotationActivity extends AppCompatActivity {
         mainPageViewPagerObjectOneM = new ArrayList<>();
         mainPageViewPagerObjectTwoM = new ArrayList<>();
 
+
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
         //Toolbar 설정
@@ -78,9 +79,6 @@ public class MyQuotationActivity extends AppCompatActivity {
 
         toolbar.setTitle(getResources().getString(R.string.my_quotation));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
-
-        Intent intent = getIntent();
-        viewPager.setCurrentItem(intent.getIntExtra("page",0));
 
         new MyQuotationList().execute();
     }
@@ -200,6 +198,11 @@ public class MyQuotationActivity extends AppCompatActivity {
 
                 viewPager.setAdapter(myQuotationFragmentPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager, true);
+
+
+                Intent intent = getIntent();
+                viewPager.setCurrentItem(intent.getIntExtra("page",0));
+
             }else{
             }
 

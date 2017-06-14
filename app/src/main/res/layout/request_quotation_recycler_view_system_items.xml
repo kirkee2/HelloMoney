@@ -16,8 +16,9 @@
 
     <TextView
         android:id="@+id/systemChattingText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="100"
         android:maxWidth="270dp"
         android:layout_gravity="start"
         android:background="@drawable/system_chatting_balloon"
