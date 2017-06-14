@@ -2,8 +2,11 @@ package com.beta.tacademy.hellomoneycustomer.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,6 +60,9 @@ public class MyQuotationActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
 
+        mainPageViewPagerObjectOneM = new ArrayList<>();
+        mainPageViewPagerObjectTwoM = new ArrayList<>();
+
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
         //Toolbar 설정
@@ -72,9 +78,8 @@ public class MyQuotationActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
-        super.onStart();
-
+    public void onResume(){
+        super.onResume();
         mainPageViewPagerObjectOneM = new ArrayList<>();
         mainPageViewPagerObjectTwoM = new ArrayList<>();
 
@@ -146,25 +151,20 @@ public class MyQuotationActivity extends AppCompatActivity {
                     if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
                         JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
 
-                        ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectOne = new ArrayList<>();
-                        ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectTwo = new ArrayList<>();
-
                         for(int i = 0 ; i < data.length(); i++){
                             try {
                                 JSONObject jsonData = (JSONObject)data.get(i);
 
                                 if(!String.valueOf(jsonData.get("status")).equals("대출실행완료")){
-                                    mainPageViewPagerObjectOne.add(new MainPageViewPagerObject((int)jsonData.get("request_id"),String.valueOf(jsonData.get("status")),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("end_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),String.valueOf(jsonData.get("apt_size_supply") + "(" + jsonData.get("apt_size_exclusive") +"m2)"),(int)jsonData.get("estimate_count")));
+                                    mainPageViewPagerObjectOneM.add(new MainPageViewPagerObject((int)jsonData.get("request_id"),String.valueOf(jsonData.get("status")),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("end_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),String.valueOf(jsonData.get("apt_size_supply") + "(" + jsonData.get("apt_size_exclusive") +"m2)"),(int)jsonData.get("estimate_count")));
                                 }else{
-                                    mainPageViewPagerObjectTwo.add(new MainPageViewPagerObject((int)jsonData.get("request_id"),String.valueOf(jsonData.get("status")),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("end_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),String.valueOf(jsonData.get("apt_size_supply") + "(" + jsonData.get("apt_size_exclusive") +"m2)"),(int)jsonData.get("estimate_count")));
+                                    mainPageViewPagerObjectTwoM.add(new MainPageViewPagerObject((int)jsonData.get("request_id"),String.valueOf(jsonData.get("status")),String.valueOf(jsonData.get("loan_type")),String.valueOf(jsonData.get("end_time")),String.valueOf(jsonData.get("region_1")),String.valueOf(jsonData.get("region_2")),String.valueOf(jsonData.get("region_3")),String.valueOf(jsonData.get("apt_name")),String.valueOf(jsonData.get("apt_size_supply") + "(" + jsonData.get("apt_size_exclusive") +"m2)"),(int)jsonData.get("estimate_count")));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
 
-                        mainPageViewPagerObjectOneM = mainPageViewPagerObjectOne;
-                        mainPageViewPagerObjectTwoM = mainPageViewPagerObjectTwo;
                         //myQuotationFragmentPagerAdapter.init(mainPageViewPagerObjectOne,mainPageViewPagerObjectTwo);
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
@@ -186,9 +186,10 @@ public class MyQuotationActivity extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             if(result == 0 || result == 1){
                 myQuotationFragmentPagerAdapter = new MyQuotationFragmentPagerAdapter(getSupportFragmentManager(),mainPageViewPagerObjectOneM,mainPageViewPagerObjectTwoM);
+                //myQuotationFragmentPagerAdapter.init(mainPageViewPagerObjectOneM,mainPageViewPagerObjectTwoM);
+
                 viewPager.setAdapter(myQuotationFragmentPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager, true);
-
                 Intent intent = getIntent();
 
                 viewPager.setCurrentItem(intent.getIntExtra("page",0));

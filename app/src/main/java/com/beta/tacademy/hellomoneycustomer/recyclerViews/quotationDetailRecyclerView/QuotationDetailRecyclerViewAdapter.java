@@ -3,6 +3,7 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecycl
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.CounselorDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.bumptech.glide.Glide;
@@ -428,6 +430,14 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     writeCommentDialog.setInfo(activity,valueObject.getId());
 
                     writeCommentDialog.show();
+                    /*
+                    writeCommentDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            ((QuotationDetailActivity)activity).update();
+                        }
+                    });
+                    */
                 }
             });
         }else {
@@ -460,6 +470,15 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
                     requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId(),quotationDetailHeaderObject.getOngoingStatus());
                     requestQuotationDialog.show();
+
+                    /*
+                    requestQuotationDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            ((QuotationDetailActivity)activity).update();
+                        }
+                    });
+                    */
                 }
             });
         }
@@ -794,9 +813,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             @Override
             protected void onPostExecute(Integer result) {
                 if(result == 0){
-                    new WebHook().execute("상담 신청하기 성공");
-                    notifyDataSetChanged();
+                    Toast.makeText(activity,"상담 신청하기 성공",Toast.LENGTH_SHORT).show();
                     dismiss();
+                    ((QuotationDetailActivity)activity).update();
                 }else{
                     new WebHook().execute("asdasd 안옴 result == " + result);
                 }
@@ -1084,6 +1103,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 if(result == 0){
                     Toast.makeText(activity,"후기를 등록하였습니다.",Toast.LENGTH_SHORT).show();
                     dismiss();
+                    ((QuotationDetailActivity)activity).update();
                 }else{
                     new WebHook().execute("result == " + result);
                 }

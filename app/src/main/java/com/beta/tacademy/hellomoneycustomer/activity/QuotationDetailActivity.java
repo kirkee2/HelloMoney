@@ -64,7 +64,6 @@ public class QuotationDetailActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        quotationDetailObjectArrayList = new ArrayList<>();
 
         activity = this;
         Intent intent = getIntent();
@@ -89,9 +88,20 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        new QuotationDetail().execute();
         //addItems();
    }
+
+    public void onResume(){
+        super.onResume();
+
+        quotationDetailObjectArrayList = new ArrayList<>();
+        new QuotationDetail().execute();
+    }
+
+    public void update(){
+        quotationDetailObjectArrayList = new ArrayList<>();
+        new QuotationDetail().execute();
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

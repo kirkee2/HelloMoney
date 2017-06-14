@@ -210,17 +210,22 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
             */
 
-
             /*
-            dt.parse(valueObject.getPastTime());
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyy-mm-dd\'T\'hh:mm:ss\'Z\'", Locale.KOREA);
             SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd'T'hh:mm:ss'Z'");
             try {
-                Calendar calendar = dt.getCalendar();
-                new WebHook().execute(date.getYear())
+                Date date = sdf.parse(valueObject.getPastTime());
+                new WebHook().execute(date.getYear() + " " + date.getMonth() + " " + date.getDay() + " " + date.getHours() + " " + date.getMinutes() + " " +date.getSeconds());
             } catch (ParseException e) {
                 e.printStackTrace();
+                new WebHook().execute(e.toString());
+
             }
-*/
+            */
+
+            new WebHook().execute(valueObject.getPastTime());
+
 
 
             ((MainViewHolder) holder).pastTime.setText(valueObject.getPastTime());

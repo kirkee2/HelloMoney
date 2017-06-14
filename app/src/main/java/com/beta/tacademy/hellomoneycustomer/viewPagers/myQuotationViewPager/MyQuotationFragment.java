@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
@@ -26,13 +27,18 @@ import static android.R.attr.padding;
 
 public class MyQuotationFragment extends Fragment {
     RecyclerView recyclerView;
-    MyQuotationRecyclerViewAdapter myQuotationFragmentPagerAdapter;
+    MyQuotationRecyclerViewAdapter myQuotationRecyclerViewAdapter;
     ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
 
 
     public MyQuotationFragment() {
         // Required empty public constructor
     }
+
+    public MyQuotationFragment(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList) {
+        this.mainPageViewPagerObjectArrayList = mainPageViewPagerObjectArrayList;
+    }
+
 
     // TODO: Rename and change types and number of parameters
     public static MyQuotationFragment newInstance(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList) {
@@ -49,8 +55,7 @@ public class MyQuotationFragment extends Fragment {
         if (getArguments() != null) {
             this.mainPageViewPagerObjectArrayList = getArguments().getParcelableArrayList("mainPageViewPagerObjectArrayList");
         }
-
-        myQuotationFragmentPagerAdapter = new MyQuotationRecyclerViewAdapter(getActivity());
+        myQuotationRecyclerViewAdapter = new MyQuotationRecyclerViewAdapter(getActivity());
     }
 
     @Override
@@ -59,11 +64,16 @@ public class MyQuotationFragment extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
-
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(myQuotationFragmentPagerAdapter);
 
-        myQuotationFragmentPagerAdapter.init(mainPageViewPagerObjectArrayList);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        recyclerView.setAdapter(myQuotationRecyclerViewAdapter);
+        myQuotationRecyclerViewAdapter.init(mainPageViewPagerObjectArrayList);
     }
 }

@@ -13,13 +13,15 @@ public class MyQuotationFragmentPagerAdapter extends FragmentPagerAdapter {
     ArrayList<MainPageViewPagerObject> itemOne;
     ArrayList<MainPageViewPagerObject> itemTwo;
 
+    public MyQuotationFragmentPagerAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
     public MyQuotationFragmentPagerAdapter(FragmentManager fm,ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayListOne,ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayListTwo) {
         super(fm);
-        //itemOne = new ArrayList<>();
-        //itemTwo = new ArrayList<>();
-
         itemOne = mainPageViewPagerObjectArrayListOne;
         itemTwo = mainPageViewPagerObjectArrayListTwo;
+        notifyDataSetChanged();
     }
 
     public void init(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayListOne,ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayListTwo){
