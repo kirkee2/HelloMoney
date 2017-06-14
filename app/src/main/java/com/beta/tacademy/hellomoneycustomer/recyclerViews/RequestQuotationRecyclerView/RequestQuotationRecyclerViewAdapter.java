@@ -1,5 +1,6 @@
 package com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +15,19 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.WindowManager.LayoutParams;
+
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
@@ -45,12 +51,16 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
     private ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList;
     private int previousStep;
     private int step;
+    private PopupWindow mPopupWindow;
+    private Activity activity;
 
-    public RequestQuotationRecyclerViewAdapter(){
+
+    public RequestQuotationRecyclerViewAdapter(Activity activity){
         //변수 초기화
         requestQuotationValueObjectArrayList = new ArrayList<>();
         step = 0;
         previousStep = 0;
+        this.activity = activity;
     }
 
     public void addItem(RequestQuotationValueObject requestQuotationValueObject){
@@ -121,6 +131,13 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
                 ((SystemChattingViewHolder) holder).info.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        /*
+                        View popupView = activity.getLayoutInflater().inflate(R.layout.popup_window, null);
+
+                        mPopupWindow = new PopupWindow(popupView, 100, LayoutParams.WRAP_CONTENT);
+                        mPopupWindow.showAtLocation(popupView, 0, -100);
+                        */
+
                         Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계입니다.", Toast.LENGTH_SHORT).show();
                     }
                 });

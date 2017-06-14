@@ -1094,8 +1094,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             }
         }
 
-
-    //// api 안됨.
         private class WritePostScript extends AsyncTask<Void, Void, Integer>{
             @Override
             protected void onPreExecute() {
@@ -1116,9 +1114,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
                 try{
                     toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
-
-                    comment = (EditText)findViewById(R.id.comment);
-                    progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
                     RequestBody postBody = new FormBody.Builder()
                             .add("requestId",String.valueOf(requestId))
