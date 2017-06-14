@@ -79,7 +79,6 @@
                         android:textSize="@dimen/large"
                         android:textColor="@android:color/white"
                         android:gravity="center_vertical"
-                        android:text="1"
                         android:layout_marginTop="11dp"
                         android:layout_marginRight="11dp"
                         android:layout_marginBottom="11dp"
@@ -113,7 +112,6 @@
                         android:textSize="@dimen/large"
                         android:textColor="@color/normalTypo"
                         android:gravity="center_vertical"
-                        android:text="3.3%"
                         android:layout_marginTop="11dp"
                         android:layout_marginRight="11dp"
                         android:layout_marginBottom="11dp"
@@ -164,8 +162,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/small"
-                                android:layout_gravity="center_vertical"
-                                android:text="국민은행"/>
+                                android:layout_gravity="center_vertical"/>
 
                             <TextView
                                 android:id="@+id/name"
@@ -173,8 +170,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/small"
-                                android:layout_gravity="center_vertical"
-                                android:text="홍길동"/>
+                                android:layout_gravity="center_vertical"/>
                         </LinearLayout>
 
                         <TextView
@@ -257,7 +253,7 @@
 
                             <TextView
                                 android:id="@+id/pastTime"
-                                android:layout_width="66dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="16dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentTop="true"

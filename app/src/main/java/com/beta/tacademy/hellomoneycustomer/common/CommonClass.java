@@ -10,6 +10,7 @@ import android.view.View;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +18,15 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import okhttp3.FormBody;
@@ -67,6 +76,73 @@ public class CommonClass {
     public static boolean getIntro() {
         SharedPreferences sharedPreferences = HelloMoneyCustomerApplication.getInstance().getSharedPreferences("helloMoney", MODE_PRIVATE);
         return sharedPreferences.getBoolean("beenIntro",false);
+    }
+
+    public static String timeParsing(String time){
+        TimeZone utc = TimeZone.getTimeZone("UTC");
+
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        transFormat.setTimeZone(utc);
+        dateFormat.setTimeZone(utc);
+
+
+        try {
+            Date toDate = transFormat.parse(time);
+            String pastTimeInfo = dateFormat.format(toDate.getTime());
+            return pastTimeInfo;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String timeDashParsing(String time){
+        TimeZone utc = TimeZone.getTimeZone("UTC");
+
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        transFormat.setTimeZone(utc);
+        dateFormat.setTimeZone(utc);
+
+
+        try {
+            Date toDate = transFormat.parse(time);
+            String pastTimeInfo = dateFormat.format(toDate.getTime());
+            return pastTimeInfo;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static int timeLeftSecondParsing(String time){
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+        try {
+            Date endDate = transFormat.parse(time);
+            Calendar tempcal=Calendar.getInstance();
+
+            long endTime = endDate.getTime(); //현재의 시간 설정
+            Calendar cal = Calendar.getInstance();
+            Date startDate=cal.getTime();
+
+            long startTime=startDate.getTime();
+            long mills=endTime-startTime; //분으로 변환
+
+            //long hour=mills/3600000;
+            //long min=mills/60000;
+            int second= (int)mills/1000;
+
+            return second;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
     }
 
     /*

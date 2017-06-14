@@ -36,6 +36,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -49,6 +51,8 @@ public class MyQuotationActivity extends AppCompatActivity {
     private MyQuotationFragmentPagerAdapter myQuotationFragmentPagerAdapter;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectOneM;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectTwoM;
+    public Timer timer;
+    public TimerTask timerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +79,21 @@ public class MyQuotationActivity extends AppCompatActivity {
         toolbar.setTitle(getResources().getString(R.string.my_quotation));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
 
+        Intent intent = getIntent();
+        viewPager.setCurrentItem(intent.getIntExtra("page",0));
+
+        new MyQuotationList().execute();
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        /*
         mainPageViewPagerObjectOneM = new ArrayList<>();
         mainPageViewPagerObjectTwoM = new ArrayList<>();
 
         new MyQuotationList().execute();
+        */
 
     }
 
@@ -190,13 +200,18 @@ public class MyQuotationActivity extends AppCompatActivity {
 
                 viewPager.setAdapter(myQuotationFragmentPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager, true);
-                Intent intent = getIntent();
-
-                viewPager.setCurrentItem(intent.getIntExtra("page",0));
             }else{
             }
 
             progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(timer != null){
+            timer.cancel();
         }
     }
 }

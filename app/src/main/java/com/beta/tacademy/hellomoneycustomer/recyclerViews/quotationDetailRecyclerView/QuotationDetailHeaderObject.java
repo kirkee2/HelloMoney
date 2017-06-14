@@ -16,7 +16,7 @@ public class QuotationDetailHeaderObject {
     private int id;
     private String ongoingStatus;
     //private ArrayList<Float> rate;
-    private String remainTime;
+    private String leftTime;
     private String loanType;
     private String region1;
     private String region2;
@@ -37,11 +37,12 @@ public class QuotationDetailHeaderObject {
     private String photo;
     private String bank;
     private String agentId;
+    private int leftSecond;
 
-    public QuotationDetailHeaderObject(int id, String ongoingStatus, String remainTime, String loanType, String region1, String region2, String region3, String apt, String size, int loanSum, String rateType, String loanDate, String jobType, String telephone, boolean isReviewed, int selectedEstimateId, String content, double score, String reviewRegisterTime, String name, String photo, String bank,String agentId) {
+    public QuotationDetailHeaderObject(int id, String ongoingStatus, String leftTime, String loanType, String region1, String region2, String region3, String apt, String size, int loanSum, String rateType, String loanDate, String jobType, String telephone, boolean isReviewed, int selectedEstimateId, String content, double score, String reviewRegisterTime, String name, String photo, String bank,String agentId) {
         this.id = id;
         this.ongoingStatus = ongoingStatus;
-        this.remainTime = remainTime;
+        this.leftTime = leftTime;
         this.loanType = loanType;
         this.region1 = region1;
         this.region2 = region2;
@@ -62,6 +63,7 @@ public class QuotationDetailHeaderObject {
         this.photo = photo;
         this.bank = bank;
         this.agentId = agentId;
+        this.leftSecond = 0;
     }
 
     public int getId() {
@@ -80,12 +82,12 @@ public class QuotationDetailHeaderObject {
         this.ongoingStatus = ongoingStatus;
     }
 
-    public String getRemainTime() {
-        return remainTime;
+    public String getLeftTime() {
+        return leftTime;
     }
 
-    public void setRemainTime(String remainTime) {
-        this.remainTime = remainTime;
+    public void setLeftTime(String leftTime) {
+        this.leftTime = leftTime;
     }
 
     public String getLoanType() {
@@ -246,5 +248,13 @@ public class QuotationDetailHeaderObject {
 
     public void setAgentId(String agentId) {
         this.agentId = agentId;
+    }
+
+    public int getLeftSecond() {
+        return leftSecond;
+    }
+
+    public void setLeftSecond(int leftSecond) {
+        this.leftSecond = leftSecond;
     }
 }

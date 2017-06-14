@@ -41,6 +41,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -56,6 +58,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private QuotationDetailHeaderObject quotationDetailHeaderObject;
     private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
     private Activity activity;
+    public Timer timer;
+    public TimerTask timerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,25 +207,10 @@ public class QuotationDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0 || result == 1){
-                //isReviewed == true -> Yes
-                if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
-                    if(!quotationDetailHeaderObject.isReviewed()) {
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity, QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT, quotationDetailHeaderObject);
-                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-                    }else {
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity, QuotationDetailRecyclerViewAdapter.NO_WRITE_DONE_COMMENT, quotationDetailHeaderObject);
-                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-                    }
-                }else{
-                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
-                    recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
-                }
                 new QuotationFeedback().execute();
             }else{
                 new WebHook().execute(" 123   MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
-
-            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -306,13 +295,44 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 0){
-                quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
-            }else if(result == 1){
-                new WebHook().execute("ㅁㄴㅇㄴㅁㅇ MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
+            if(result == 0 || result == 1){
+                //isReviewed == true -> Yes
+                if(quotationDetailHeaderObject.getOngoingStatus().equals("대출실행완료")){
+                    if(!quotationDetailHeaderObject.isReviewed()) {
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity, QuotationDetailRecyclerViewAdapter.YES_WRITE_COMMENT, quotationDetailHeaderObject);
+                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                    }else {
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity, QuotationDetailRecyclerViewAdapter.NO_WRITE_DONE_COMMENT, quotationDetailHeaderObject);
+                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                    }
+                }else{
+                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
+                    recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                }
+
+                if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
+                    quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
+                }else{
+                    for(QuotationDetailObject tmp : quotationDetailObjectArrayList){
+                        if(tmp.getId() == quotationDetailHeaderObject.getSelectedEstimateId()){
+                            quotationDetailRecyclerViewAdapter.addItem(tmp);
+                        }
+                    }
+
+                }
             }else{
                 new WebHook().execute(" askdmasldas lkdm akasdasdsad sd MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
+
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(timer != null){
+            timer.cancel();
         }
     }
 }

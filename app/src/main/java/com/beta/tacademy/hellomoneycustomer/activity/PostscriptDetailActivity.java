@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
@@ -59,6 +60,9 @@ public class PostscriptDetailActivity extends AppCompatActivity {
     private TextView apt;
     private RatingBar starRatingBar;
     private TextView content;
+    private TextView pastTime;
+
+
     private String imageInfo;
     private String bankInfo;
     private String nameInfo;
@@ -68,6 +72,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
     private float starInfo;
     private String contentInfo;
     private String counselorId;
+    private String pastTimeInfo;
     private Activity activity;
 
     @Override
@@ -89,6 +94,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         apt = (TextView)findViewById(R.id.apt);
         starRatingBar = (RatingBar)findViewById(R.id.starRatingBar);
         content = (TextView)findViewById(R.id.content);
+        pastTime = (TextView)findViewById(R.id.pastTime);
 
         activity = this;
         starRatingBar.setEnabled(false);
@@ -331,6 +337,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                         starInfo = (float) data.getDouble("score");
                         contentInfo = data.getString("content");
                         counselorId = data.getString("agent_id");
+                        pastTimeInfo = data.getString("register_time");
 
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
@@ -368,6 +375,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                     loanType.setImageResource(R.drawable.lease_loan);
                 }
 
+                pastTime.setText(CommonClass.timeParsing(pastTimeInfo));
                 region.setText(regionInfo);
                 apt.setText(aptInfo);
                 starRatingBar.setRating(starInfo);

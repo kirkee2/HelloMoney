@@ -14,6 +14,7 @@ public class MainPageViewPagerObject implements Parcelable {
     private String apt;
     private String size;
     private int currentQuotation;
+    private int leftSecond;
 
     public MainPageViewPagerObject(Parcel in) {
         readFromParcel(in);
@@ -30,6 +31,8 @@ public class MainPageViewPagerObject implements Parcelable {
         this.apt = apt;
         this.size = size;
         this.currentQuotation = currentQuotation;
+        this.leftSecond = 0;
+
     }
 
     public int getId() {
@@ -113,6 +116,15 @@ public class MainPageViewPagerObject implements Parcelable {
     public void setCurrentQuotation(int currentQuotation) {
         this.currentQuotation = currentQuotation;
     }
+
+    public int getLeftSecond() {
+        return leftSecond;
+    }
+
+    public void setLeftSecond(int leftSecond) {
+        this.leftSecond = leftSecond;
+    }
+
 
     @Override
     public int describeContents() {

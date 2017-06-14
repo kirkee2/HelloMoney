@@ -1,12 +1,5 @@
 package com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import static android.R.attr.format;
-
 public class MainValueObject {
     private int id;
     private String loanType;
@@ -28,16 +21,9 @@ public class MainValueObject {
     }
 
     public MainValueObject(int id, String loanType, String pastTime, String region1, String region2, String region3, String apt, int star, String content, double benefit) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-        try {
-            Date date = sdf.parse(pastTime);
-            this.pastTime = sdf.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         this.id = id;
         this.loanType = loanType;
+        this.pastTime = pastTime;
         this.region1 = region1;
         this.region2 = region2;
         this.region3 = region3;

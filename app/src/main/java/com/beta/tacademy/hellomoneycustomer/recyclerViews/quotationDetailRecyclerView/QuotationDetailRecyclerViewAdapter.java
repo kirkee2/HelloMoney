@@ -33,10 +33,13 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.CounselorDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -54,6 +57,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.FormBody;
@@ -170,7 +175,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         TextView interestRate;
         CircleImageView image;
         CardView cardView;
-        ImageView check;
+        //ImageView check;
 
         private QuotationDetailViewHolder(View itemView) {
             super(itemView);
@@ -180,7 +185,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             loanType = (TextView)itemView.findViewById(R.id.loanType);
             interestRate = (TextView)itemView.findViewById(R.id.interestRate);
             image = (CircleImageView)itemView.findViewById(R.id.image);
-            check = (ImageView)itemView.findViewById(R.id.check);
+            //check = (ImageView)itemView.findViewById(R.id.check);
         }
     }
 
@@ -231,7 +236,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     private class QuotationDetailSubSubSubHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView remainTime;
+        TextView leftTime;
         ImageView loanType;
         TextView region;
         TextView apt;
@@ -246,7 +251,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
         private QuotationDetailSubSubSubHeaderViewHolder(View itemView) {
             super(itemView);
-            remainTime = (TextView)itemView.findViewById(R.id.remainTime);
+            leftTime = (TextView)itemView.findViewById(R.id.leftTime);
             loanType = (ImageView) itemView.findViewById(R.id.loanType);
             region = (TextView)itemView.findViewById(R.id.region);
             apt = (TextView)itemView.findViewById(R.id.apt);
@@ -271,7 +276,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         if(holder instanceof QuotationDetailHeaderViewHolder){
         } else if (holder instanceof QuotationDetailSubHeaderViewHolder) {
@@ -382,42 +387,88 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).size.setText(valueObject.getSize());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(String.valueOf(valueObject.getLoanSum())+"만원");
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).rateType.setText(valueObject.getRateType());
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanDate.setText(valueObject.getLoanDate());
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanDate.setText(CommonClass.timeDashParsing(valueObject.getLoanDate()));
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText(valueObject.getJobType());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(valueObject.getTelephone());
 
-            ////
             if(valueObject.getOngoingStatus().equals("견적접수중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_interection_waiting));
-            }else if(valueObject.getOngoingStatus().equals("선택대기중") || valueObject.getOngoingStatus().equals("상담중") || valueObject.getOngoingStatus().equals("심사중") || valueObject.getOngoingStatus().equals("승인완료")){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
-            }else{
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_done));
-            }
 
-            if(valueObject.getOngoingStatus().equals("견적접수중")){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_interection_waiting));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText("마감까지 " + valueObject.getRemainTime()+ " 남았습니다.");
+                valueObject.setLeftSecond(CommonClass.timeLeftSecondParsing(valueObject.getLeftTime()));
+                int leftSecond  = CommonClass.timeLeftSecondParsing(valueObject.getLeftTime());
+                int hour = leftSecond/3600;
+                int minute = leftSecond%3600;
+                minute = minute/60;
+
+                ((QuotationDetailActivity)activity).timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int leftSecond = valueObject.getLeftSecond()-1;
+                                valueObject.setLeftSecond(leftSecond);
+                                int hour = leftSecond/3600;
+                                int minute = leftSecond%3600;
+                                minute = minute/60;
+                                new WebHook().execute("asd");
+
+                                if(leftSecond > 0){
+                                    if(hour<10 && minute<10){
+                                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
+                                    } else if(hour<10){
+                                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
+                                    }else if(minute<10){
+                                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
+                                    }else{
+                                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
+                                    }
+                                }else{
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                                }
+                            }
+                        });
+                    }
+                };
+
+                ((QuotationDetailActivity)activity).timer = new Timer();
+                ((QuotationDetailActivity)activity).timer.schedule(((QuotationDetailActivity)activity).timerTask,1000,1000);
+
+
+                if(leftSecond > 0){
+                    if(hour<10 && minute<10){
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
+                    } else if(hour<10){
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
+                    }else if(minute<10){
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
+                    }else{
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
+                    }
+                }else{
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                    ((QuotationDetailActivity)activity).timer.cancel();
+                }
             }else if(valueObject.getOngoingStatus().equals("선택대기중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + "입니다.");
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
             }else if(valueObject.getOngoingStatus().equals("상담중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + "입니다.");
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
             }else if(valueObject.getOngoingStatus().equals("심사중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + "입니다.");
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + "입니다.");
             }else if(valueObject.getOngoingStatus().equals("승인완료")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
             }else{
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_done));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).remainTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(valueObject.getOngoingStatus() + " 되었습니다.");
             }
             ////
         }else if (holder instanceof QuotationDetailFooterViewHolder) {
@@ -448,14 +499,41 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 valueObject = quotationDetailObjectArrayList.get(position-3);
             }
 
+            /*
+            if(quotationDetailHeaderObject.getSelectedEstimateId() == valueObject.getId()){
+                ((QuotationDetailViewHolder) holder).bank.setText(valueObject.getBank());
+                ((QuotationDetailViewHolder) holder).name.setText(valueObject.getName());
+                ((QuotationDetailViewHolder) holder).interestRate.setText(String.valueOf(valueObject.getInterestRate())+"%");
+                ((QuotationDetailViewHolder) holder).loanType.setText(valueObject.getLoanType());
+
+                Glide.with(activity)
+                        .load(valueObject.getImageUrl())
+                        .animate(android.R.anim.slide_in_left)
+                        .placeholder(R.drawable.loading)
+                        .error(R.drawable.error)
+                        .into(((QuotationDetailViewHolder) holder).image);
+
+                ((QuotationDetailViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
+                        requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId(),quotationDetailHeaderObject.getOngoingStatus());
+                        requestQuotationDialog.show();
+                    }
+                });
+            }
+            */
+
             ((QuotationDetailViewHolder) holder).bank.setText(valueObject.getBank());
             ((QuotationDetailViewHolder) holder).name.setText(valueObject.getName());
             ((QuotationDetailViewHolder) holder).interestRate.setText(String.valueOf(valueObject.getInterestRate())+"%");
             ((QuotationDetailViewHolder) holder).loanType.setText(valueObject.getLoanType());
 
+            /*
             if(quotationDetailHeaderObject.getSelectedEstimateId() == valueObject.getId()){
                 ((QuotationDetailViewHolder) holder).check.setVisibility(View.VISIBLE);
             }
+            */
 
             Glide.with(activity)
                     .load(valueObject.getImageUrl())
@@ -471,16 +549,17 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     requestQuotationDialog.setInfo(activity,quotationDetailHeaderObject.getId(),valueObject.getId(),quotationDetailHeaderObject.getOngoingStatus());
                     requestQuotationDialog.show();
 
-                    /*
+/*
                     requestQuotationDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             ((QuotationDetailActivity)activity).update();
                         }
                     });
-                    */
+*/
                 }
             });
+
         }
     }
 

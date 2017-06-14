@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.bumptech.glide.Glide;
@@ -140,7 +141,7 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((CounselorDetailViewHolder) holder).apt.setText(valueObject.getApt());
             ((CounselorDetailViewHolder) holder).starRatingBar.setRating(valueObject.getStar());
             ((CounselorDetailViewHolder) holder).starRatingBar.setEnabled(false);
-            ((CounselorDetailViewHolder) holder).pastTime.setText(valueObject.getPastTime());
+            ((CounselorDetailViewHolder) holder).pastTime.setText(CommonClass.timeParsing(valueObject.getPastTime()));
             ((CounselorDetailViewHolder) holder).content.setText(valueObject.getContent());
 
             if( valueObject.getBenefit() < 0){

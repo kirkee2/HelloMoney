@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity{
     private RelativeLayout relativeLayoutTwo;
     private FragmentManager fragmentManager;
     private Activity activity;
+    private ActionBarDrawerToggle toggle;
 
     private TextView myOngoingQuotation;
     private TextView myDoneQuotation;
@@ -91,17 +92,19 @@ public class MainActivity extends AppCompatActivity{
 
         //Toolbar 설정
         if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
         //ActionBarDrawerToggle
 
+
         //ActionBarDrawerToggle 초기화 및 싱크 설정
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
+
 
         naviList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,new String[]{getString(R.string.how_to),getString(R.string.faq),getString(R.string.contact)}));
         naviList.setOnItemClickListener(new DrawerItemClickListener());
@@ -155,16 +158,16 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
+        mainValueObjectArrayList = new ArrayList<>();
+
+        new MyQuotationList().execute();
     }
 
     @Override
     public void onStart(){
         super.onStart();
 
-        mainPageViewPagerObjectArrayList = new ArrayList<>();
-        mainValueObjectArrayList = new ArrayList<>();
-
-        new MyQuotationList().execute();
     }
     //back 버튼 클릭 시 이벤트 설정.
     @Override
@@ -281,10 +284,6 @@ public class MainActivity extends AppCompatActivity{
             }else{
                 new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
             }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
         }
     }
 
@@ -439,12 +438,21 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 0){
+            if(result == 0 || result == 1){
                 mainRecyclerViewAdapter.initItem(mainValueObjectArrayList);
-            }else if(result == 1){
             }else{
                 new WebHook().execute("MainActivity 후기 목록 안옴 result ===== " + result);
             }
+
+            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
+            //toggle.setDrawerIndicatorEnabled(true);
+            progressBar.setVisibility(View.GONE);
+            refreshLayout.setEnabled(true);
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            toggle.syncState();
         }
     }
 

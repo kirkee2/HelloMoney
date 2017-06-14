@@ -22,6 +22,8 @@ import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageVie
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.R.attr.padding;
 
@@ -29,7 +31,6 @@ public class MyQuotationFragment extends Fragment {
     RecyclerView recyclerView;
     MyQuotationRecyclerViewAdapter myQuotationRecyclerViewAdapter;
     ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
-
 
     public MyQuotationFragment() {
         // Required empty public constructor

@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -19,11 +21,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -68,7 +76,7 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final MainPageViewPagerObject valueObject = mainPageViewPagerObjectArrayList.get(position);
 
 
@@ -81,7 +89,62 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         if(valueObject.getOngoingStatus().equals("견적접수중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_interection_waiting));
-            ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + valueObject.getLeftTime() + " 남았습니다.");
+
+            valueObject.setLeftSecond(CommonClass.timeLeftSecondParsing(valueObject.getLeftTime()));
+            int leftSecond  = CommonClass.timeLeftSecondParsing(valueObject.getLeftTime());
+            int hour = leftSecond/3600;
+            int minute = leftSecond%3600;
+            minute = minute/60;
+
+            ((MyQuotationActivity)activity).timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int leftSecond = valueObject.getLeftSecond()-1;
+                            valueObject.setLeftSecond(leftSecond);
+                            int hour = leftSecond/3600;
+                            int minute = leftSecond%3600;
+                            minute = minute/60;
+
+                            if(leftSecond > 0){
+                                if(hour<10 && minute<10){
+                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
+                                } else if(hour<10){
+                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
+                                }else if(minute<10){
+                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
+                                }else{
+                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
+                                }
+                            }else{
+                                ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                            }
+                        }
+                    });
+                }
+            };
+
+            ((MyQuotationActivity)activity).timer = new Timer();
+            ((MyQuotationActivity)activity).timer.schedule(((MyQuotationActivity)activity).timerTask,1000,1000);
+
+            if(leftSecond > 0){
+                if(hour<10 && minute<10){
+                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
+                } else if(hour<10){
+                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
+                }else if(minute<10){
+                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
+                }else{
+                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
+                }
+            }else{
+                ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                ((MyQuotationActivity)activity).timer.cancel();
+            }
+
+
         }else if(valueObject.getOngoingStatus().equals("선택대기중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
