@@ -358,7 +358,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0){
-                Glide.with(activity)
+                Glide.with(HelloMoneyCustomerApplication.getInstance())
                         .load(imageInfo)
                         .animate(android.R.anim.slide_in_left)
                         .placeholder(R.drawable.loading)

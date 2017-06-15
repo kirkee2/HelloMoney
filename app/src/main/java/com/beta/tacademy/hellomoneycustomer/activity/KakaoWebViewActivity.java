@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView.CounselorDetailRecyclerViewAdapter;
 
 import java.net.URISyntaxException;
@@ -73,6 +74,7 @@ public class KakaoWebViewActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest webResourceRequest) {
                 String url = null;
+
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     url = String.valueOf(webResourceRequest.getUrl());
                     if (url != null && url.startsWith("intent://")) {
@@ -103,7 +105,7 @@ public class KakaoWebViewActivity extends AppCompatActivity {
                     }
                     view.loadUrl(url);
                     return false;
-                }else {
+                } else {
                     return false;
                 }
             }

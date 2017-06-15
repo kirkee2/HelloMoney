@@ -18,6 +18,7 @@ import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroFragmentPagerAdapter;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.gun0912.tedpermission.PermissionListener;
@@ -114,6 +115,8 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onPermissionGranted() {
                 CommonClass.saveUUID();
+
+                new WebHook().execute("asdsadsadasd asdasas asdas " + CommonClass.getUUID());
                 new IdCheck().execute();
             }
 
@@ -144,13 +147,14 @@ public class IntroActivity extends AppCompatActivity {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
-            String msg = null;
+
+            JSONObject jsonObject = null;
 
             try{
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(getResources().getString(R.string.check_id_and_registered_id_url)+CommonClass.getUUID())
+                        .url(String.format(getResources().getString(R.string.check_id_url), CommonClass.getUUID()))
                         .get()
                         .build();
                 //동기 방식
@@ -161,10 +165,9 @@ public class IntroActivity extends AppCompatActivity {
 
                 if(flag){ //성공했다면
                     returedJSON = response.body().string();
-                    Log.e("resultJSON", returedJSON);
+
                     try {
-                        JSONObject jsonObject = new JSONObject(returedJSON);
-                        msg = (String) jsonObject.get(getResources().getString(R.string.url_message));
+                        jsonObject = new JSONObject(returedJSON);
                     }catch(JSONException jsone){
                         Log.e("json에러", jsone.toString());
                     }
@@ -180,24 +183,30 @@ public class IntroActivity extends AppCompatActivity {
                 }
             }
 
-            if(msg.equals(getResources().getString(R.string.url_success))){
-                return 1;
-            }else{
-                return 2;
+            try {
+                if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                    return 0;
+                }else{
+                    return 1;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return 3;
             }
         }
 
         @Override
         protected void onPostExecute(Integer result) {
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            if(result == 1){
+            new WebHook().execute("resultu ad asdsd s   =====" + result  );
+            if(result == 0){
                 Toast.makeText(IntroActivity.this,"아이디 등록 되어있음.",Toast.LENGTH_LONG).show();
 
-                CommonClass.saveIntro();
                 progressBar.setVisibility(View.INVISIBLE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                CommonClass.saveIntro();
                 finish();
-            }else if(result == 2){
+            }else if(result == 1){
                 new IdRegister().execute();
             }else{
                 Toast.makeText(IntroActivity.this,"에러 아이디 체크에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
@@ -229,7 +238,7 @@ public class IntroActivity extends AppCompatActivity {
                         .build();
 
                 Request request = new Request.Builder()
-                        .url(getResources().getString(R.string.check_id_and_registered_id_url))
+                        .url(getResources().getString(R.string.registered_id_url))
                         .post(postBody)
                         .build();
                 //동기 방식
@@ -259,22 +268,22 @@ public class IntroActivity extends AppCompatActivity {
             }
 
             if(msg.equals(getResources().getString(R.string.url_success))){
-                return 1;
+                return 0;
             }else{
-                return 2;
+                return 1;
             }
         }
 
         @Override
         protected void onPostExecute(Integer result) {
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            if(result == 1){
+            if(result == 0){
                 Toast.makeText(IntroActivity.this,"아이디 등록 안되있어서 추가함.",Toast.LENGTH_LONG).show();
                 CommonClass.saveIntro();
                 progressBar.setVisibility(View.INVISIBLE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
-            }else if(result == 2){
+            }else if(result == 1){
                 Toast.makeText(IntroActivity.this,"아이디 등록 안되있지만 추가 못함.",Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(IntroActivity.this,"에러 아이디 등록에서 어딘가 걸림.",Toast.LENGTH_LONG).show();

@@ -137,8 +137,12 @@ public class MyQuotationFragment extends Fragment {
     }
 
     @Override
-    public void onStop(){
-        super.onStop();
-        timer.cancel();
+    public void onPause(){
+        super.onPause();
+        if(timer == null){
+
+        }else{
+            timer.cancel();
+        }
     }
 }

@@ -25,7 +25,7 @@
             android:id="@+id/image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/no_result"
+            android:src="@drawable/no_result_ongoing"
             android:layout_marginTop="115dp"
             android:layout_centerHorizontal="true"/>
 
@@ -54,7 +54,7 @@
             android:id="@+id/image2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/no_result_2"
+            android:src="@drawable/no_result_done"
             android:layout_marginTop="115dp"
             android:layout_centerHorizontal="true"/>
 

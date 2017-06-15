@@ -45,7 +45,8 @@
     <string name="hello_money_email">help@hellomoney.co.kr</string>
     <string name="operation_time">운영시간</string>
     <string name="hello_money_operation_time">평일 10:00 ~ 19:00</string>
-    <string name="check_id_and_registered_id_url">http://13.124.127.93:3000/clients/customers/</string>
+    <string name="check_id_url">http://13.124.127.93:3000/clients/customers/%s</string>
+    <string name="registered_id_url">http://13.124.127.93:3000/clients/customers</string>
     <string name="my_request_quotation_url">http://13.124.127.93:3000/clients/requests?customerId=%1$s&amp;&amp;exceptCompletedRequest=%2$s</string>
     <string name="request_quotation_url">http://13.124.127.93:3000/clients/requests</string>
     <string name="my_request_quotation_ongoing_done_url">http://13.124.127.93:3000/clients/requests/calculate?customerId=%s</string>

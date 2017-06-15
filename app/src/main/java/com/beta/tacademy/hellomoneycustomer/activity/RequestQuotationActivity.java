@@ -62,7 +62,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private AnimateHorizontalProgressBar animateHorizontalProgressBar;
     private int ongoingStep;
     private int previousStep;
-    private boolean stepChanged;
+    private boolean stepCheck;
 
 
     String loanType;
@@ -108,7 +108,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
     private Handler handler;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +147,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
         ongoingStep = 0;
         previousStep = 0;
-        stepChanged = false;
+        stepCheck = false;
 
         handler = new Handler();
 
@@ -190,7 +189,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step1Text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     loanType = "주택담보대출";
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"주택 담보 대출을 받겠습니다.",false));
@@ -207,14 +206,27 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
+                    loanType = "주택담보대출";
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"주택 담보 대출을 받겠습니다.",false));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
+
+                            ongoingStep =previousStep;
+                            step1.setVisibility(View.GONE);
+                            step2.setVisibility(View.VISIBLE);
+                        }
+                    }, 400);
                 }
             }
         });
         step1Text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     loanType = "전세자금대출";
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"전세 자금 대출을 받겠습니다.",false));
@@ -232,7 +244,22 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
+                    loanType = "전세자금대출";
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"전세 자금 대출을 받겠습니다.",false));
+
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
+                            ongoingStep++;
+                            previousStep++;
+                            step1.setVisibility(View.GONE);
+                            step2.setVisibility(View.VISIBLE);
+                            animateHorizontalProgressBar.setProgress(14);
+                        }
+                    }, 400);
                 }
             }
         });
@@ -267,7 +294,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step3Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     loanAmount = Integer.parseInt(step3Text.getText().toString());
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,3,loanAmount + "만원 입니다.",false));
@@ -276,6 +303,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            
                             addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?",true));
 
                             ongoingStep++;
@@ -297,7 +325,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step4Text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     interestRateType = "변동금리";
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
@@ -323,7 +351,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step4Text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     interestRateType = "고정금리";
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
@@ -350,7 +378,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step4Text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     interestRateType = "없음";
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
@@ -378,7 +406,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step5Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     scheduledTime = step5DatePicker.getYear() +"-"+ (int)(step5DatePicker.getMonth()+1) + "-" + step5DatePicker.getDayOfMonth();
                     new WebHook().execute(scheduledTime);
 
@@ -496,7 +524,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step7Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!stepChanged){
+                if(!stepCheck){
                     telephone = step7Text.getText().toString();
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,7,telephone + "입니다.",false));
@@ -532,13 +560,125 @@ public class RequestQuotationActivity extends AppCompatActivity {
         });
     }
 
-    public void fix(int step){
-        previousStep = step;
-        stepChanged = true;
+    public void stepVisible(int step){
+        if(step == 1){
+            step1.setVisibility(View.VISIBLE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.GONE);
+        }else if(step ==2){
+            step1.setVisibility(View.GONE);
+            step2.setVisibility(View.VISIBLE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.GONE);
+        }else if(step ==3){
+            step1.setVisibility(View.GONE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.VISIBLE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.GONE);
+        }else if(step ==4){
+            step1.setVisibility(View.GONE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.VISIBLE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.GONE);
+        }else if(step ==5){
+            step1.setVisibility(View.GONE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.VISIBLE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.GONE);
+        }else if(step ==6){
+            step1.setVisibility(View.GONE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.VISIBLE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.GONE);
+        }else if(step ==7){
+            step1.setVisibility(View.GONE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.VISIBLE);
+            step8.setVisibility(View.GONE);
+        }else if(step ==8){
+            step1.setVisibility(View.GONE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.VISIBLE);
+        }
+    }
+    
+    public void stepQuotation(int step){
+        if(step == 1){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"먼저, 어떤 대출을 받을려고 하시나요??\n(아래에서 선택해주세요.)",false));
+        }else if(step ==2){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
+
+        }else if(step ==3){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.(만원 단위로)",false));
+
+        }else if(step ==4){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?",true));
+
+        }else if(step ==5){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,5,"대출실행예정일을 알려주세요.",true));
+
+        }else if(step ==6){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,6,"고객님의 근로형태는 무엇인가요?",true));
+
+        }else if(step ==7){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요.",false));
+
+        }else if(step ==8){
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,8,"모든 정보가 맞습니까?",false));
+
+        }
     }
 
-    private int step(int step){
+    private int fixStep(int step){
+        previousStep = this.ongoingStep;
+        this.ongoingStep = step;
+        stepCheck = true;
+
         if(step == 1){
+            step1.setVisibility(View.VISIBLE);
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+            step4.setVisibility(View.GONE);
+            step5.setVisibility(View.GONE);
+            step6.setVisibility(View.GONE);
+            step7.setVisibility(View.GONE);
+            step8.setVisibility(View.GONE);
+
+
 
         }else if(step == 2){
 

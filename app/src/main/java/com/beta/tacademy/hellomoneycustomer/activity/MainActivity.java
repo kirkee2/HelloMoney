@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
     private Activity activity;
     private ActionBarDrawerToggle toggle;
+    private int uncompletedCount;
+    private int completedCount;
 
     private TextView myOngoingQuotation;
     private TextView myDoneQuotation;
@@ -85,6 +87,9 @@ public class MainActivity extends AppCompatActivity{
         myDoneQuotation = (TextView) naviHeader.findViewById(R.id.myDoneQuotation);
         fragmentManager = this.getSupportFragmentManager();
         activity = this;
+
+        uncompletedCount = 0;
+        completedCount = 0;
 
         //Toolbar
 
@@ -152,14 +157,15 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
+        mainValueObjectArrayList = new ArrayList<>();
+
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
 
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
 
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        mainPageViewPagerObjectArrayList = new ArrayList<>();
-        mainValueObjectArrayList = new ArrayList<>();
 
         new MyQuotationList().execute();
     }
@@ -274,6 +280,7 @@ public class MainActivity extends AppCompatActivity{
                 mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.YES_MY_QUOTATION);
                 recyclerView.setAdapter(mainRecyclerViewAdapter);
 
+
                 mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList);
                 new MyQuotationOngoingDoneCount().execute();
             }else if(result == 1){
@@ -287,14 +294,14 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private class MyQuotationOngoingDoneCount extends AsyncTask<Void, Void, JSONObject>{
+    private class MyQuotationOngoingDoneCount extends AsyncTask<Void, Void, Integer>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected JSONObject doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
@@ -318,18 +325,9 @@ public class MainActivity extends AppCompatActivity{
 
                 if(flag){ //성공했다면
                     returedJSON = response.body().string();
-
                     jsonObject = new JSONObject(returedJSON);
-
-                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
-                        JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
-                        return data;
-                    }else{
-                        return null;
-                    }
-
                 }else{
-                    return  null;
+                    return  2;
                 }
             }catch (UnknownHostException une) {
             } catch (UnsupportedEncodingException uee) {
@@ -339,21 +337,30 @@ public class MainActivity extends AppCompatActivity{
                     response.close(); //3.* 이상에서는 반드시 닫아 준다.
                 }
             }
-            return null;
+
+            try {
+                if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                    JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
+                    completedCount = data.optInt("completed_count");
+                    uncompletedCount = data.optInt("uncompleted_count");
+                    return 0;
+                }else{
+                    return 1;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return 3;
+            }
         }
 
         @Override
-        protected void onPostExecute(JSONObject result) {
-            if(result == null){
-                new WebHook().execute("MainActivity 내 견적 진행중, 완료 갯수 안옴 result ===== " + result);
-            }else{
-                try {
-                    myOngoingQuotation.setText(String.valueOf(result.get("uncompleted_count")));
-                    myDoneQuotation.setText(String.valueOf(result.get("completed_count")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        protected void onPostExecute(Integer result) {
+            if(result == 0 || result == 1){
+                myOngoingQuotation.setText(String.valueOf(uncompletedCount));
+                myDoneQuotation.setText(String.valueOf(completedCount));
                 new PostscriptList().execute();
+            }else{
+                new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }
@@ -428,12 +435,11 @@ public class MainActivity extends AppCompatActivity{
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    return 4;
                 }
             }else{
-                return 4;
+                return 5;
             }
-
-            return 5;
         }
 
         @Override
