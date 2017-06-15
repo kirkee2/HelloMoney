@@ -149,7 +149,7 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
             ((MyChattingViewHolder) holder).fix.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((RequestQuotationActivity)activity).fix(valueObject.getStep());
+                    ((RequestQuotationActivity)activity).stepFix(valueObject.getStep());
                     Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계 수정하지마 이 자식아 귀찮으니깐.", Toast.LENGTH_SHORT).show();
                 }
             });

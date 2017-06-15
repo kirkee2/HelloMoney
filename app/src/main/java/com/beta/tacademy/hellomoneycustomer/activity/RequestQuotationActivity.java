@@ -145,8 +145,8 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step5Button = (Button)findViewById(R.id.step5Button);
         step8Button  = (Button)findViewById(R.id.step8Button);
 
-        ongoingStep = 0;
-        previousStep = 0;
+        ongoingStep = 1;
+        previousStep = 1;
         stepCheck = false;
 
         handler = new Handler();
@@ -197,11 +197,13 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
+                            stepQuotation(2);
+
                             ongoingStep++;
                             previousStep++;
-                            step1.setVisibility(View.GONE);
-                            step2.setVisibility(View.VISIBLE);
+
+                            stepVisible(2);
+
                             animateHorizontalProgressBar.setProgress(14);
                         }
                     }, 400);
@@ -213,11 +215,12 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
-
                             ongoingStep =previousStep;
-                            step1.setVisibility(View.GONE);
-                            step2.setVisibility(View.VISIBLE);
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
                         }
                     }, 400);
                 }
@@ -252,12 +255,12 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)",false));
-                            ongoingStep++;
-                            previousStep++;
-                            step1.setVisibility(View.GONE);
-                            step2.setVisibility(View.VISIBLE);
-                            animateHorizontalProgressBar.setProgress(14);
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
                         }
                     }, 400);
                 }
@@ -303,7 +306,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            
+
                             addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?",true));
 
                             ongoingStep++;
@@ -315,10 +318,25 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                         }
                     }, 400);
-
                 }else{
+                    loanAmount = Integer.parseInt(step3Text.getText().toString());
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,3,loanAmount + "만원 입니다.",false));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
                 }
+
+                step3Text.setText("");
             }
         });
 
@@ -344,7 +362,21 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
+                    interestRateType = "변동금리";
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
                 }
             }
         });
@@ -357,7 +389,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
 
 
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -371,18 +402,32 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
+                    interestRateType = "고정금리";
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
                 }
             }
         });
         step4Text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(!stepCheck){
                     interestRateType = "없음";
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
-
 
 
                     handler.postDelayed(new Runnable() {
@@ -398,7 +443,20 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
+                    interestRateType = "없음";
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "로 하겠습니다.",false));
 
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
                 }
             }
         });
@@ -406,14 +464,12 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step5Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scheduledTime = step5DatePicker.getYear() +"-"+ (int)(step5DatePicker.getMonth()+1) + "-" + step5DatePicker.getDayOfMonth();
+
+                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5,scheduledTime + "로 하겠습니다.",false));
+
+
                 if(!stepCheck){
-                    scheduledTime = step5DatePicker.getYear() +"-"+ (int)(step5DatePicker.getMonth()+1) + "-" + step5DatePicker.getDayOfMonth();
-                    new WebHook().execute(scheduledTime);
-
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5,scheduledTime + "로 하겠습니다.",false));
-
-
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -427,77 +483,139 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
 
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
                 }
             }
         });
         step6Text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jobType = "직장근로자";
+                if(!stepCheck){
+                    jobType = "직장근로자";
 
-                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
 
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요.",false));
 
+                            ongoingStep++;
+                            previousStep++;
+                            step6.setVisibility(View.GONE);
+                            step7.setVisibility(View.VISIBLE);
+                            animateHorizontalProgressBar.setProgress(85);
+                        }
+                    }, 400);
+                }else{
+                    jobType = "직장근로자";
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
 
-                        ongoingStep++;
-                        previousStep++;
-                        step6.setVisibility(View.GONE);
-                        step7.setVisibility(View.VISIBLE);
-                        animateHorizontalProgressBar.setProgress(85);
-                    }
-                }, 400);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
+                }
             }
         });
         step6Text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jobType = "개인사업자";
-
-                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
-
+                if(!stepCheck){
+                    jobType = "개인사업자";
 
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
 
-                        ongoingStep++;
-                        previousStep++;
-                        step6.setVisibility(View.GONE);
-                        step7.setVisibility(View.VISIBLE);
-                        animateHorizontalProgressBar.setProgress(85);
-                    }
-                }, 400);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요.",false));
+
+                            ongoingStep++;
+                            previousStep++;
+                            step6.setVisibility(View.GONE);
+                            step7.setVisibility(View.VISIBLE);
+                            animateHorizontalProgressBar.setProgress(85);
+                        }
+                    }, 400);
+                }else{
+                    jobType = "개인사업자";
+
+
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
+                }
             }
         });
         step6Text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jobType = "프리랜서";
-
-                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
-
+                if(!stepCheck){
+                    jobType = "프리랜서";
 
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요.",false));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
 
-                        ongoingStep++;
-                        previousStep++;
-                        step6.setVisibility(View.GONE);
-                        step7.setVisibility(View.VISIBLE);
-                        animateHorizontalProgressBar.setProgress(85);
-                    }
-                }, 400);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요.",false));
+
+                            ongoingStep++;
+                            previousStep++;
+                            step6.setVisibility(View.GONE);
+                            step7.setVisibility(View.VISIBLE);
+                            animateHorizontalProgressBar.setProgress(85);
+                        }
+                    }, 400);
+                }else{
+                    jobType = "프리랜서";
+
+
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다.",false));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
+                }
             }
         });
 
@@ -529,7 +647,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
                     addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,7,telephone + "입니다.",false));
 
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -547,8 +664,24 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
+                    telephone = step7Text.getText().toString();
 
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,7,telephone + "입니다.",false));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+
+                            stepVisible(ongoingStep);
+                        }
+                    }, 400);
                 }
+
+                step7Text.setText("");
             }
         });
 
@@ -559,6 +692,15 @@ public class RequestQuotationActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void stepFix(int step){
+        stepVisible(step);
+        stepCheck = true;
+        previousStep = ongoingStep;
+        ongoingStep = step;
+        stepQuotation(step);
+    }
+
 
     public void stepVisible(int step){
         if(step == 1){
@@ -663,43 +805,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
         }
     }
 
-    private int fixStep(int step){
-        previousStep = this.ongoingStep;
-        this.ongoingStep = step;
-        stepCheck = true;
-
-        if(step == 1){
-            step1.setVisibility(View.VISIBLE);
-            step2.setVisibility(View.GONE);
-            step3.setVisibility(View.GONE);
-            step4.setVisibility(View.GONE);
-            step5.setVisibility(View.GONE);
-            step6.setVisibility(View.GONE);
-            step7.setVisibility(View.GONE);
-            step8.setVisibility(View.GONE);
-
-
-
-        }else if(step == 2){
-
-        }else if(step == 3){
-
-        }else if(step == 4){
-
-        }else if(step == 5){
-
-        }else if(step == 6){
-
-        }else if(step == 7){
-
-        }else{
-
-        }
-
-
-        return 0;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -732,19 +837,32 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     }
                 }, 500);
 
+                if(!stepCheck){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.(만원 단위로)",false));
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.(만원 단위로)",false));
+                            ongoingStep++;
+                            previousStep++;
+                            step2.setVisibility(View.GONE);
+                            step3.setVisibility(View.VISIBLE);
+                            animateHorizontalProgressBar.setProgress(28);
+                        }
+                    }, 700);
 
-                        ongoingStep++;
-                        previousStep++;
-                        step2.setVisibility(View.GONE);
-                        step3.setVisibility(View.VISIBLE);
-                        animateHorizontalProgressBar.setProgress(28);
-                    }
-                }, 700);
+                }else{
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ongoingStep =previousStep;
+                            stepCheck =false;
+
+                            stepQuotation(ongoingStep);
+                            stepVisible(ongoingStep);
+                        }
+                    }, 700);
+                }
             } else {
                 Toast.makeText(RequestQuotationActivity.this, "REQUEST_ACT가 아님", Toast.LENGTH_SHORT).show();
             }
