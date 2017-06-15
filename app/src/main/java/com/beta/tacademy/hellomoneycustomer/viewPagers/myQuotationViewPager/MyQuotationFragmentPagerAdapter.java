@@ -32,9 +32,9 @@ public class MyQuotationFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 0){
-            return MyQuotationFragment.newInstance(itemOne);
+            return MyQuotationFragment.newInstance(itemOne,1);
         }else{
-            return MyQuotationFragment.newInstance(itemTwo);
+            return MyQuotationFragment.newInstance(itemTwo,2);
         }
     }
 

@@ -12,4 +12,62 @@
         android:paddingTop="8dp"
         android:layout_gravity="center"
         android:scrollbars="vertical"/>
+
+    <RelativeLayout
+        android:id="@+id/noResult_ongoing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:paddingTop="6dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_result"
+            android:layout_marginTop="115dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아직 진행중인 견적 요청이 없습니다.\n견적요청을 시작해보세요!"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/image1"
+            android:textSize="@dimen/medium"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/normalTypo"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/noResult_done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:paddingTop="6dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_result_2"
+            android:layout_marginTop="115dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아직 종료된 견적요청이 없습니다.\n진행중인 견적요청을 완료해주세요."
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/image2"
+            android:textSize="@dimen/medium"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/normalTypo"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 </FrameLayout>

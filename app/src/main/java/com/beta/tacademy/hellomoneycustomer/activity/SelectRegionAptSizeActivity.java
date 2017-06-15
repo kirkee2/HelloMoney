@@ -8,10 +8,13 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.fragment.AptFragment;
+import com.beta.tacademy.hellomoneycustomer.fragment.Region1Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.Region2Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.Region3Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.AptSizeFragment;
@@ -26,6 +29,7 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
     private static String region3;
     private static String apt;
     private static String size;
+    private FragmentManager fragmentManager;
 
 
     @Override
@@ -36,13 +40,15 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
-
         //Toolbar 설정
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+
+        fragmentManager = getSupportFragmentManager();
+        fragment = new Region1Fragment();
 
         toolbar.setTitle(getResources().getString(R.string.select_region_1));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
@@ -62,9 +68,7 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
             toolbar.setTitle(region1);
             fragment = Region2Fragment.newInstance(region1);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack("step0");
 
             fragmentTransaction.setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right);
             fragmentTransaction.replace(R.id.fragment, fragment);
@@ -75,9 +79,8 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
             toolbar.setTitle(region2);
             fragment = Region3Fragment.newInstance(region1,region2);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
 
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack("step1");
 
             fragmentTransaction.setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right);
             fragmentTransaction.replace(R.id.fragment, fragment);
@@ -88,9 +91,8 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
             toolbar.setTitle(region3);
             fragment = AptFragment.newInstance(region1,region2,region3);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
 
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack("step2");
 
             fragmentTransaction.setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right);
             fragmentTransaction.replace(R.id.fragment, fragment);
@@ -102,7 +104,6 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
             toolbar.setTitle(apt);
             fragment = AptSizeFragment.newInstance(region1,region2,region3,apt);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
 
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -125,5 +126,4 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
-
 }

@@ -3,6 +3,8 @@ package com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+
 public class MainPageViewPagerObject implements Parcelable {
     private int id;
     private String ongoingStatus;
@@ -31,8 +33,7 @@ public class MainPageViewPagerObject implements Parcelable {
         this.apt = apt;
         this.size = size;
         this.currentQuotation = currentQuotation;
-        this.leftSecond = 0;
-
+        this.leftSecond = CommonClass.timeLeftSecondParsing(leftTime);
     }
 
     public int getId() {

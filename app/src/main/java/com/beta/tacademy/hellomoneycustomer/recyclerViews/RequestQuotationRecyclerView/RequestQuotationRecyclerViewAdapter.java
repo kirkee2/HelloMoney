@@ -55,6 +55,7 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
     private Activity activity;
 
 
+
     public RequestQuotationRecyclerViewAdapter(Activity activity){
         //변수 초기화
         requestQuotationValueObjectArrayList = new ArrayList<>();
@@ -127,7 +128,6 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
             ((SystemChattingViewHolder) holder).systemChatting.setText(valueObject.getText());
             if(valueObject.isInfo()){
                 ((SystemChattingViewHolder) holder).info.setVisibility(View.VISIBLE);
-                new WebHook().execute("!@3");
                 ((SystemChattingViewHolder) holder).info.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -149,6 +149,7 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
             ((MyChattingViewHolder) holder).fix.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ((RequestQuotationActivity)activity).fix(valueObject.getStep());
                     Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계 수정하지마 이 자식아 귀찮으니깐.", Toast.LENGTH_SHORT).show();
                 }
             });

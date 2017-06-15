@@ -49,6 +49,11 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         notifyDataSetChanged();
     }
 
+    public void update(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+        this.mainPageViewPagerObjectArrayList = mainPageViewPagerObjectArrayList; //아이템 추가
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -72,13 +77,13 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             currentQuotation = (TextView)itemView.findViewById(R.id.currentQuotation);
             leftTime = (TextView)itemView.findViewById(R.id.leftTime);
             linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
+
         }
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final MainPageViewPagerObject valueObject = mainPageViewPagerObjectArrayList.get(position);
-
 
         ((MyQuotationViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " " +  valueObject.getRegion3());
 
@@ -89,45 +94,13 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         if(valueObject.getOngoingStatus().equals("견적접수중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_interection_waiting));
+            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.pointTypo,null));
 
-            valueObject.setLeftSecond(CommonClass.timeLeftSecondParsing(valueObject.getLeftTime()));
-            int leftSecond  = CommonClass.timeLeftSecondParsing(valueObject.getLeftTime());
+            int leftSecond  = valueObject.getLeftSecond();
             int hour = leftSecond/3600;
             int minute = leftSecond%3600;
             minute = minute/60;
 
-            ((MyQuotationActivity)activity).timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            int leftSecond = valueObject.getLeftSecond()-1;
-                            valueObject.setLeftSecond(leftSecond);
-                            int hour = leftSecond/3600;
-                            int minute = leftSecond%3600;
-                            minute = minute/60;
-
-                            if(leftSecond > 0){
-                                if(hour<10 && minute<10){
-                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
-                                } else if(hour<10){
-                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
-                                }else if(minute<10){
-                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
-                                }else{
-                                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
-                                }
-                            }else{
-                                ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
-                            }
-                        }
-                    });
-                }
-            };
-
-            ((MyQuotationActivity)activity).timer = new Timer();
-            ((MyQuotationActivity)activity).timer.schedule(((MyQuotationActivity)activity).timerTask,1000,1000);
 
             if(leftSecond > 0){
                 if(hour<10 && minute<10){
@@ -141,9 +114,7 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 }
             }else{
                 ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
-                ((MyQuotationActivity)activity).timer.cancel();
             }
-
 
         }else if(valueObject.getOngoingStatus().equals("선택대기중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
@@ -174,8 +145,6 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 activity.startActivity(intent);
             }
         });
-
-
     }
 
     @Override

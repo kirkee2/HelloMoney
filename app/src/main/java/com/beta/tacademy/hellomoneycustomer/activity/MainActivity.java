@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity{
                         for(int i = 0 ; i < data.length(); i++){
                             try {
                                 JSONObject jsonData = (JSONObject)data.get(i);
-                                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject(jsonData.getInt("request_id"),jsonData.getString("status"),jsonData.getString("loan_type"),jsonData.getString("end_time"),jsonData.getString("region_1"),jsonData.getString("region_2"),jsonData.getString("region_3"),jsonData.getString("apt_name"),jsonData.getString("apt_size_supply") + "(" + jsonData.getString("apt_size_exclusive") +"m2)",jsonData.getInt("estimate_count")));
+                                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject(jsonData.getInt("request_id"),jsonData.getString("status"),jsonData.getString("loan_type"),jsonData.getString("end_time"),jsonData.getString("region_1"),jsonData.getString("region_2"),jsonData.getString("region_3"),jsonData.getString("apt_name"),jsonData.getString("apt_size_supply") + "(" + jsonData.getString("apt_size_exclusive") +")",jsonData.getInt("estimate_count")));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

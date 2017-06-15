@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MainPageFragment extends Fragment {
 
@@ -40,6 +43,7 @@ public class MainPageFragment extends Fragment {
     LinearLayout linearLayout;
     Timer timer;
     TimerTask timerTask;
+
 
     public MainPageFragment() {
         // Required empty public constructor
@@ -87,11 +91,25 @@ public class MainPageFragment extends Fragment {
         if(mainPageViewPagerObject.getOngoingStatus().equals("견적접수중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_interection_waiting));
 
-            mainPageViewPagerObject.setLeftSecond(CommonClass.timeLeftSecondParsing(mainPageViewPagerObject.getLeftTime()));
-            int leftSecond  = CommonClass.timeLeftSecondParsing(mainPageViewPagerObject.getLeftTime());
+            int leftSecond  = mainPageViewPagerObject.getLeftSecond();
             int hour = leftSecond/3600;
             int minute = leftSecond%3600;
             minute = minute/60;
+
+            if(leftSecond > 0){
+                if(hour<10 && minute<10){
+                    leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
+                } else if(hour<10){
+                    leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
+                }else if(minute<10){
+                    leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
+                }else{
+                    leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
+                }
+            }else{
+                leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+
+            }
 
             timerTask = new TimerTask() {
                 @Override
@@ -126,21 +144,6 @@ public class MainPageFragment extends Fragment {
             timer = new Timer();
             timer.schedule(timerTask,1000,1000);
 
-            if(leftSecond > 0){
-                if(hour<10 && minute<10){
-                    leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
-                } else if(hour<10){
-                    leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
-                }else if(minute<10){
-                    leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
-                }else{
-                    leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
-                }
-            }else{
-                leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
-                timer.cancel();
-            }
-
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("선택대기중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
@@ -172,14 +175,24 @@ public class MainPageFragment extends Fragment {
                 Toast.makeText(getActivity(),"id = " + mainPageViewPagerObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
             }
         });
+
+
         return view;
     }
 
     @Override
-    public void onDestroy() {
-        if(timer != null){
+    public void onStop() {
+        super.onStop();
+        if(timer == null){
+
+        }else{
             timer.cancel();
         }
+
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
     }
 

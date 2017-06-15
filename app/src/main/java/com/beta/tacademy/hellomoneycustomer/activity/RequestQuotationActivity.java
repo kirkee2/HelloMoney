@@ -532,6 +532,87 @@ public class RequestQuotationActivity extends AppCompatActivity {
         });
     }
 
+    public void fix(int step){
+        previousStep = step;
+        stepChanged = true;
+    }
+
+    private int step(int step){
+        if(step == 1){
+
+        }else if(step == 2){
+
+        }else if(step == 3){
+
+        }else if(step == 4){
+
+        }else if(step == 5){
+
+        }else if(step == 6){
+
+        }else if(step == 7){
+
+        }else{
+
+        }
+
+
+        return 0;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REGION_APT_SIZE_INTENT) {
+                region1 = data.getStringExtra("region1");
+                region2 = data.getStringExtra("region2");
+                region3 = data.getStringExtra("region3");
+                aptName = data.getStringExtra("apt");
+                aptSize = data.getStringExtra("aptSize");
+
+                aptSize = aptSize.replace("\n","");
+
+                StringTokenizer stringTokenizer = new StringTokenizer(aptSize,"/");
+
+                aptSizeExclusive = stringTokenizer.nextToken();
+                String tmp = stringTokenizer.nextToken();
+
+                stringTokenizer = new StringTokenizer(tmp,"(");
+
+                aptSizeSupply = stringTokenizer.nextToken();
+                tmp = stringTokenizer.nextToken();
+                aptPrice  = Integer.parseInt(tmp.substring(0,tmp.length()-3));
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,2,region1 + " " + region2 + " " + region3 + " " + aptName + " " + aptSize + "입니다.",false));
+                    }
+                }, 500);
+
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.(만원 단위로)",false));
+
+                        ongoingStep++;
+                        previousStep++;
+                        step2.setVisibility(View.GONE);
+                        step3.setVisibility(View.VISIBLE);
+                        animateHorizontalProgressBar.setProgress(28);
+                    }
+                }, 700);
+            } else {
+                Toast.makeText(RequestQuotationActivity.this, "REQUEST_ACT가 아님", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            return;
+        }
+    }
+
     private class RequestQuotation extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
@@ -564,6 +645,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         .add("region2",region2)
                         .add("region3",region3)
                         .add("aptName",aptName)
+                        .add("phoneNumber",telephone)
                         .add("aptPrice",String.valueOf(aptPrice))
                         .add("aptSizeSupply",aptSizeSupply)
                         .add("aptSizeExclusive",aptSizeExclusive)
@@ -626,6 +708,20 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"견적 요청을 등록하였습니다.",Toast.LENGTH_SHORT).show();
                 finish();
             }else{
+                new WebHook().execute("customerId == " + CommonClass.getUUID());
+                new WebHook().execute("loanType == " + loanType);
+                new WebHook().execute("loanAmount == " + String.valueOf(loanAmount));
+                new WebHook().execute("scheduledTime == " + scheduledTime);
+                new WebHook().execute("interestRateType == " + interestRateType);
+                new WebHook().execute("jobType == " + jobType);
+                new WebHook().execute("region1 == " + region1);
+                new WebHook().execute("region2 == " + region2);
+                new WebHook().execute("region3 == " + region3);
+                new WebHook().execute("aptName == " + aptName);
+                new WebHook().execute("aptPrice == " + String.valueOf(aptPrice));
+                new WebHook().execute("aptSizeSupply == " + aptSizeSupply);
+                new WebHook().execute("aptSizeExclusive == " + aptSizeExclusive);
+
                 new WebHook().execute("RequestQuotationActivity result == " + result);
             }
 
@@ -633,63 +729,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REGION_APT_SIZE_INTENT) {
-                region1 = data.getStringExtra("region1");
-                region2 = data.getStringExtra("region2");
-                region3 = data.getStringExtra("region3");
-                aptName = data.getStringExtra("apt");
-                aptSize = data.getStringExtra("aptSize");
-
-                aptSize = aptSize.replace("\n","");
-
-                StringTokenizer stringTokenizer = new StringTokenizer(aptSize,"/");
-
-                aptSizeExclusive = stringTokenizer.nextToken();
-                String tmp = stringTokenizer.nextToken();
-
-                stringTokenizer = new StringTokenizer(tmp,"(");
-
-                aptSizeSupply = stringTokenizer.nextToken();
-                tmp = stringTokenizer.nextToken();
-                int aptPrice  =Integer.parseInt(tmp.substring(0,tmp.length()-3));
-
-                new WebHook().execute(aptSizeExclusive + "-" + aptSizeSupply + "-"+ aptPrice);
-
-
-
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,2,region1 + " " + region2 + " " + region3 + " " + aptName + " " + aptSize + "입니다.",false));
-                    }
-                }, 500);
-
-
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.(만원 단위로)",false));
-
-                        ongoingStep++;
-                        previousStep++;
-                        step2.setVisibility(View.GONE);
-                        step3.setVisibility(View.VISIBLE);
-                        animateHorizontalProgressBar.setProgress(28);
-                    }
-                }, 700);
-            } else {
-                Toast.makeText(RequestQuotationActivity.this, "REQUEST_ACT가 아님", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            return;
-        }
-    }
 
     //back 버튼 클릭 시 이벤트 설정.
     @Override

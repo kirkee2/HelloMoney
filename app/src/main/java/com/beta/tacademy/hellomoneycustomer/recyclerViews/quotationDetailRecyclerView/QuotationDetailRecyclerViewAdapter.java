@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +84,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     private int type;
 
     private Activity activity;
+    Timer timer;
+    TimerTask timerTask;
 
     private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
     private QuotationDetailHeaderObject quotationDetailHeaderObject;
@@ -215,11 +218,16 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         BarChart barChart;
         TextView finalQuotationCount;
         TextView averageInterestRate;
+        RelativeLayout noResult;
+        LinearLayout yesResult;
+
         private QuotationDetailSubHeaderViewHolder(View itemView) {
             super(itemView);
             barChart = (BarChart) itemView.findViewById(R.id.barChart);
             finalQuotationCount = (TextView)itemView.findViewById(R.id.finalQuotationCount);
             averageInterestRate = (TextView)itemView.findViewById(R.id.averageInterestRate);
+            noResult = (RelativeLayout)itemView.findViewById(R.id.noResult);
+            yesResult = (LinearLayout)itemView.findViewById(R.id.yesResult);
         }
     }
 
@@ -261,7 +269,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         TextView telephone;
         LinearLayout linearLayout;
         TextView feedbackList;
-        private TextView goCounselor;
 
         private QuotationDetailSubSubSubHeaderViewHolder(View itemView) {
             super(itemView);
@@ -311,8 +318,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             }
 
             if(quotationDetailObjectArrayList.size() == 0){
-
+                ((QuotationDetailSubHeaderViewHolder) holder).noResult.setVisibility(View.VISIBLE);
+                ((QuotationDetailSubHeaderViewHolder) holder).yesResult.setVisibility(View.INVISIBLE);
             }else{
+                ((QuotationDetailSubHeaderViewHolder) holder).noResult.setVisibility(View.GONE);
+                ((QuotationDetailSubHeaderViewHolder) holder).yesResult.setVisibility(View.VISIBLE);
                 entriesMin.add(entries.get(minIndex));
                 entries.remove(minIndex);
 
@@ -421,7 +431,26 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 int minute = leftSecond%3600;
                 minute = minute/60;
 
-                ((QuotationDetailActivity)activity).timerTask = new TimerTask() {
+                if(leftSecond > 0){
+                    if(hour<10 && minute<10){
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
+                    } else if(hour<10){
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
+                    }else if(minute<10){
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
+                    }else{
+                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
+                    }
+                }else{
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                    if(timer == null){
+
+                    }else{
+                        timer.cancel();
+                    }
+                }
+
+                timerTask = new TimerTask() {
                     @Override
                     public void run() {
                         activity.runOnUiThread(new Runnable() {
@@ -432,7 +461,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                                 int hour = leftSecond/3600;
                                 int minute = leftSecond%3600;
                                 minute = minute/60;
-                                new WebHook().execute("asd");
 
                                 if(leftSecond > 0){
                                     if(hour<10 && minute<10){
@@ -446,30 +474,23 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                                     }
                                 }else{
                                     ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+
+                                    if(timer == null){
+                                    }else{
+                                        timer.cancel();
+                                    }
                                 }
                             }
                         });
                     }
                 };
 
-                ((QuotationDetailActivity)activity).timer = new Timer();
-                ((QuotationDetailActivity)activity).timer.schedule(((QuotationDetailActivity)activity).timerTask,1000,1000);
 
 
-                if(leftSecond > 0){
-                    if(hour<10 && minute<10){
-                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
-                    } else if(hour<10){
-                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
-                    }else if(minute<10){
-                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
-                    }else{
-                        ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
-                    }
-                }else{
-                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
-                    ((QuotationDetailActivity)activity).timer.cancel();
-                }
+                timer = new Timer();
+                timer.schedule(timerTask,1000,1000);
+
+
             }else if(valueObject.getOngoingStatus().equals("선택대기중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
