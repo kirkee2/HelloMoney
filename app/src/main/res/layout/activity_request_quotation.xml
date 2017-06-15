@@ -123,39 +123,47 @@
                 android:weightSum="100"
                 android:background="@color/white"
                 android:visibility="gone">
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="100">
 
 
-                <android.support.design.widget.TextInputEditText
+                <EditText
                     android:id="@+id/step3Text"
-                    android:layout_width="match_parent"
+                    android:padding="2dp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="100"
                     android:textSize="@dimen/medium"
+                    android:layout_gravity="center"
                     android:inputType="number"
                     android:textColor="@color/normalTypo"
-                    android:background="@color/white"
-                    android:layout_marginEnd="4dp"
+                    android:background="@color/basement"
                     android:textColorHint="#e0e0e0"
-                    android:maxEms="10"
-                    android:maxLength="10"
+                    android:maxLength="7"
                     android:hint="@string/write_price"/>
-                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:padding="2dp"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/normalTypo"
+                    android:text="만원"
+                    android:textSize="@dimen/medium"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="@color/basement"
+                    android:layout_marginEnd="4dp"/>
 
                 <Button
                     android:id="@+id/step3Button"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:textColor="@color/subNormal"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
                     android:text="@string/send"
                     android:textSize="@dimen/medium"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:digits="1234567890"
-                    android:maxEms="10"
-                    android:background="@color/white"/>
+                    android:background="@color/progress"/>
             </LinearLayout>
 
             <LinearLayout
@@ -247,6 +255,7 @@
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:textColor="@color/progress"
+                    android:layout_gravity="center"
                     android:text="@string/send"
                     android:textSize="@dimen/medium"
                     android:gravity="center"
@@ -328,16 +337,11 @@
                 android:background="@color/white"
                 android:visibility="gone">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="100">
-
-
-                <android.support.design.widget.TextInputEditText
+                <EditText
                     android:id="@+id/step7Text"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="100"
                     android:textSize="@dimen/medium"
                     android:inputType="number"
                     android:textColor="@color/normalTypo"
@@ -348,18 +352,17 @@
                     android:maxEms="11"
                     android:maxLength="11"
                     android:hint="전화번호를 입력해주세요.(- 제외)"/>
-                </android.support.design.widget.TextInputLayout>
 
                 <Button
                     android:id="@+id/step7Button"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:textColor="@color/subNormal"
+                    android:textColor="@color/white"
                     android:text="@string/send"
                     android:textSize="@dimen/medium"
                     android:gravity="center"
-                    android:background="@color/white"/>
+                    android:background="@color/progress"/>
             </LinearLayout>
 
             <LinearLayout

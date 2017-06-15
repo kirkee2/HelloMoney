@@ -28,6 +28,8 @@ import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
+import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationValueObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
@@ -39,6 +41,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -166,6 +169,13 @@ public class MainActivity extends AppCompatActivity{
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
 
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        new MyQuotationList().execute();
+    }
+
+    public void update(){
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
+        mainValueObjectArrayList = new ArrayList<>();
 
         new MyQuotationList().execute();
     }
@@ -479,6 +489,22 @@ public class MainActivity extends AppCompatActivity{
                     break;
             }
             drawer.closeDrawer(naviList);
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                update();
+            } else{
+
+            }
+        }else{
+
         }
     }
 }

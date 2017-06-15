@@ -73,7 +73,7 @@
     <string name="url_message">msg</string>
     <string name="url_data">data</string>
     <string name="send">전송</string>
-    <string name="write_price">금액을 입력해주세요.(만원단위)</string>
+    <string name="write_price">금액을 입력해주세요.</string>
     <string name="choose_apt">아파트 선택하러 가기</string>
     <string name="loan_type_1">주택 담보 대출</string>
     <string name="loan_type_2">전세 자금 대출</string>

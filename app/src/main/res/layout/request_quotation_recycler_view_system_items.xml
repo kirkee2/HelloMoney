@@ -8,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/navi_header_image"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/model_tmp" />
@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="100"
-        android:maxWidth="270dp"
+        android:maxWidth="260dp"
         android:layout_gravity="start"
         android:background="@drawable/system_chatting_balloon"
         android:textSize="@dimen/medium"

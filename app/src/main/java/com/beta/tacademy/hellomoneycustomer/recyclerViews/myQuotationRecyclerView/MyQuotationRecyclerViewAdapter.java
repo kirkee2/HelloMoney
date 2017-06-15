@@ -98,22 +98,13 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
             int leftSecond  = valueObject.getLeftSecond();
             int hour = leftSecond/3600;
-            int minute = leftSecond%3600;
-            minute = minute/60;
-
-
+            int tmp = leftSecond%3600;
+            int minute = tmp/60;
+            int second = tmp%60;
             if(leftSecond > 0){
-                if(hour<10 && minute<10){
-                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
-                } else if(hour<10){
-                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
-                }else if(minute<10){
-                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
-                }else{
-                    ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
-                }
+                ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
             }else{
-                ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                ((MyQuotationViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00"+ ":" +"00" + " 남았습니다.");
             }
 
         }else if(valueObject.getOngoingStatus().equals("선택대기중")){
@@ -142,7 +133,8 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuotationDetailActivity.class);
                 intent.putExtra("id",valueObject.getId());
-                activity.startActivity(intent);
+                intent.putExtra("id",valueObject.getId());
+                activity.startActivityForResult(intent,1);
             }
         });
     }

@@ -64,6 +64,11 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
         this.activity = activity;
     }
 
+    public void updateItem(int index,RequestQuotationValueObject requestQuotationValueObject){
+        this.requestQuotationValueObjectArrayList.set(index,requestQuotationValueObject);
+        notifyDataSetChanged();
+    }
+
     public void addItem(RequestQuotationValueObject requestQuotationValueObject){
         this.requestQuotationValueObjectArrayList.add(requestQuotationValueObject);
         notifyDataSetChanged();
@@ -150,14 +155,13 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
                 @Override
                 public void onClick(View v) {
                     ((RequestQuotationActivity)activity).stepFix(valueObject.getStep());
-                    Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계 수정하지마 이 자식아 귀찮으니깐.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount(){
         return requestQuotationValueObjectArrayList.size();
         //전체 item의 갯수 반환
     }

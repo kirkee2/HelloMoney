@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static android.R.attr.padding;
+import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 
 public class MyQuotationFragment extends Fragment {
     RecyclerView recyclerView;
@@ -71,6 +72,7 @@ public class MyQuotationFragment extends Fragment {
             this.mainPageViewPagerObjectArrayList = getArguments().getParcelableArrayList("mainPageViewPagerObjectArrayList");
             this.page = getArguments().getInt("page");
         }
+
         myQuotationRecyclerViewAdapter = new MyQuotationRecyclerViewAdapter(getActivity());
     }
 
@@ -114,17 +116,19 @@ public class MyQuotationFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            timerCheck = 0;
+                            //timerCheck = 0;
                             for (int i = 0; i < mainPageViewPagerObjectArrayList.size(); i++) {
                                 if (mainPageViewPagerObjectArrayList.get(i).getOngoingStatus().equals("견적접수중")) {
                                     mainPageViewPagerObjectArrayList.get(i).setLeftSecond(mainPageViewPagerObjectArrayList.get(i).getLeftSecond() - 1);
-                                    timerCheck++;
+                                    //timerCheck++;
                                 }
                             }
 
+                            /*
                             if(timerCheck == 0){
                                 timer.cancel();
                             }
+                            */
                             myQuotationRecyclerViewAdapter.update(mainPageViewPagerObjectArrayList);
                         }
                     });

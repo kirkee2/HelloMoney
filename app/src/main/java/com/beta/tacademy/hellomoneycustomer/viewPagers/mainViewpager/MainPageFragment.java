@@ -93,22 +93,15 @@ public class MainPageFragment extends Fragment {
 
             int leftSecond  = mainPageViewPagerObject.getLeftSecond();
             int hour = leftSecond/3600;
-            int minute = leftSecond%3600;
-            minute = minute/60;
+            int tmp = leftSecond%3600;
+            int minute = tmp/60;
+            int second = tmp%60;
 
             if(leftSecond > 0){
-                if(hour<10 && minute<10){
-                    leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
-                } else if(hour<10){
-                    leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
-                }else if(minute<10){
-                    leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
-                }else{
-                    leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
-                }
+               leftTime.setText("마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+
             }else{
                 leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
-
             }
 
             timerTask = new TimerTask() {
@@ -120,19 +113,12 @@ public class MainPageFragment extends Fragment {
                             int leftSecond = mainPageViewPagerObject.getLeftSecond()-1;
                             mainPageViewPagerObject.setLeftSecond(leftSecond);
                             int hour = leftSecond/3600;
-                            int minute = leftSecond%3600;
-                            minute = minute/60;
+                            int tmp = leftSecond%3600;
+                            int minute = tmp/60;
+                            int second = tmp%60;
 
                             if(leftSecond > 0){
-                                if(hour<10 && minute<10){
-                                    leftTime.setText("마감까지 " + "0"+ hour + ":" +"0"+ minute + " 남았습니다.");
-                                } else if(hour<10){
-                                    leftTime.setText("마감까지 " + "0" + hour + ":" + minute + " 남았습니다.");
-                                }else if(minute<10){
-                                    leftTime.setText("마감까지 " + hour + ":" + "0" +minute + " 남았습니다.");
-                                }else{
-                                    leftTime.setText("마감까지 " + hour + ":" + minute + " 남았습니다.");
-                                }
+                                leftTime.setText("마감까지 " + CommonClass.formatNumber2(hour) + ":"+ CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
                             }else{
                                 leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
                             }

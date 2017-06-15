@@ -25,7 +25,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:gravity="bottom"
+        android:gravity="end"
         android:textColor="@color/fix"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/myChattingText" />

@@ -177,7 +177,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainHeaderViewHolder) holder).requestQuotation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, RequestQuotationActivity.class));
+                    Intent intent =new Intent(activity, RequestQuotationActivity.class);
+
+                    activity.startActivityForResult(intent,1);
                     //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"견적 요청 페이지로 이동",Toast.LENGTH_SHORT).show();
                 }
             });

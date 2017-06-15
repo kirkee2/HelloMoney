@@ -51,8 +51,6 @@ public class MyQuotationActivity extends AppCompatActivity {
     private MyQuotationFragmentPagerAdapter myQuotationFragmentPagerAdapter;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectOneM;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectTwoM;
-    public Timer timer;
-    public TimerTask timerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,9 +198,11 @@ public class MyQuotationActivity extends AppCompatActivity {
                 tabLayout.setupWithViewPager(viewPager, true);
 
 
+                /*
                 Intent intent = getIntent();
                 viewPager.setCurrentItem(intent.getIntExtra("page",0));
 
+*/
             }else{
             }
 
@@ -213,8 +213,30 @@ public class MyQuotationActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        if(timer != null){
-            timer.cancel();
+
+    }
+
+    public void update(){
+        mainPageViewPagerObjectOneM = new ArrayList<>();
+        mainPageViewPagerObjectTwoM = new ArrayList<>();
+
+        new MyQuotationList().execute();
+
+        new WebHook().execute("update update update update update ");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                update();
+            } else{
+
+            }
+        }else{
+
         }
     }
 }

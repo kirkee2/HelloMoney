@@ -145,6 +145,10 @@ public class CommonClass {
 
     }
 
+    public static String formatNumber2(int num){
+        return String.format("%02d",num);
+    }
+
     /*
 
     //http 통신으로 HTML을 받아와 원하는 정보만을 파싱하여 저장해두는 AsyncTask

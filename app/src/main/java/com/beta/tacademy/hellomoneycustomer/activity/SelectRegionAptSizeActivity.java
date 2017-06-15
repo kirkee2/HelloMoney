@@ -50,13 +50,17 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragment = new Region1Fragment();
 
-        toolbar.setTitle(getResources().getString(R.string.select_region_1));
+        toolbar.setTitle("아파트 선택하기");
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            if(fragmentManager.getBackStackEntryCount() != 0){
+                fragmentManager.popBackStack();
+            }else{
+                finish();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -65,7 +69,7 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
     public void toNextStep(int step,String info){
         if(step == 0){
             region1 = info;
-            toolbar.setTitle(region1);
+            //toolbar.setTitle(region1);
             fragment = Region2Fragment.newInstance(region1);
 
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().addToBackStack("step0");
@@ -76,7 +80,7 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }else if(step == 1){
             region2 = info;
-            toolbar.setTitle(region2);
+            //toolbar.setTitle(region2);
             fragment = Region3Fragment.newInstance(region1,region2);
 
 
@@ -88,7 +92,7 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }else if(step == 2){
             region3 = info;
-            toolbar.setTitle(region3);
+            //toolbar.setTitle(region3);
             fragment = AptFragment.newInstance(region1,region2,region3);
 
 
@@ -101,7 +105,7 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
 
         }else{
             apt = info;
-            toolbar.setTitle(apt);
+            //toolbar.setTitle(apt);
             fragment = AptSizeFragment.newInstance(region1,region2,region3,apt);
 
 

@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -95,6 +96,12 @@ public class QuotationDetailActivity extends AppCompatActivity {
         //addItems();
    }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
     public void onResume(){
         super.onResume();
 
@@ -109,6 +116,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
             finish();
         }
 
