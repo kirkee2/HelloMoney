@@ -980,8 +980,8 @@ public class RequestQuotationActivity extends AppCompatActivity {
     public void initItems(){
         ArrayList<RequestQuotationValueObject> tmp = new ArrayList<>();
 
-        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"반갑습니다 :)\n지금부터 최저 금리 대출을 확인하기 위해 꼭 필요한 7가지 사항을 알려주세요."));
-        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"먼저, 어떤 대출을 받을려고 하시나요??\n(아래에서 선택해주세요.)"));
+        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"반갑습니다 :) 지금부터 최저 금리 대출을 확인하기 위해 꼭 필요한 7가지 사항을 알려주세요."));
+        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"먼저, 어떤 대출을 받을려고 하시나요?? (아래에서 선택해주세요.)"));
         requestQuotationRecyclerViewAdapter.initItem(tmp);
     }
 }

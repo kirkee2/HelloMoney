@@ -49,9 +49,6 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
     public static final int MY_CHATTING = 1;
 
     private ArrayList<RequestQuotationValueObject> requestQuotationValueObjectArrayList;
-    private int previousStep;
-    private int step;
-    private PopupWindow mPopupWindow;
     private Activity activity;
 
 
@@ -59,8 +56,6 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
     public RequestQuotationRecyclerViewAdapter(Activity activity){
         //변수 초기화
         requestQuotationValueObjectArrayList = new ArrayList<>();
-        step = 0;
-        previousStep = 0;
         this.activity = activity;
     }
 

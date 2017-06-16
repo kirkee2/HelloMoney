@@ -16,5 +16,5 @@
         android:textColor="@color/subNormal"
         android:textSize="@dimen/medium" />
 
-    
+
 </LinearLayout>
