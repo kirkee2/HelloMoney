@@ -12,7 +12,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center"
         android:text="@string/selected_quotation"
-        android:textColor="@color/subNormal"
+        android:textColor="@color/progress"
         android:textSize="@dimen/medium" />
 
     <android.support.v7.widget.CardView

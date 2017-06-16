@@ -198,11 +198,10 @@ public class MyQuotationActivity extends AppCompatActivity {
                 tabLayout.setupWithViewPager(viewPager, true);
 
 
-                /*
+
                 Intent intent = getIntent();
                 viewPager.setCurrentItem(intent.getIntExtra("page",0));
 
-*/
             }else{
             }
 
