@@ -5,39 +5,43 @@
     android:layout_height="wrap_content"
     android:background="@color/basement"
     android:padding="6dp"
-    android:layout_marginTop="6dp">
+    android:layout_marginTop="18dp">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="348dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/linearLayout"
         android:orientation="vertical"
-        android:padding="27dp">
+        android:paddingBottom="23dp">
 
 
         <LinearLayout
-            android:layout_width="294dp"
+            android:layout_gravity="center"
+            android:layout_width="348dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="12dp">
 
             <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
                 android:id="@+id/leftTime"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="6dp"
                 android:gravity="center"
                 android:text="마감까지 02:22 남았습니다."
                 android:textColor="@color/pointTypo"
-                android:textSize="@dimen/medium" />
+                android:textSize="23sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="74dp"
-                android:layout_marginBottom="12dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="23dp"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
 
                 <ImageView
                     android:id="@+id/loanType"
@@ -85,7 +89,9 @@
                 android:layout_height="74dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                android:weightSum="100">
+                android:weightSum="100"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -103,7 +109,9 @@
                         android:gravity="center_vertical"
                         android:text="대출 금액"
                         android:textColor="@color/subNormal"
-                        android:textSize="@dimen/small" />
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc1"
+                        android:drawablePadding="2dp"/>
 
                     <TextView
                         android:id="@+id/loanSum"
@@ -114,7 +122,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:text="23,0000만원"
-                        android:textColor="@color/normalTypo"
+                        android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
 
@@ -134,7 +142,9 @@
                         android:gravity="center_vertical"
                         android:text="금리 방식"
                         android:textColor="@color/subNormal"
-                        android:textSize="@dimen/small" />
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc2"
+                        android:drawablePadding="2dp"/>
 
                     <TextView
                         android:id="@+id/rateType"
@@ -145,7 +155,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:text="고정"
-                        android:textColor="@color/normalTypo"
+                        android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
             </LinearLayout>
@@ -155,7 +165,9 @@
                 android:layout_height="74dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                android:weightSum="100">
+                android:weightSum="100"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -173,7 +185,9 @@
                         android:gravity="center_vertical"
                         android:text="대출 실행 예정일"
                         android:textColor="@color/subNormal"
-                        android:textSize="@dimen/small" />
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc3"
+                        android:drawablePadding="2dp"/>
 
                     <TextView
                         android:id="@+id/loanDate"
@@ -184,7 +198,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:text="2018.03.14"
-                        android:textColor="@color/normalTypo"
+                        android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
 
@@ -204,7 +218,9 @@
                         android:gravity="center_vertical"
                         android:text="직업 구분"
                         android:textColor="@color/subNormal"
-                        android:textSize="@dimen/small" />
+                        android:textSize="@dimen/small2"
+                        android:drawableStart="@drawable/abc4"
+                        android:drawablePadding="2dp"/>
 
                     <TextView
                         android:id="@+id/jobType"
@@ -215,7 +231,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:text="직장근로인"
-                        android:textColor="@color/normalTypo"
+                        android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
             </LinearLayout>
@@ -224,7 +240,8 @@
             <RelativeLayout
                 android:layout_width="134dp"
                 android:layout_height="48dp"
-                android:layout_gravity="start">
+                android:layout_gravity="start"
+                android:layout_marginStart="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -236,7 +253,9 @@
                     android:gravity="center_vertical"
                     android:text="전화번호"
                     android:textColor="@color/subNormal"
-                    android:textSize="@dimen/small" />
+                    android:textSize="@dimen/small"
+                    android:drawableStart="@drawable/abc5"
+                    android:drawablePadding="2dp"/>
 
                 <TextView
                     android:id="@+id/telephone"
@@ -247,13 +266,14 @@
                     android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
                     android:text="010-0000-0000"
-                    android:textColor="@color/normalTypo"
+                    android:textColor="@color/pointTypo"
                     android:textSize="@dimen/medium" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
     <TextView
+        android:layout_marginStart="10dp"
         android:id="@+id/feedbackList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

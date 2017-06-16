@@ -17,14 +17,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
+                android:layout_height="70dp"
                 android:orientation="horizontal"
-                android:paddingBottom="21dp"
-                android:paddingTop="21dp"
+                android:paddingBottom="11dp"
+                android:paddingTop="11dp"
                 android:paddingStart="24dp"
-                android:paddingEnd="24dp"
                 android:background="@color/progress">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -35,18 +34,18 @@
 
                 <LinearLayout
                     android:layout_width="126dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginBottom="9dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginStart="10dp">
+                    android:layout_marginStart="10dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:layout_centerVertical="true">
 
                     <TextView
                         android:id="@+id/bank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/small"
+                        android:textSize="@dimen/small2"
                         android:layout_gravity="center_vertical"
                         android:text="국민은행"/>
 
@@ -55,113 +54,109 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/small"
+                        android:textSize="@dimen/small2"
                         android:layout_gravity="center_vertical"
                         android:text="홍길동"/>
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/goCounselor"
-                    android:layout_width="96dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="9dp"
-                    android:layout_marginTop="9dp"
-                    android:textSize="@dimen/medium"
+                    android:layout_width="95dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp"
+                    android:textSize="@dimen/small2"
                     android:textColor="@color/progress"
                     android:background="@drawable/round_button_white"
                     android:gravity="center"
                     android:text="@string/go_counselor"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/pastTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="19dp"
+                    android:text="3일 전 작성"
+                    android:textColor="@color/subNormal"
+                    android:textSize="@dimen/tiny" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp">
+
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/loanType"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_marginStart="26dp"
-                        android:layout_marginTop="16dp"
                         android:src="@drawable/lease_loan" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_alignParentTop="true"
+                        android:layout_height="60dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="26dp"
                         android:layout_toEndOf="@+id/loanType"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/region"
                             android:layout_width="match_parent"
-                            android:layout_height="24dp"
+                            android:layout_height="20dp"
                             android:gravity="center|start"
                             android:text="@string/test"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/small_medium"
                             android:textColor="@color/normalTypo"/>
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="24dp">
+                        <TextView
+                            android:id="@+id/apt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:gravity="center|start"
+                            android:maxWidth="200dp"
+                            android:text="@string/test"
+                            android:textSize="@dimen/small_medium"
+                            android:textColor="@color/normalTypo"/>
 
-                            <TextView
-                                android:id="@+id/apt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center|start"
-                                android:maxWidth="200dp"
-                                android:text="@string/test"
-                                android:textSize="12sp"
-                                android:textColor="@color/normalTypo"/>
 
-                            <RatingBar
-                                android:id="@+id/starRatingBar"
-                                style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="6dp"
-                                android:layout_toEndOf="@+id/apt"
-                                android:isIndicator="false"
-                                android:numStars="5"
-                                android:rating="3.5"
-                                android:stepSize="0.5" />
-                        </RelativeLayout>
+                        <RatingBar
+                            android:id="@+id/starRatingBar"
+                            style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/apt"
+                            android:isIndicator="false"
+                            android:numStars="5"
+                            android:rating="3.5"
+                            android:stepSize="0.5" />
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/pastTime"
-                        android:layout_width="66dp"
-                        android:layout_height="16dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginEnd="10dp"
-                        android:text="3일 전 작성"
-                        android:textColor="@color/subNormal"
-                        android:textSize="9sp" />
-
                 </RelativeLayout>
 
                 <TextView
                     android:id="@+id/content"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginEnd="26dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="26dp"
-                    android:layout_marginStart="26dp"
-                    android:layout_marginBottom="18dp"
-                    android:layout_marginTop="18dp"
+                    android:text="asdsajndasjdnas jdsoaiveouvouqenvijqwvuwrh80ewb8023ubn89"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="27dp"
                     android:textColor="@color/pointTypo"
-                    android:lineSpacingExtra="6dp"
-                    android:textSize="@dimen/small" />
+                    android:lineSpacingExtra="7dp"
+                    android:textSize="@dimen/small_medium" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

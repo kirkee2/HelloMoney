@@ -3,51 +3,87 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/basement">
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        tools:context="com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageFragment"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/linearLayout"
         android:layout_width="296dp"
-        android:layout_height="wrap_content"
+        android:layout_height="144dp"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@drawable/ongoing_quotation_fixed_done">
+        android:background="@drawable/ongoing_quotation_fixed_done"
+        android:paddingTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="74dp"
+            android:layout_height="83dp"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp">
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center">
 
             <LinearLayout
-                android:layout_width="197dp"
+                android:layout_width="210dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="7dp">
+                    <TextView
+                        android:id="@+id/type"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/round_button_1"
+                        android:text="전세자금 대출"
+                        android:textSize="@dimen/small"
+                        android:textColor="@android:color/white"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/ongoing_sub"
+                        android:layout_width="85dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/round_button_2"
+                        android:text="전세자금 대출"
+                        android:layout_marginStart="5dp"
+                        android:textSize="@dimen/small"
+                        android:textColor="@color/progress"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/region"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="215dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="3dp"
+                    android:textColor="@color/normalTypo"
+                    android:textSize="@dimen/small_medium"
                     android:layout_gravity="center_vertical"/>
 
                 <TextView
-                    android:id="@+id/aptSize"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/apt"
+                    android:layout_width="215dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="3dp"
+                    android:textColor="@color/normalTypo"
+                    android:textSize="@dimen/small_medium"
                     android:layout_gravity="center_vertical"/>
 
                 <TextView
-                    android:layout_marginTop="6dp"
-                    android:id="@+id/type"
-                    android:layout_width="98dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/round_button"
-                    android:text="전세자금 대출"
-                    android:textSize="@dimen/small"
-                    android:textColor="@android:color/white"
-                    android:gravity="center" />
+                    android:id="@+id/size"
+                    android:layout_width="215dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="3dp"
+                    android:textColor="@color/normalTypo"
+                    android:textSize="@dimen/small_medium"
+                    android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
 
@@ -55,45 +91,56 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/subNormal"/>
+
+
             <RelativeLayout
-                android:layout_width="74dp"
-                android:layout_height="74dp">
+                android:layout_width="53dp"
+                android:layout_height="83dp"
+                android:layout_gravity="end">
 
                 <TextView
                     android:id="@+id/currentQuotation"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="9dp"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="17dp"
                     android:background="@drawable/circle"
-                    android:textSize="@dimen/large"
+                    android:gravity="center"
                     android:textColor="@color/normalTypo"
-                    android:gravity="center"/>
+                    android:textSize="@dimen/large" />
+
                 <TextView
                     android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_height="18dp"
                     android:layout_below="@id/currentQuotation"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
                     android:text="@string/current_quotation"
                     android:textColor="@color/subNormal"
-                    android:textSize="@dimen/tiny"/>
+                    android:textSize="@dimen/small" />
             </RelativeLayout>
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/leftTime"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:gravity="center"
-            android:text="마강까지 02:22 남았습니다."
-            android:textColor="@color/pointTypo"
-            android:textSize="@dimen/medium"
-            android:layout_gravity="bottom|center"
-            android:layout_marginBottom="13dp"/>
+            android:layout_height="28dp">
+
+            <TextView
+                android:id="@+id/leftTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="bottom|center"
+                android:gravity="center"
+                android:textColor="@color/pointTypo"
+                android:textSize="@dimen/small_medium"
+                android:drawablePadding="3dp"/>
+        </RelativeLayout>
+
+
     </LinearLayout>
+
 </FrameLayout>

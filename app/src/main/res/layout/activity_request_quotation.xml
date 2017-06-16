@@ -65,13 +65,13 @@
                     android:id="@+id/step1Text1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="50"
                     android:background="@drawable/request_button"
                     android:gravity="center"
-                    android:textSize="@dimen/medium"
+                    android:text="@string/loan_type_1"
                     android:textColor="@color/normalTypo"
-                    android:layout_marginEnd="4dp"
-                    android:text="@string/loan_type_1"/>
+                    android:textSize="@dimen/medium" />
 
                 <TextView
                     android:id="@+id/step1Text2"

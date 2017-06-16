@@ -13,7 +13,8 @@
         android:layout_alignParentStart="true"
         android:text="@string/loan_postscript"
         android:background="@color/basement"
-        android:textColor="@color/normalTypo"
-        android:textSize="20sp"/>
+        android:textColor="@color/molaType"
+        android:textSize="@dimen/medium"
+        android:layout_marginStart="16dp"/>
 
 </RelativeLayout>

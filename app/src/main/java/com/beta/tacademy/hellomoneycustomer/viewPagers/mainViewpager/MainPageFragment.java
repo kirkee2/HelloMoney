@@ -13,6 +13,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,13 +37,15 @@ public class MainPageFragment extends Fragment {
 
     MainPageViewPagerObject mainPageViewPagerObject;
     TextView region;
-    TextView aptSize;
+    TextView apt;
+    TextView size;
     TextView type;
     TextView currentQuotation;
     TextView leftTime;
     LinearLayout linearLayout;
     Timer timer;
     TimerTask timerTask;
+    TextView ongoingSub;
 
 
     public MainPageFragment() {
@@ -76,21 +79,26 @@ public class MainPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
 
         region = (TextView)view.findViewById(R.id.region);
-        aptSize = (TextView)view.findViewById(R.id.aptSize);
+        apt = (TextView)view.findViewById(R.id.apt);
         type = (TextView)view.findViewById(R.id.type);
         currentQuotation = (TextView)view.findViewById(R.id.currentQuotation);
         leftTime = (TextView)view.findViewById(R.id.leftTime);
         linearLayout = (LinearLayout)view.findViewById(R.id.linearLayout);
+        size = (TextView)view.findViewById(R.id.size);
+        ongoingSub = (TextView)view.findViewById(R.id.ongoing_sub);
 
         region.setText(mainPageViewPagerObject.getRegion1() + " " + mainPageViewPagerObject.getRegion2() + " " +  mainPageViewPagerObject.getRegion3());
-        aptSize.setText(mainPageViewPagerObject.getApt() + " / " + mainPageViewPagerObject.getSize());
+        apt.setText(mainPageViewPagerObject.getApt());
+        size.setText( mainPageViewPagerObject.getSize());
         type.setText(mainPageViewPagerObject.getType());
 
         currentQuotation.setText(String.valueOf(mainPageViewPagerObject.getCurrentQuotation()));
 
+        ongoingSub.setText(mainPageViewPagerObject.getOngoingStatus());
+
         if(mainPageViewPagerObject.getOngoingStatus().equals("견적접수중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_interection_waiting));
-
+            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step1_small, 0, 0, 0);
             int leftSecond  = mainPageViewPagerObject.getLeftSecond();
             int hour = leftSecond/3600;
             int tmp = leftSecond%3600;
@@ -98,10 +106,10 @@ public class MainPageFragment extends Fragment {
             int second = tmp%60;
 
             if(leftSecond > 0){
-               leftTime.setText("마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+               leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
 
             }else{
-                leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                leftTime.setText("견적 마감까지 " + "00" + ":" +"00" + " 남았습니다.");
             }
 
             timerTask = new TimerTask() {
@@ -133,23 +141,28 @@ public class MainPageFragment extends Fragment {
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("선택대기중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + "입니다.");
+            leftTime.setText("대출 상담사를 선택해주세요.");
+            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("상담중")){
+            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + "입니다.");
+            leftTime.setText("대출 상담이 진행 중 입니다.");
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("심사중")){
+            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + "입니다.");
+            leftTime.setText("대출 심사가 진행 중 입니다.");
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("승인완료")){
+            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + " 되었습니다.");
+            leftTime.setText( "대출 승인이 완료 되었습니다.");
         }else{
+            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_done));
             leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(mainPageViewPagerObject.getOngoingStatus() + " 되었습니다.");
+            leftTime.setText("퍼센트 사용 후기를 남겨주세요.");
         }
 
         linearLayout.setOnClickListener(new View.OnClickListener() {

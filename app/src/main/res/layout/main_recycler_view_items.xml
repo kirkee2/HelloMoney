@@ -2,75 +2,24 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
-    android:layout_marginBottom="@dimen/card_margin_bottom"
-    android:layout_marginLeft="@dimen/card_margin_side"
-    android:layout_marginRight="@dimen/card_margin_side">
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/typeImage"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="26dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/lease_loan" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_toEndOf="@+id/typeImage"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/region"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:gravity="center|start"
-                    android:text="@string/test"
-                    android:textSize="12sp"
-                    android:textColor="@color/normalTypo"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp">
-
-                    <TextView
-                        android:id="@+id/apt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center|start"
-                        android:maxWidth="200dp"
-                        android:text="@string/test"
-                        android:textSize="12sp"
-                        android:textColor="@color/normalTypo"/>
-
-                    <RatingBar
-                        android:id="@+id/starRatingBar"
-                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="6dp"
-                        android:layout_toEndOf="@+id/apt"
-                        android:isIndicator="false"
-                        android:numStars="5"
-                        android:rating="3.5"
-                        android:stepSize="0.5"/>
-                </RelativeLayout>
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/pastTime"
@@ -78,10 +27,57 @@
                 android:layout_height="16dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="10dp"
-                android:text="3일 전 작성"
+                android:text="2016년 3월 12일"
                 android:textColor="@color/subNormal"
-                android:textSize="9sp" />
+                android:textSize="@dimen/tiny" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/typeImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/lease_loan"
+                android:layout_below="@id/pastTime"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/typeImage"
+                android:layout_below="@id/pastTime"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/region"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center|start"
+                    android:text="@string/test"
+                    android:textSize="@dimen/small_medium"
+                    android:textColor="@color/normalTypo"/>
+
+                <TextView
+                    android:id="@+id/apt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:gravity="center|start"
+                    android:maxWidth="200dp"
+                    android:text="@string/test"
+                    android:textSize="@dimen/small_medium"
+                    android:textColor="@color/normalTypo"/>
+
+                <RatingBar
+                    android:id="@+id/starRatingBar"
+                    style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/apt"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:rating="3.5"
+                    android:stepSize="0.5"/>
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -91,18 +87,16 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="26dp"
             android:layout_marginStart="26dp"
-            android:layout_marginBottom="18dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:textColor="@color/pointTypo"
             android:text="asdjbkaskjasjkdabkdasjkdbqkbaskjdslkfnbrejgekrjfnlsdfjngbneorujivdfh;f cg"
-            android:lineSpacingExtra="6dp"
-            android:textSize="12sp" />
+            android:lineSpacingExtra="7dp"
+            android:textSize="@dimen/small_medium"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
             android:background="@color/subNormal" />
 
         <RelativeLayout
@@ -112,7 +106,6 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="26dp"
             android:layout_marginBottom="6dp">
-
 
             <TextView
                 android:id="@+id/benefit"
