@@ -1,122 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:id="@+id/yesResult"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/basement"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/feedbackList"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:paddingTop="6dp">
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/selected_quotation"
+        android:textColor="@color/subNormal"
+        android:textSize="@dimen/medium" />
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="328dp"
+        android:layout_height="82dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/white"
+        android:layout_gravity="center_horizontal">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="168dp"
-            android:layout_marginBottom="6dp"
-            android:paddingEnd="6dp"
-            android:paddingStart="6dp"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:orientation="horizontal"
-            android:weightSum="100">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="13dp"
+                android:layout_marginStart="11dp"
+                android:src="@drawable/joon" />
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="50"
-                android:background="@color/subNormal">
-
-                <TextView
-                    android:layout_width="66dp"
-                    android:layout_height="19dp"
-                    android:textSize="@dimen/small"
-                    android:textColor="@android:color/white"
-                    android:gravity="center_vertical"
-                    android:text="@string/quotation_result_count"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="18dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"/>
+            <LinearLayout
+                android:layout_width="144dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="17dp"
+                android:layout_marginEnd="13dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/finalQuotationCount"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
-                    android:textSize="@dimen/large"
-                    android:textColor="@android:color/white"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginRight="11dp"
-                    android:layout_marginBottom="11dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="50"
-                android:background="@android:color/white">
-
+                    android:id="@+id/bank"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:gravity="top|start"
+                    android:text="KB국민은행"
+                    android:textColor="@color/normalTypo"
+                    android:textSize="@dimen/small" />
                 <TextView
-                    android:layout_width="66dp"
-                    android:layout_height="19dp"
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="top|start"
                     android:textSize="@dimen/small"
                     android:textColor="@color/normalTypo"
-                    android:gravity="center_vertical"
-                    android:text="@string/average_mola"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginBottom="18dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"/>
+                    android:text="홍길동"/>
 
                 <TextView
-                    android:id="@+id/averageInterestRate"
-                    android:layout_width="70dp"
-                    android:layout_height="33dp"
+                    android:id="@+id/loanType"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="top|start"
+                    android:textSize="@dimen/small"
+                    android:textColor="@color/progress"
+                    android:text="변동금리 | 원리금균등상환"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tmp"
+                android:layout_width="99dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@color/progress">
+
+                <TextView
+                    android:id="@+id/interestRate"
+                    android:layout_width="79dp"
+                    android:layout_height="40dp"
+                    android:textColor="@android:color/white"
                     android:textSize="@dimen/large"
-                    android:textColor="@color/normalTypo"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginRight="11dp"
-                    android:layout_marginBottom="11dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
-            </RelativeLayout>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="3.4%"/>
+
+                <TextView
+                    android:layout_width="79dp"
+                    android:layout_height="22dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/medium"
+                    android:text="@string/show_detail"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-    <RelativeLayout
-        android:id="@+id/noResult"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:paddingTop="6dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/no_result"
-            android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="아직 모집된 견적이 없습니다."
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/image"
-            android:textSize="@dimen/medium"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/subNormal"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
-</FrameLayout>
+</LinearLayout>

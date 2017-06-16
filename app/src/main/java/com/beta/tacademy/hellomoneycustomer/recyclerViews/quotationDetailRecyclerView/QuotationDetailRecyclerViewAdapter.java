@@ -80,6 +80,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public static final int NO_WRITE_DONE_COMMENT =0;
     public static final int NO_WRITE_ONGOING_COMMENT =1;
     public static final int YES_WRITE_COMMENT =2;
+    public static final int NO_WRITE_ONGOING_SELECTED_COMMENT = 3;
 
     private int type;
 
@@ -89,9 +90,15 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
     private QuotationDetailHeaderObject quotationDetailHeaderObject;
+    private QuotationDetailObject subHeaderQuotationDetailHeaderObject;
 
     public void addItem(QuotationDetailObject quotationDetailObject) {
         quotationDetailObjectArrayList.add(quotationDetailObject); //아이템 추가
+        notifyDataSetChanged();
+    }
+
+    public void addSubHeader(QuotationDetailObject quotationDetailObject){
+        subHeaderQuotationDetailHeaderObject = quotationDetailObject;
         notifyDataSetChanged();
     }
 
@@ -137,11 +144,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         if(type == YES_WRITE_COMMENT) {
             if (position == 0) {
                 return TYPE_HEADER;
-            } else if (position == 1) {
-                return TYPE_HEADER_SUB;
-            }else if (position == 2) {
+            }else if (position == 1) {
                 return TYPE_HEADER_SUB_SUB_SUB;
-            } else if (position == quotationDetailObjectArrayList.size() + 3) {
+            } else if (position == quotationDetailObjectArrayList.size() + 2) {
                 return TYPE_FOOTER;
             } else {
                 return TYPE_ITEM;
@@ -150,20 +155,28 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             if (position == 0) {
                 return TYPE_HEADER;
             }else if (position == 1) {
-                return TYPE_HEADER_SUB;
-            }else if (position == 2) {
                 return TYPE_HEADER_SUB_SUB_SUB;
             }else {
+                return TYPE_ITEM;
+            }
+        }else if(type == NO_WRITE_ONGOING_SELECTED_COMMENT){
+            if (position == 0) {
+                return TYPE_HEADER;
+            }else if (position == 1) {
+                return TYPE_HEADER_SUB;
+            }else if (position == 2) {
+                return TYPE_HEADER_SUB_SUB;
+            }else if (position == 3) {
+                return TYPE_HEADER_SUB_SUB_SUB;
+            } else {
                 return TYPE_ITEM;
             }
         }else{
             if (position == 0) {
                 return TYPE_HEADER;
-            } else if (position == 1) {
-                return TYPE_HEADER_SUB;
-            }else if (position == 2) {
+            }else if (position == 1) {
                 return TYPE_HEADER_SUB_SUB;
-            }else if (position == 3) {
+            }else if (position == 2) {
                 return TYPE_HEADER_SUB_SUB_SUB;
             } else {
                 return TYPE_ITEM;
@@ -195,28 +208,43 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     private class QuotationDetailHeaderViewHolder extends RecyclerView.ViewHolder {
-
-        private QuotationDetailHeaderViewHolder(View itemView) {
-            super(itemView);
-
-        }
-    }
-
-
-    private class QuotationDetailSubHeaderViewHolder extends RecyclerView.ViewHolder {
         BarChart barChart;
         TextView finalQuotationCount;
         TextView averageInterestRate;
         RelativeLayout noResult;
         LinearLayout yesResult;
 
-        private QuotationDetailSubHeaderViewHolder(View itemView) {
+        private QuotationDetailHeaderViewHolder(View itemView) {
             super(itemView);
             barChart = (BarChart) itemView.findViewById(R.id.barChart);
             finalQuotationCount = (TextView)itemView.findViewById(R.id.finalQuotationCount);
             averageInterestRate = (TextView)itemView.findViewById(R.id.averageInterestRate);
             noResult = (RelativeLayout)itemView.findViewById(R.id.noResult);
             yesResult = (LinearLayout)itemView.findViewById(R.id.yesResult);
+
+        }
+    }
+
+
+    private class QuotationDetailSubHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView bank;
+        TextView name;
+        TextView loanType;
+        TextView interestRate;
+        CircleImageView image;
+        CardView cardView;
+        LinearLayout tmp;
+
+        private QuotationDetailSubHeaderViewHolder(View itemView) {
+            super(itemView);
+
+            cardView = (CardView)itemView.findViewById(R.id.cardView);
+            bank = (TextView)itemView.findViewById(R.id.bank);
+            name = (TextView)itemView.findViewById(R.id.name);
+            loanType = (TextView)itemView.findViewById(R.id.loanType);
+            interestRate = (TextView)itemView.findViewById(R.id.interestRate);
+            image = (CircleImageView)itemView.findViewById(R.id.image);
+            tmp = (LinearLayout)itemView.findViewById(R.id.tmp);
         }
     }
 
@@ -290,8 +318,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         if(holder instanceof QuotationDetailHeaderViewHolder){
-        } else if (holder instanceof QuotationDetailSubHeaderViewHolder) {
-
             ArrayList<BarEntry> entries = new ArrayList<>();
             ArrayList<BarEntry> entriesMin = new ArrayList<>();
             float min = 100;
@@ -307,11 +333,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             }
 
             if(quotationDetailObjectArrayList.size() == 0){
-                ((QuotationDetailSubHeaderViewHolder) holder).noResult.setVisibility(View.VISIBLE);
-                ((QuotationDetailSubHeaderViewHolder) holder).yesResult.setVisibility(View.INVISIBLE);
+                ((QuotationDetailHeaderViewHolder) holder).noResult.setVisibility(View.VISIBLE);
+                ((QuotationDetailHeaderViewHolder) holder).yesResult.setVisibility(View.INVISIBLE);
             }else{
-                ((QuotationDetailSubHeaderViewHolder) holder).noResult.setVisibility(View.GONE);
-                ((QuotationDetailSubHeaderViewHolder) holder).yesResult.setVisibility(View.VISIBLE);
+                ((QuotationDetailHeaderViewHolder) holder).noResult.setVisibility(View.GONE);
+                ((QuotationDetailHeaderViewHolder) holder).yesResult.setVisibility(View.VISIBLE);
                 entriesMin.add(entries.get(minIndex));
                 entries.remove(minIndex);
 
@@ -334,17 +360,17 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
                 data.setBarWidth(0.15F);
 
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setData(data);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.getAxisRight().setEnabled(false);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.getXAxis().setEnabled(false);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDescription(d);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setEnabled(false);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.animateY(500);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.setScaleEnabled(false);
-                ((QuotationDetailSubHeaderViewHolder) holder).barChart.invalidate();
+                ((QuotationDetailHeaderViewHolder) holder).barChart.setData(data);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.getAxisRight().setEnabled(false);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.getXAxis().setEnabled(false);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.setDescription(d);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.setEnabled(false);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.animateY(500);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.setScaleEnabled(false);
+                ((QuotationDetailHeaderViewHolder) holder).barChart.invalidate();
             }
-            ((QuotationDetailSubHeaderViewHolder) holder).finalQuotationCount.setText(String.valueOf(quotationDetailObjectArrayList.size()));
+            ((QuotationDetailHeaderViewHolder) holder).finalQuotationCount.setText(String.valueOf(quotationDetailObjectArrayList.size()));
             double tmp = 0;
             for(int i = 0 ; i < quotationDetailObjectArrayList.size() ; i++){
                 tmp += quotationDetailObjectArrayList.get(i).getInterestRate();
@@ -353,7 +379,32 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             tmp = tmp/(double) quotationDetailObjectArrayList.size();
 
             double tmp2 = Double.parseDouble(String.format("%.1f",tmp));
-            ((QuotationDetailSubHeaderViewHolder) holder).averageInterestRate.setText(String.valueOf(tmp2)+"%");
+            ((QuotationDetailHeaderViewHolder) holder).averageInterestRate.setText(String.valueOf(tmp2)+"%");
+
+        } else if (holder instanceof QuotationDetailSubHeaderViewHolder) {
+            final QuotationDetailObject valueObject = subHeaderQuotationDetailHeaderObject;
+            ((QuotationDetailSubHeaderViewHolder) holder).bank.setText(valueObject.getBank());
+            ((QuotationDetailSubHeaderViewHolder) holder).name.setText(valueObject.getName());
+            ((QuotationDetailSubHeaderViewHolder) holder).interestRate.setText(String.valueOf(valueObject.getInterestRate())+"%");
+            ((QuotationDetailSubHeaderViewHolder) holder).loanType.setText(valueObject.getLoanType());
+
+            ((QuotationDetailSubHeaderViewHolder) holder).cardView.setBackgroundResource(R.drawable.border);
+
+            Glide.with(activity)
+                    .load(valueObject.getImageUrl())
+                    .animate(android.R.anim.slide_in_left)
+                    .placeholder(R.drawable.loading)
+                    .error(R.drawable.error)
+                    .into(((QuotationDetailSubHeaderViewHolder) holder).image);
+
+            ((QuotationDetailSubHeaderViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RequestQuotationDialog requestQuotationDialog = new RequestQuotationDialog(activity);
+                    requestQuotationDialog.setInfo(activity, quotationDetailHeaderObject.getId(), valueObject.getId(), quotationDetailHeaderObject.getOngoingStatus());
+                    requestQuotationDialog.show();
+                }
+            });
 
         }else if (holder instanceof QuotationDetailSubSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
@@ -516,10 +567,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         }else {
             final QuotationDetailObject valueObject;
             if(type == NO_WRITE_DONE_COMMENT){
+                valueObject = quotationDetailObjectArrayList.get(position-3);
+            }else if(type == NO_WRITE_ONGOING_SELECTED_COMMENT){
                 valueObject = quotationDetailObjectArrayList.get(position-4);
             }else{
-                valueObject = quotationDetailObjectArrayList.get(position-3);
-                //valueObject = quotationDetailObjectArrayList.get(position);
+                valueObject = quotationDetailObjectArrayList.get(position-2);
             }
 
 
@@ -527,12 +579,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailViewHolder) holder).name.setText(valueObject.getName());
             ((QuotationDetailViewHolder) holder).interestRate.setText(String.valueOf(valueObject.getInterestRate())+"%");
             ((QuotationDetailViewHolder) holder).loanType.setText(valueObject.getLoanType());
-
-
-            if(quotationDetailHeaderObject.getSelectedEstimateId() == valueObject.getId()){
-                ((QuotationDetailViewHolder) holder).cardView.setBackgroundResource(R.drawable.border);
-            }
-
 
             Glide.with(activity)
                     .load(valueObject.getImageUrl())
@@ -565,11 +611,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     @Override
     public int getItemCount() {
         if(type == NO_WRITE_ONGOING_COMMENT) {
-            return quotationDetailObjectArrayList.size()+3;
-        }else if(type == NO_WRITE_DONE_COMMENT){
+            return quotationDetailObjectArrayList.size()+2;
+        }else if(type == NO_WRITE_ONGOING_SELECTED_COMMENT){
             return quotationDetailObjectArrayList.size()+4;
         }else{
-            return quotationDetailObjectArrayList.size()+4;
+            return quotationDetailObjectArrayList.size()+3;
         }
         //전체 item의 갯수 반환
     }

@@ -180,11 +180,15 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
                         JSONObject data= jsonObject.getJSONObject(getResources().getString(R.string.url_data));
 
+                        quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.getString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.getString("job_type"),data.getString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
+
+                        /*
                         if(data.optInt("selected_estimate_id") == 0){
                             quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.optString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.optString("job_type"),data.optString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
                         }else{
                             quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.getString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.getString("job_type"),data.getString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
                         }
+                        */
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
                         return 1;
@@ -315,23 +319,30 @@ public class QuotationDetailActivity extends AppCompatActivity {
                         recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                     }
                 }else{
-                    quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
-                    recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                    if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
+                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                    }else{
+                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_SELECTED_COMMENT,quotationDetailHeaderObject);
+                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                    }
                 }
 
-                quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
-                /*
+                //quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
+
                 if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
                     quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
                 }else{
+
                     for(QuotationDetailObject tmp : quotationDetailObjectArrayList){
                         if(tmp.getId() == quotationDetailHeaderObject.getSelectedEstimateId()){
+                            quotationDetailRecyclerViewAdapter.addSubHeader(tmp);
+                        }else{
                             quotationDetailRecyclerViewAdapter.addItem(tmp);
                         }
                     }
-
                 }
-                */
+
             }else{
             }
 
