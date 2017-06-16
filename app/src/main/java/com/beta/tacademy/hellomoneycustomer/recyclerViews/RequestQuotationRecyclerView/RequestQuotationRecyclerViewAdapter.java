@@ -105,12 +105,10 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
 
     private class SystemChattingViewHolder extends RecyclerView.ViewHolder {
         TextView systemChatting;
-        ImageView info;
 
         private SystemChattingViewHolder(View itemView) {
             super(itemView);
             systemChatting = (TextView) itemView.findViewById(R.id.systemChattingText);
-            info = (ImageView)itemView.findViewById(R.id.info);
         }
     }
 
@@ -131,24 +129,7 @@ public class RequestQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Re
         if(holder instanceof RequestQuotationRecyclerViewAdapter.SystemChattingViewHolder){
 
             ((SystemChattingViewHolder) holder).systemChatting.setText(valueObject.getText());
-            if(valueObject.isInfo()){
-                ((SystemChattingViewHolder) holder).info.setVisibility(View.VISIBLE);
-                ((SystemChattingViewHolder) holder).info.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*
-                        View popupView = activity.getLayoutInflater().inflate(R.layout.popup_window, null);
 
-                        mPopupWindow = new PopupWindow(popupView, 100, LayoutParams.WRAP_CONTENT);
-                        mPopupWindow.showAtLocation(popupView, 0, -100);
-                        */
-
-                        Toast.makeText(HelloMoneyCustomerApplication.getInstance(), valueObject.getStep() + "단계입니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }else{
-                ((SystemChattingViewHolder) holder).info.setVisibility(View.GONE);
-            }
         } else{
             ((MyChattingViewHolder) holder).myChatting.setText(valueObject.getText());
             ((MyChattingViewHolder) holder).fix.setOnClickListener(new View.OnClickListener() {

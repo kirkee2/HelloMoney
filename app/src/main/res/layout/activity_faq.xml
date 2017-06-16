@@ -26,6 +26,12 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <ExpandableListView
+            android:layout_marginTop="3dp"
+            android:id="@+id/elv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:groupIndicator="@null" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_marginTop="3dp"

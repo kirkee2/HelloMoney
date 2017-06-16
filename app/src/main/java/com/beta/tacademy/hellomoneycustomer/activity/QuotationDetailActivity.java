@@ -319,6 +319,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
                 }
 
+                quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
+                /*
                 if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
                     quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
                 }else{
@@ -329,10 +331,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     }
 
                 }
-
-                new WebHook().execute(" askdmasldas lkdm akasdasdsad sd MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
+                */
             }else{
-                new WebHook().execute(" askdmasldas lkdm akasdasdsad sd MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
 
             progressBar.setVisibility(View.GONE);

@@ -133,8 +133,10 @@ public class MainActivity extends AppCompatActivity{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //mainRecyclerViewAdapter.updateImage();
-                        refreshLayout.setRefreshing(false);
+                        mainPageViewPagerObjectArrayList = new ArrayList<>();
+                        mainValueObjectArrayList = new ArrayList<>();
+
+                        new MyQuotationList().execute();
                     }
                 }, 1500);
             }
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity{
         super.onStart();
 
     }
-    //back 버튼 클릭 시 이벤트 설정.
+
     @Override
     public void onBackPressed() {
         final long FINSH_INTERVAL_TIME = 2000;
@@ -469,6 +471,8 @@ public class MainActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             toggle.syncState();
+
+            refreshLayout.setRefreshing(false);
         }
     }
 

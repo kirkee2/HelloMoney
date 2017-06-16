@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
@@ -35,8 +37,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static com.beta.tacademy.hellomoneycustomer.R.id.refreshLayout;
-
 public class FAQActivity extends AppCompatActivity {
+
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -74,6 +76,7 @@ public class FAQActivity extends AppCompatActivity {
 
         new FAQGet().execute();
     }
+
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
