@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",0);
-                intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition());
+                intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition()+1);
 
                 startActivityForResult(intent,1);
 
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",1);
-                intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition());
+                intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition()+1);
 
 
                 startActivityForResult(intent,1);
@@ -484,7 +484,7 @@ public class MainActivity extends AppCompatActivity{
                 refreshLayout.setEnabled(true);
 
 
-                recyclerView.scrollToPosition(recyclerViewPosition);
+                //recyclerView.scrollToPosition(recyclerViewPosition);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setDisplayShowHomeEnabled(true);
                 toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

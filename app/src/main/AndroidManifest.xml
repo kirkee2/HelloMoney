@@ -16,7 +16,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize|stateHidden">
         <meta-data
             android:name="com.beta.tacademy.hellomoneycustomer.module.glide.HelloMoneyCustomerGlideModule"
             android:value="GlideModule" />
@@ -49,8 +49,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RequestQuotationActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MyQuotationActivity"
             android:screenOrientation="portrait" />
@@ -69,9 +68,12 @@
         <activity
             android:name=".activity.FAQActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ContactActivity" />
-        <activity android:name=".activity.KakaoWebViewActivity" />
-        <activity android:name=".activity.SelectRegionAptSizeActivity"></activity>
+        <activity android:name=".activity.ContactActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.KakaoWebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SelectRegionAptSizeActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

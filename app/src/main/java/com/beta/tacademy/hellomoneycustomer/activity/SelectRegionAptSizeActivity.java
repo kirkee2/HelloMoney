@@ -50,6 +50,12 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragment = new Region1Fragment();
 
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.fragment, fragment);
+
+        fragmentTransaction.commit();
+
         toolbar.setTitle("아파트 선택하기");
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
     }

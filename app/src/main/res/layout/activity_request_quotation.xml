@@ -247,7 +247,7 @@
                     android:layout_weight="100"
                     android:layout_height="wrap_content"
                     android:calendarViewShown="false"
-                    android:datePickerMode="spinner" />
+                    android:datePickerMode="spinner"/>
 
                 <Button
                     android:id="@+id/step5Button"
