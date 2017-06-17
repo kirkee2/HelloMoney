@@ -53,6 +53,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private MainFragmentPagerAdapter pagerAdapter;
     private Activity activity;
+    private int position;
 
     private ArrayList<MainValueObject> mainValueObjectArrayList;
     private int type;
@@ -62,8 +63,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void initHeader(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+    public void initHeader(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList, int position){
         pagerAdapter.init(mainPageViewPagerObjectArrayList); //헤더 아이템 추가
+        this.position = position;
         notifyDataSetChanged();
     }
 
@@ -72,6 +74,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.type = type;
         this.activity = activity;
         mainValueObjectArrayList = new ArrayList<>();
+        position = 0;
         pagerAdapter = new MainFragmentPagerAdapter(fragmentManager);
     }
 
@@ -237,8 +240,9 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }else {
             ((MainSubHeaderViewHolder) holder).viewPager.setAdapter(pagerAdapter);
             ((MainSubHeaderViewHolder) holder).tabLayout.setupWithViewPager(((MainSubHeaderViewHolder) holder).viewPager, true);
-        }
+            ((MainSubHeaderViewHolder) holder).viewPager.setCurrentItem(this.position);
 
+        }
     }
 
     @Override

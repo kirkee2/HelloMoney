@@ -61,6 +61,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private Activity activity;
     private QuotationFeedback quotationFeedback;
     private QuotationDetail quotationDetail;
+    private int poisition;
 
 
     @Override
@@ -74,6 +75,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         activity = this;
         Intent intent = getIntent();
         quotationDetailId = intent.getIntExtra("id",-1);
+        poisition = intent.getIntExtra("position",0);
 
         quotationFeedback = new QuotationFeedback();
         quotationDetail = new QuotationDetail();
@@ -348,6 +350,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
+        intent.putExtra("position",this.poisition);
         setResult(RESULT_OK, intent);
         finish();
     }

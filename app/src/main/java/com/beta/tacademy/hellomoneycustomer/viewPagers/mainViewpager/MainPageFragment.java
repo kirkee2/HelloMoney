@@ -47,16 +47,17 @@ public class MainPageFragment extends Fragment {
     Timer timer;
     TimerTask timerTask;
     TextView ongoingSub;
-
+    int position;
 
     public MainPageFragment() {
         // Required empty public constructor
     }
 
-    public static MainPageFragment newInstance(MainPageViewPagerObject mainPageViewPagerObject) {
+    public static MainPageFragment newInstance(MainPageViewPagerObject mainPageViewPagerObject ,int position) {
         MainPageFragment fragment = new MainPageFragment();
         Bundle args = new Bundle();
         args.putParcelable("mainPageViewPagerObject", mainPageViewPagerObject);
+        args.putInt("position",position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,6 +69,7 @@ public class MainPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.mainPageViewPagerObject = getArguments().getParcelable("mainPageViewPagerObject");
+            this.position = getArguments().getInt("position");
         }else{
             this.mainPageViewPagerObject = null;
         }
@@ -172,6 +174,8 @@ public class MainPageFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), QuotationDetailActivity.class);
                 intent.putExtra("id",mainPageViewPagerObject.getId());
+                intent.putExtra("position",position);
+                //getActivity().startActivity(intent);
                 getActivity().startActivityForResult(intent,1);
             }
         });

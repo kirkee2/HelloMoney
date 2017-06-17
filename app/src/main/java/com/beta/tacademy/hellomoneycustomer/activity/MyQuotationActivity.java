@@ -54,6 +54,7 @@ public class MyQuotationActivity extends AppCompatActivity {
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectOneM;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectTwoM;
     private boolean firstCome;
+    private int recyclerViewPosition;
 
     private MyQuotationList myQuotationList;
 
@@ -75,6 +76,10 @@ public class MyQuotationActivity extends AppCompatActivity {
         firstCome =true;
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
+
+        Intent intent = getIntent();
+        recyclerViewPosition = intent.getIntExtra("recyclerViewPosition",0);
+
 
         //Toolbar 설정
         if (getSupportActionBar() != null){
@@ -247,6 +252,7 @@ public class MyQuotationActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
+        intent.putExtra("recyclerViewPosition", this.recyclerViewPosition);
         finish();
     }
 

@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity{
     private ActionBarDrawerToggle toggle;
     private int uncompletedCount;
     private int completedCount;
+    private int position;
 
     private PostscriptList postscriptList;
     private MyQuotationOngoingDoneCount myQuotationOngoingDoneCount;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity{
 
     private TextView myOngoingQuotation;
     private TextView myDoneQuotation;
+    private int recyclerViewPosition;
 
     private long backPressedTime = 0;
     @Override
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity{
 
         uncompletedCount = 0;
         completedCount = 0;
+        position = 0;
+        recyclerViewPosition = 0;
 
         //Toolbar
 
@@ -117,10 +121,6 @@ public class MainActivity extends AppCompatActivity{
 
 
         //ActionBarDrawerToggle 초기화 및 싱크 설정
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.syncState();
-
 
         naviList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,new String[]{getString(R.string.how_to),getString(R.string.faq),getString(R.string.contact)}));
         naviList.setOnItemClickListener(new DrawerItemClickListener());
@@ -151,11 +151,24 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
+        mainValueObjectArrayList = new ArrayList<>();
+
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
+
+        //RecyclerView에 LayoutManager 설정 및 adapter 설정
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+
         relativeLayoutOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",0);
+                intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition());
+
                 startActivityForResult(intent,1);
 
                 drawer.closeDrawer(naviList);
@@ -167,25 +180,20 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",1);
+                intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition());
+
+
                 startActivityForResult(intent,1);
                 drawer.closeDrawer(naviList);
             }
         });
 
-        mainPageViewPagerObjectArrayList = new ArrayList<>();
-        mainValueObjectArrayList = new ArrayList<>();
-
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false); //RecyclerView에 설정 할 LayoutManager 초기화
-
-        //RecyclerView에 LayoutManager 설정 및 adapter 설정
-
-        recyclerView.setLayoutManager(linearLayoutManager);
 
         myQuotationList.execute();
     }
 
-    public void update(){
+    public void update(int position){
+        this.position = position;
         mainPageViewPagerObjectArrayList = new ArrayList<>();
         mainValueObjectArrayList = new ArrayList<>();
 
@@ -304,7 +312,7 @@ public class MainActivity extends AppCompatActivity{
                 mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.YES_MY_QUOTATION);
                 recyclerView.setAdapter(mainRecyclerViewAdapter);
 
-                mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList);
+                mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList,position);
 
                 myQuotationOngoingDoneCount.execute();
             }else if(result == 1){
@@ -475,11 +483,14 @@ public class MainActivity extends AppCompatActivity{
                 progressBar.setVisibility(View.GONE);
                 refreshLayout.setEnabled(true);
 
+
+                recyclerView.scrollToPosition(recyclerViewPosition);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setDisplayShowHomeEnabled(true);
                 toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
                 toggle.syncState();
 
+                recyclerViewPosition = 0;
                 refreshLayout.setRefreshing(false);
             }else{
                 new WebHook().execute("MainActivity 후기 목록 안옴 result ===== " + result);
@@ -514,9 +525,9 @@ public class MainActivity extends AppCompatActivity{
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                update();
-            } else{
-
+                update(data.getIntExtra("position",0));
+                recyclerViewPosition = data.getIntExtra("recyclerViewPosition",0);
+            }else{
             }
         }else{
 
