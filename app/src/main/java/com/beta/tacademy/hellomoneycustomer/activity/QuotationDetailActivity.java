@@ -182,13 +182,6 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
                         quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.getString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.getString("job_type"),data.getString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
 
-                        /*
-                        if(data.optInt("selected_estimate_id") == 0){
-                            quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.optString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.optString("job_type"),data.optString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
-                        }else{
-                            quotationDetailHeaderObject = new QuotationDetailHeaderObject(data.optInt("request_id"),data.optString("status"),data.optString("end_time"),data.optString("loan_type"),data.optString("region_1"),data.optString("region_2"),data.optString("region_3"),data.getString("apt_name"),data.optDouble("apt_size_supply") + "(" + data.optDouble("apt_size_exclusive") +")",data.optInt("loan_amount"),data.optString("interest_rate_type"),data.optString("scheduled_time"),data.getString("job_type"),data.getString("phone_number"),data.optBoolean("is_reviewed"),data.optInt("selected_estimate_id"),data.optString("content"),data.optDouble("score"),data.optString("review_register_time"),data.optString("name"),data.optString("photo"),data.optString("company_name"),data.optString("agent_id"));
-                        }
-                        */
                         return 0;
                     }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
                         return 1;
@@ -320,11 +313,21 @@ public class QuotationDetailActivity extends AppCompatActivity {
                     }
                 }else{
                     if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
-                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                        if(quotationDetailObjectArrayList.size() == 0){
+                            quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT_NO_FEED,quotationDetailHeaderObject);
+                            recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                        }else{
+                            quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_COMMENT,quotationDetailHeaderObject);
+                            recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                        }
                     }else{
-                        quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_SELECTED_COMMENT,quotationDetailHeaderObject);
-                        recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                        if(quotationDetailObjectArrayList.size() == 1){
+                            quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_SELECTED_COMMENT_NO_FEED,quotationDetailHeaderObject);
+                            recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                        }else{
+                            quotationDetailRecyclerViewAdapter = new QuotationDetailRecyclerViewAdapter(activity,QuotationDetailRecyclerViewAdapter.NO_WRITE_ONGOING_SELECTED_COMMENT,quotationDetailHeaderObject);
+                            recyclerView.setAdapter(quotationDetailRecyclerViewAdapter);
+                        }
                     }
                 }
 

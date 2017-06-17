@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +62,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
     private RatingBar starRatingBar;
     private TextView content;
     private TextView pastTime;
-
+    private ProgressBar progressBar;
 
     private String imageInfo;
     private String bankInfo;
@@ -80,6 +81,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postscript_detail);
 
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         barChart = (BarChart)findViewById(R.id.barChart);
         rate = new ArrayList<>();
@@ -101,8 +103,13 @@ public class PostscriptDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         postscriptId = intent.getIntExtra("id",-1);
+        if(intent.getBooleanExtra("goCounselor",true)){
 
-        setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
+        }else{
+            goCounselor.setVisibility(View.GONE);
+        }
+
+        setSupportActionBar(toolbar);
 
         //Toolbar 설정
         if (getSupportActionBar() != null){
@@ -132,6 +139,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -382,6 +390,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 starRatingBar.setEnabled(false);
                 content.setText(contentInfo);
 
+                progressBar.setVisibility(View.GONE);
             }else if(result == 1){
                 new WebHook().execute("PostscriptDetailActivity 내 견적 목록 안옴 result ===== " + result);
             }else{

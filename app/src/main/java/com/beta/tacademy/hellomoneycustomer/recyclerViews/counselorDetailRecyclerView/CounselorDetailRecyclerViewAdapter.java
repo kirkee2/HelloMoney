@@ -167,6 +167,7 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 public void onClick(View v) {
                     Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), PostscriptDetailActivity.class);
                     intent.putExtra("id",valueObject.getId());
+                    intent.putExtra("goCounselor",false);
                     HelloMoneyCustomerApplication.getInstance().startActivity(intent);
                     //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " +valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }

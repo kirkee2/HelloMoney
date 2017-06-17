@@ -74,13 +74,16 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public static final int TYPE_HEADER_SUB = 1;
     public static final int TYPE_HEADER_SUB_SUB = 2;
     public static final int TYPE_HEADER_SUB_SUB_SUB = 3;
-    public static final int TYPE_ITEM = 4;
-    public static final int TYPE_FOOTER = 5;
+    public static final int TYPE_HEADER_SUB_SUB_SUB_SUB = 4;
+    public static final int TYPE_ITEM = 5;
+    public static final int TYPE_FOOTER = 6;
 
     public static final int NO_WRITE_DONE_COMMENT =0;
     public static final int NO_WRITE_ONGOING_COMMENT =1;
     public static final int YES_WRITE_COMMENT =2;
     public static final int NO_WRITE_ONGOING_SELECTED_COMMENT = 3;
+    public static final int NO_WRITE_ONGOING_SELECTED_COMMENT_NO_FEED = 4;
+    public static final int NO_WRITE_ONGOING_COMMENT_NO_FEED = 5;
 
     private int type;
 
@@ -130,6 +133,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         }else if(viewType == TYPE_HEADER_SUB_SUB_SUB){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub_sub, parent, false);
             return new QuotationDetailSubSubSubHeaderViewHolder(view);
+        }else if(viewType == TYPE_HEADER_SUB_SUB_SUB_SUB){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_header_sub_sub_sub_sub, parent, false);
+            return new QuotationDetailSubSubSubSubHeaderViewHolder(view);
         }else if(viewType == TYPE_FOOTER){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_detail_footer_write_comment, parent, false);
             return new QuotationDetailFooterViewHolder(view);
@@ -141,13 +147,12 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     @Override
     public int getItemViewType(int position) {
+
         if(type == YES_WRITE_COMMENT) {
             if (position == 0) {
                 return TYPE_HEADER;
             }else if (position == 1) {
                 return TYPE_HEADER_SUB_SUB_SUB;
-            } else if(position == 2){
-                return TYPE_HEADER_SUB;
             } else{
                 return TYPE_FOOTER;
             }
@@ -156,6 +161,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 return TYPE_HEADER;
             }else if (position == 1) {
                 return TYPE_HEADER_SUB_SUB_SUB;
+            }else if (position == 2) {
+                return TYPE_HEADER_SUB_SUB_SUB_SUB;
             }else {
                 return TYPE_ITEM;
             }
@@ -164,9 +171,29 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 return TYPE_HEADER;
             }else if (position == 1) {
                 return TYPE_HEADER_SUB_SUB_SUB;
-            }else if (position == 2) {
+            } else if (position == 2) {
                 return TYPE_HEADER_SUB;
+            }else if (position == 3) {
+                return TYPE_HEADER_SUB_SUB_SUB_SUB;
             } else {
+                return TYPE_ITEM;
+            }
+        }else if(type ==NO_WRITE_ONGOING_SELECTED_COMMENT_NO_FEED){
+            if (position == 0) {
+                return TYPE_HEADER;
+            }else if (position == 1) {
+                return TYPE_HEADER_SUB_SUB_SUB;
+            } else if (position == 2) {
+                return TYPE_HEADER_SUB;
+            }else {
+                return TYPE_ITEM;
+            }
+        }else if(type == NO_WRITE_ONGOING_COMMENT_NO_FEED ){
+            if (position == 0) {
+                return TYPE_HEADER;
+            }else if (position == 1) {
+                return TYPE_HEADER_SUB_SUB_SUB;
+            }else {
                 return TYPE_ITEM;
             }
         }else{
@@ -174,11 +201,27 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 return TYPE_HEADER;
             }else if (position == 1) {
                 return TYPE_HEADER_SUB_SUB_SUB;
-            }else if (position == 2) {
-                return TYPE_HEADER_SUB;
             }else{
                 return TYPE_HEADER_SUB_SUB;
             }
+        }
+    }
+
+
+    @Override
+    public int getItemCount() {
+        if(type == NO_WRITE_ONGOING_COMMENT) {
+            return quotationDetailObjectArrayList.size()+3;
+        }else if(type == NO_WRITE_ONGOING_SELECTED_COMMENT){
+            return quotationDetailObjectArrayList.size()+4;
+        }else if(type == YES_WRITE_COMMENT){
+            return 3;
+        }else if(type ==NO_WRITE_ONGOING_SELECTED_COMMENT_NO_FEED){
+            return quotationDetailObjectArrayList.size()+3;
+        }else if(type == NO_WRITE_ONGOING_COMMENT_NO_FEED ){
+            return quotationDetailObjectArrayList.size()+2;
+        }else{
+            return 3;
         }
     }
 
@@ -283,7 +326,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         TextView jobtype;
         TextView telephone;
         LinearLayout linearLayout;
-        TextView feedbackList;
 
         private QuotationDetailSubSubSubHeaderViewHolder(View itemView) {
             super(itemView);
@@ -298,7 +340,12 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             jobtype = (TextView)itemView.findViewById(R.id.jobType);
             telephone = (TextView)itemView.findViewById(R.id.telephone);
             linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
-            feedbackList = (TextView)itemView.findViewById(R.id.feedbackList);
+        }
+    }
+
+    private class QuotationDetailSubSubSubSubHeaderViewHolder extends RecyclerView.ViewHolder {
+        private QuotationDetailSubSubSubSubHeaderViewHolder(View itemView) {
+            super(itemView);
         }
     }
 
@@ -321,18 +368,22 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             float min = 100;
             int minIndex = 0;
 
-            if(type == NO_WRITE_ONGOING_COMMENT ){
+            if(type == NO_WRITE_ONGOING_COMMENT){
                 for(int i = 0 ; i <quotationDetailObjectArrayList.size() ; i++) {
                     if (quotationDetailObjectArrayList.get(i).getInterestRate() < min) {
                         min = (float) quotationDetailObjectArrayList.get(i).getInterestRate();
                         minIndex = i;
                     }
-                    if (type == NO_WRITE_ONGOING_SELECTED_COMMENT) {
+
+                    entries.add(new BarEntry(i * 0.5F, (float) quotationDetailObjectArrayList.get(i).getInterestRate()));
+
+                    /*
+                    if (type == NO_WRITE_ONGOING_SELECTED_COMMENT || type == YES_WRITE_COMMENT || type == NO_WRITE_DONE_COMMENT) {
                         entries.add(new BarEntry(i * 0.5F + 0.5F, (float) quotationDetailObjectArrayList.get(i).getInterestRate()));
                     } else {
                         entries.add(new BarEntry(i * 0.5F, (float) quotationDetailObjectArrayList.get(i).getInterestRate()));
-
                     }
+                    */
                 }
             }else{
                 entries.add(new BarEntry(0,(float)subHeaderQuotationDetailHeaderObject.getInterestRate()));
@@ -345,7 +396,9 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                         min = (float) quotationDetailObjectArrayList.get(i).getInterestRate();
                         minIndex = i+1;
                     }
-                    if (type == NO_WRITE_ONGOING_SELECTED_COMMENT) {
+
+
+                    if (type == NO_WRITE_ONGOING_SELECTED_COMMENT || type == YES_WRITE_COMMENT || type == NO_WRITE_DONE_COMMENT) {
                         entries.add(new BarEntry(i * 0.5F + 0.5F, (float) quotationDetailObjectArrayList.get(i).getInterestRate()));
                     } else {
                         entries.add(new BarEntry(i * 0.5F, (float) quotationDetailObjectArrayList.get(i).getInterestRate()));
@@ -479,12 +532,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         }else if (holder instanceof QuotationDetailSubSubSubHeaderViewHolder) {
             final QuotationDetailHeaderObject valueObject  = quotationDetailHeaderObject;
 
-            if(quotationDetailObjectArrayList.size() == 0){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setVisibility(View.GONE);
-            }else{
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setVisibility(View.VISIBLE);
-            }
-
             if(valueObject.getLoanType().equals("주택담보대출")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanType.setImageResource(R.drawable.secured_loan);
             }else{
@@ -511,10 +558,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 int second = tmp%60;
 
                 if(leftSecond > 0){
-                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
 
                 }else{
-                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("견적 마감까지 " + "00" + ":" +"00" + ":" +"00"+ " 남았습니다.");
                     if(timer == null){
 
                     }else{
@@ -536,10 +583,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                                 int second = tmp%60;
 
                                 if(leftSecond > 0){
-                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
 
                                 }else{
-                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("견적 마감까지 " + "00" + ":" +"00" + ":" +"00" + " 남았습니다.");
                                     if(timer == null){
 
                                     }else{
@@ -647,17 +694,24 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     */
                 }
             });
+        }else if (holder instanceof QuotationDetailSubSubSubSubHeaderViewHolder) {
+
         }else {
             final QuotationDetailObject valueObject;
             if(type == NO_WRITE_DONE_COMMENT){
                 valueObject = quotationDetailObjectArrayList.get(position-4);
             }else if(type == NO_WRITE_ONGOING_SELECTED_COMMENT){
-                valueObject = quotationDetailObjectArrayList.get(position-3);
+                valueObject = quotationDetailObjectArrayList.get(position-4);
             }else if(type == NO_WRITE_ONGOING_COMMENT){
+                valueObject = quotationDetailObjectArrayList.get(position-3);
+            }else if(type ==NO_WRITE_ONGOING_SELECTED_COMMENT_NO_FEED){
+                valueObject = quotationDetailObjectArrayList.get(position-3);
+            }else if(type == NO_WRITE_ONGOING_COMMENT_NO_FEED ){
                 valueObject = quotationDetailObjectArrayList.get(position-2);
             }else{
-                valueObject = quotationDetailObjectArrayList.get(position-2);
+                valueObject = quotationDetailObjectArrayList.get(position-4);
             }
+
 
             ((QuotationDetailViewHolder) holder).bank.setText(valueObject.getBank());
             ((QuotationDetailViewHolder) holder).name.setText(valueObject.getName());
@@ -689,19 +743,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 }
             });
 
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        if(type == NO_WRITE_ONGOING_COMMENT) {
-            return quotationDetailObjectArrayList.size()+2;
-        }else if(type == NO_WRITE_ONGOING_SELECTED_COMMENT){
-            return quotationDetailObjectArrayList.size()+3;
-        }else if(type == YES_WRITE_COMMENT){
-            return 4;
-        }else{
-            return 4;
         }
     }
 

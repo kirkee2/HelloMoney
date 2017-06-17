@@ -151,7 +151,6 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuotationDetailActivity.class);
                 intent.putExtra("id",valueObject.getId());
-                intent.putExtra("id",valueObject.getId());
                 activity.startActivityForResult(intent,1);
             }
         });

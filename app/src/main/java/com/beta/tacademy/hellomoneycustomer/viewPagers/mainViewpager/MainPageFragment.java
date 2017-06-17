@@ -109,7 +109,7 @@ public class MainPageFragment extends Fragment {
                leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
 
             }else{
-                leftTime.setText("견적 마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                leftTime.setText("견적 마감까지 " + "00" + ":" +"00" + ":" +"00"+ " 남았습니다.");
             }
 
             timerTask = new TimerTask() {
@@ -126,9 +126,9 @@ public class MainPageFragment extends Fragment {
                             int second = tmp%60;
 
                             if(leftSecond > 0){
-                                leftTime.setText("마감까지 " + CommonClass.formatNumber2(hour) + ":"+ CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+                                leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":"+ CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
                             }else{
-                                leftTime.setText("마감까지 " + "00" + ":" +"00" + " 남았습니다.");
+                                leftTime.setText("견적 마감까지 " + "00" + ":" +"00"+ ":" +"00" + " 남았습니다.");
                             }
                         }
                     });

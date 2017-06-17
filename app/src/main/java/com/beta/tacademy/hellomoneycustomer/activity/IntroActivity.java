@@ -49,6 +49,8 @@ public class IntroActivity extends AppCompatActivity {
 
     private IntroFragmentPagerAdapter introFragmentPagerAdapter;
 
+    String checkFCMToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +118,6 @@ public class IntroActivity extends AppCompatActivity {
             public void onPermissionGranted() {
                 CommonClass.saveUUID();
 
-                new WebHook().execute("asdsadsadasd asdasas asdas " + CommonClass.getUUID());
                 new IdCheck().execute();
             }
 
@@ -185,6 +186,9 @@ public class IntroActivity extends AppCompatActivity {
 
             try {
                 if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                    JSONObject tmp = jsonObject.getJSONObject("data");
+
+                    checkFCMToken = tmp.getString("fcm_token");
                     return 0;
                 }else{
                     return 1;
@@ -197,24 +201,104 @@ public class IntroActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            new WebHook().execute("resultu ad asdsd s   =====" + result  );
             if(result == 0){
-                Toast.makeText(IntroActivity.this,"아이디 등록 되어있음.",Toast.LENGTH_LONG).show();
+                if(checkFCMToken.equals(FirebaseInstanceId.getInstance().getToken())){
+                    progressBar.setVisibility(View.INVISIBLE);
+                    startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                    CommonClass.saveIntro();
+                    finish();
+                }else{
+                    new FCMCheck().execute();
+                }
 
-                progressBar.setVisibility(View.INVISIBLE);
-                startActivity(new Intent(IntroActivity.this, MainActivity.class));
-                CommonClass.saveIntro();
-                finish();
             }else if(result == 1){
                 new IdRegister().execute();
             }else{
                 Toast.makeText(IntroActivity.this,"에러 아이디 체크에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private class FCMCheck extends AsyncTask<Void, Void, Integer> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
+
+            JSONObject jsonObject = null;
+
+            try{
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                RequestBody postBody = new FormBody.Builder()
+                        .add("fcmToken", FirebaseInstanceId.getInstance().getToken())
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url(String.format(getResources().getString(R.string.check_id_url), CommonClass.getUUID()))
+                        .put(postBody)
+                        .build();
+                //동기 방식
+                response = toServer.newCall(request).execute();
+
+                flag = response.isSuccessful();
+                String returedJSON;
+
+                if(flag){ //성공했다면
+                    returedJSON = response.body().string();
+
+                    try {
+                        jsonObject = new JSONObject(returedJSON);
+                    }catch(JSONException jsone){
+                        Log.e("json에러", jsone.toString());
+                    }
+                }else{
+                    return 2;
+                }
+            }catch (UnknownHostException une) {
+            } catch (UnsupportedEncodingException uee) {
+            } catch (Exception e) {
+            } finally{
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                }
+            }
+
+            try {
+                if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+
+                    return 0;
+                }else{
+                    return 1;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return 3;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            if(result == 0){
+                CommonClass.saveIntro();
+                progressBar.setVisibility(View.INVISIBLE);
+                startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                finish();
+            }else{
+                Toast.makeText(IntroActivity.this,"넌 앞으로 푸시 못 받아 수고",Toast.LENGTH_LONG).show();
+            }
 
             progressBar.setVisibility(View.GONE);
         }
     }
+
 
     private class IdRegister extends AsyncTask<Void, Void, Integer> {
         @Override
@@ -280,7 +364,7 @@ public class IntroActivity extends AppCompatActivity {
             if(result == 0){
                 Toast.makeText(IntroActivity.this,"아이디 등록 안되있어서 추가함.",Toast.LENGTH_LONG).show();
                 CommonClass.saveIntro();
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
             }else if(result == 1){
