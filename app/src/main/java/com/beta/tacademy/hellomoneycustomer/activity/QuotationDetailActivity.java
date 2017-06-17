@@ -59,8 +59,9 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private QuotationDetailHeaderObject quotationDetailHeaderObject;
     private ArrayList<QuotationDetailObject> quotationDetailObjectArrayList;
     private Activity activity;
-    public Timer timer;
-    public TimerTask timerTask;
+    private QuotationFeedback quotationFeedback;
+    private QuotationDetail quotationDetail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,11 @@ public class QuotationDetailActivity extends AppCompatActivity {
         activity = this;
         Intent intent = getIntent();
         quotationDetailId = intent.getIntExtra("id",-1);
-        if(quotationDetailId == -1){
-        }else{
-        }
+
+        quotationFeedback = new QuotationFeedback();
+        quotationDetail = new QuotationDetail();
+
+        quotationDetailObjectArrayList = new ArrayList<>();
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
@@ -94,24 +97,13 @@ public class QuotationDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         //addItems();
+        quotationDetail.execute();
    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-    public void onResume(){
-        super.onResume();
-
-        quotationDetailObjectArrayList = new ArrayList<>();
-        new QuotationDetail().execute();
-    }
 
     public void update(){
         quotationDetailObjectArrayList = new ArrayList<>();
-        new QuotationDetail().execute();
+        quotationDetail = new QuotationDetail();
+        quotationDetail.execute();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -213,7 +205,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0 || result == 1){
-                new QuotationFeedback().execute();
+                quotationFeedback = new QuotationFeedback();
+                quotationFeedback.execute();
             }else{
                 new WebHook().execute(" 123   MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
@@ -353,10 +346,22 @@ public class QuotationDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
     protected void onDestroy(){
         super.onDestroy();
-        if(timer != null){
-            timer.cancel();
+
+        if (quotationDetail.getStatus() == AsyncTask.Status.RUNNING) {
+            quotationDetail.cancel(true);
+        }
+
+        if (quotationFeedback.getStatus() == AsyncTask.Status.RUNNING) {
+            quotationFeedback.cancel(true);
         }
     }
 }

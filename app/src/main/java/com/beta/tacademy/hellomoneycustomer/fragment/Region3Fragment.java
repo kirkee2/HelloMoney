@@ -40,6 +40,8 @@ public class Region3Fragment extends Fragment {
     String region1;
     String region2;
 
+    RequestRegion3 requestRegion3;
+
 
     public Region3Fragment() {
         // Required empty public constructor
@@ -82,7 +84,8 @@ public class Region3Fragment extends Fragment {
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        new RequestRegion3().execute();
+        requestRegion3 = new RequestRegion3();
+        requestRegion3.execute();
 
         return view;
     }
@@ -186,4 +189,12 @@ public class Region3Fragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        if (requestRegion3.getStatus() == AsyncTask.Status.RUNNING) {
+            requestRegion3.cancel(true);
+        }
+    }
 }

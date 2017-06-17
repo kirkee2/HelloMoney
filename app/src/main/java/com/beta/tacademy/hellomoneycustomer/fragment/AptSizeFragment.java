@@ -41,6 +41,7 @@ public class AptSizeFragment extends Fragment {
     String region2;
     String region3;
     String apt;
+    RequestAptSize requestAptSize;
 
 
     public AptSizeFragment() {
@@ -89,8 +90,8 @@ public class AptSizeFragment extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        new RequestAptSize().execute();
-
+        requestAptSize = new RequestAptSize();
+        requestAptSize.execute();
 
         return view;
     }
@@ -190,6 +191,15 @@ public class AptSizeFragment extends Fragment {
 
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
             progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        if (requestAptSize.getStatus() == AsyncTask.Status.RUNNING) {
+            requestAptSize.cancel(true);
         }
     }
 

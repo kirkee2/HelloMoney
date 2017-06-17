@@ -108,6 +108,8 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private Button step7Button;
     private Button step8Button;
 
+    private RequestQuotation requestQuotation;
+
     private Handler handler;
 
     @Override
@@ -146,6 +148,8 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step5DatePicker = (DatePicker)findViewById(R.id.step5DataPicker);
         step5Button = (Button)findViewById(R.id.step5Button);
         step8Button  = (Button)findViewById(R.id.step8Button);
+
+        requestQuotation = new RequestQuotation();
 
         originStep = 1;
         stepCheck = false;
@@ -617,7 +621,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         step8Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestQuotation().execute();
+                requestQuotation.execute();
             }
         });
     }
@@ -900,7 +904,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             if(result == 0){
                 Toast.makeText(getApplicationContext(),"견적 요청을 등록하였습니다.",Toast.LENGTH_SHORT).show();
-                //MainActivity.update;
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
@@ -983,5 +986,14 @@ public class RequestQuotationActivity extends AppCompatActivity {
         tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"반갑습니다 :)\n 지금부터 최저 금리 대출을 확인하기 위해 꼭 필요한 7가지 사항을 알려주세요."));
         tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"먼저, 어떤 대출을 받을려고 하시나요?? (아래에서 선택해주세요.)"));
         requestQuotationRecyclerViewAdapter.initItem(tmp);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        if (requestQuotation.getStatus() == AsyncTask.Status.RUNNING) {
+            requestQuotation.cancel(true);
+        }
     }
 }

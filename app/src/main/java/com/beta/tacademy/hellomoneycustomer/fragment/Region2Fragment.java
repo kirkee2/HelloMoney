@@ -41,6 +41,7 @@ public class Region2Fragment extends Fragment {
     SelectRegionRecyclerViewAdapter selectRegionRecyclerViewAdapter;
     ArrayList<String> stringArraylist;
     String region1;
+    RequestRegion2 requestRegion2;
 
     public Region2Fragment() {
         // Required empty public constructor
@@ -81,7 +82,9 @@ public class Region2Fragment extends Fragment {
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        new RequestRegion2().execute();
+
+        requestRegion2 = new RequestRegion2();
+        requestRegion2.execute();
 
 
         return view;
@@ -182,6 +185,15 @@ public class Region2Fragment extends Fragment {
 
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
             progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        if (requestRegion2.getStatus() == AsyncTask.Status.RUNNING) {
+            requestRegion2.cancel(true);
         }
     }
 }

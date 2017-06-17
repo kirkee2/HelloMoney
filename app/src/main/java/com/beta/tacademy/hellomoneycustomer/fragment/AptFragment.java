@@ -42,6 +42,8 @@ public class AptFragment extends Fragment {
     String region2;
     String region3;
 
+    RequestApt requestApt;
+
     public AptFragment() {
         // Required empty public constructor
     }
@@ -86,8 +88,9 @@ public class AptFragment extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        new RequestApt().execute();
+        requestApt = new RequestApt();
 
+        requestApt.execute();
 
         return view;
     }
@@ -190,4 +193,12 @@ public class AptFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        if (requestApt.getStatus() == AsyncTask.Status.RUNNING) {
+            requestApt.cancel(true);
+        }
+    }
 }
