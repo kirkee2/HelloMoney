@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
+import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
@@ -162,7 +163,8 @@ public class MainPageFragment extends Fragment {
             leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_done));
             leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText("퍼센트 사용 후기를 남겨주세요.");
+            leftTime.setText("대출 실행이 완료 되었습니다.");
+
         }
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -170,8 +172,7 @@ public class MainPageFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), QuotationDetailActivity.class);
                 intent.putExtra("id",mainPageViewPagerObject.getId());
-                getActivity().startActivity(intent);
-                Toast.makeText(getActivity(),"id = " + mainPageViewPagerObject.getId() + " 상세로 이동.",Toast.LENGTH_SHORT).show();
+                getActivity().startActivityForResult(intent,1);
             }
         });
 

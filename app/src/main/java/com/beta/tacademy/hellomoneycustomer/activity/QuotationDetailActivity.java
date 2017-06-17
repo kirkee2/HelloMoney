@@ -336,7 +336,6 @@ public class QuotationDetailActivity extends AppCompatActivity {
                 if(quotationDetailHeaderObject.getSelectedEstimateId() == 0){
                     quotationDetailRecyclerViewAdapter.initItem(quotationDetailObjectArrayList);
                 }else{
-
                     for(QuotationDetailObject tmp : quotationDetailObjectArrayList){
                         if(tmp.getId() == quotationDetailHeaderObject.getSelectedEstimateId()){
                             quotationDetailRecyclerViewAdapter.addSubHeader(tmp);

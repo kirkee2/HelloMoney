@@ -47,6 +47,10 @@ public class IntroActivity extends AppCompatActivity {
     private Button startButton;
     private ProgressBar progressBar;
 
+    private IdCheck idCheck;
+    private FCMCheck fcmCheck;
+    private IdRegister idRegister;
+
     private IntroFragmentPagerAdapter introFragmentPagerAdapter;
 
     String checkFCMToken;
@@ -62,6 +66,10 @@ public class IntroActivity extends AppCompatActivity {
         skip = (TextView) findViewById(R.id.skip);
         startButton = (Button) findViewById(R.id.startButton);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
+
+        idCheck =new IdCheck();
+        fcmCheck = new FCMCheck();
+        idRegister = new IdRegister();
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +126,7 @@ public class IntroActivity extends AppCompatActivity {
             public void onPermissionGranted() {
                 CommonClass.saveUUID();
 
-                new IdCheck().execute();
+                idCheck.execute();
             }
 
             @Override
@@ -208,11 +216,11 @@ public class IntroActivity extends AppCompatActivity {
                     CommonClass.saveIntro();
                     finish();
                 }else{
-                    new FCMCheck().execute();
+                    fcmCheck.execute();
                 }
 
             }else if(result == 1){
-                new IdRegister().execute();
+                idRegister.execute();
             }else{
                 Toast.makeText(IntroActivity.this,"에러 아이디 체크에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
             }
@@ -292,7 +300,7 @@ public class IntroActivity extends AppCompatActivity {
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
             }else{
-                Toast.makeText(IntroActivity.this,"넌 앞으로 푸시 못 받아 수고",Toast.LENGTH_LONG).show();
+                Toast.makeText(IntroActivity.this,"푸시 업데이트 실패.",Toast.LENGTH_LONG).show();
             }
 
             progressBar.setVisibility(View.GONE);
@@ -373,5 +381,22 @@ public class IntroActivity extends AppCompatActivity {
                 Toast.makeText(IntroActivity.this,"에러 아이디 등록에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (idCheck.getStatus() == AsyncTask.Status.RUNNING) {
+            idCheck.cancel(true);
+        }
+
+        if (fcmCheck.getStatus() == AsyncTask.Status.RUNNING) {
+            fcmCheck.cancel(true);
+        }
+
+        if (idRegister.getStatus() == AsyncTask.Status.RUNNING) {
+            idRegister.cancel(true);
+        }
+
     }
 }

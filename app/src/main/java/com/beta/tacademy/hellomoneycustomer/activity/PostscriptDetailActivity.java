@@ -76,6 +76,10 @@ public class PostscriptDetailActivity extends AppCompatActivity {
     private String pastTimeInfo;
     private Activity activity;
 
+    private PostscriptInterest postscriptInterest;
+    private PostscriptDetail postscriptDetail;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +105,9 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         activity = this;
         starRatingBar.setEnabled(false);
 
+        postscriptInterest = new PostscriptInterest();
+        postscriptDetail = new PostscriptDetail();
+
         Intent intent = getIntent();
         postscriptId = intent.getIntExtra("id",-1);
         if(intent.getBooleanExtra("goCounselor",true)){
@@ -123,7 +130,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         toolbar.setTitle(getResources().getString(R.string.postscript_detail));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
 
-        new PostscriptInterest().execute();
+        postscriptInterest.execute();
 
         goCounselor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,7 +279,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 double tmp2 = Double.parseDouble(String.format("%.1f",averageInterestRateTmp));
                 averageInterestRate.setText(String.valueOf(tmp2)+"%");
 
-                new PostscriptDetail().execute();
+                postscriptDetail.execute();
             }else if(result == 1){
                 new WebHook().execute("ㅁㄴㅇㄴㅁㅇ PostscriptDetailActivity 내 견적 목록 안옴 result ===== " + result);
             }else{
@@ -375,8 +382,6 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 bank.setText(bankInfo);
                 name.setText(nameInfo);
 
-                //
-
                 if(loanTypeInfo.equals("주택담보대출")){
                     loanType.setImageResource(R.drawable.secured_loan);
                 }else{
@@ -405,5 +410,18 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (postscriptDetail.getStatus() == AsyncTask.Status.RUNNING) {
+            postscriptDetail.cancel(true);
+        }
+
+        if (postscriptInterest.getStatus() == AsyncTask.Status.RUNNING) {
+            postscriptInterest.cancel(true);
+        }
+
     }
 }

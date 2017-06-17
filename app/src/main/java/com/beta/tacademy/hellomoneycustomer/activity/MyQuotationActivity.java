@@ -51,6 +51,9 @@ public class MyQuotationActivity extends AppCompatActivity {
     private MyQuotationFragmentPagerAdapter myQuotationFragmentPagerAdapter;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectOneM;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectTwoM;
+    private boolean firstCome;
+
+    private MyQuotationList myQuotationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,9 @@ public class MyQuotationActivity extends AppCompatActivity {
         mainPageViewPagerObjectOneM = new ArrayList<>();
         mainPageViewPagerObjectTwoM = new ArrayList<>();
 
+        myQuotationList = new MyQuotationList();
+
+        firstCome =true;
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
@@ -78,7 +84,8 @@ public class MyQuotationActivity extends AppCompatActivity {
         toolbar.setTitle(getResources().getString(R.string.my_quotation));
         toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
 
-        new MyQuotationList().execute();
+
+        myQuotationList.execute();
     }
 
     @Override
@@ -90,7 +97,6 @@ public class MyQuotationActivity extends AppCompatActivity {
 
         new MyQuotationList().execute();
         */
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -198,9 +204,12 @@ public class MyQuotationActivity extends AppCompatActivity {
                 tabLayout.setupWithViewPager(viewPager, true);
 
 
+                if(firstCome){
+                    Intent intent = getIntent();
+                    viewPager.setCurrentItem(intent.getIntExtra("page",0));
+                    firstCome = false;
+                }
 
-                Intent intent = getIntent();
-                viewPager.setCurrentItem(intent.getIntExtra("page",0));
 
             }else{
             }
@@ -209,17 +218,12 @@ public class MyQuotationActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-
-    }
-
     public void update(){
         mainPageViewPagerObjectOneM = new ArrayList<>();
         mainPageViewPagerObjectTwoM = new ArrayList<>();
 
-        new MyQuotationList().execute();
+        myQuotationList = new MyQuotationList();
+        myQuotationList.execute();
 
         new WebHook().execute("update update update update update ");
     }
@@ -230,12 +234,19 @@ public class MyQuotationActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                update();
-            } else{
-
+                //update();
             }
         }else{
 
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (myQuotationList.getStatus() == AsyncTask.Status.RUNNING) {
+            myQuotationList.cancel(true);
+        }
+
     }
 }

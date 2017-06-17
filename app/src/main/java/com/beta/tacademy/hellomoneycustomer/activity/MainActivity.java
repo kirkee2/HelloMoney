@@ -67,6 +67,10 @@ public class MainActivity extends AppCompatActivity{
     private int uncompletedCount;
     private int completedCount;
 
+    private PostscriptList postscriptList;
+    private MyQuotationOngoingDoneCount myQuotationOngoingDoneCount;
+    private MyQuotationList myQuotationList;
+
     private TextView myOngoingQuotation;
     private TextView myDoneQuotation;
 
@@ -90,6 +94,10 @@ public class MainActivity extends AppCompatActivity{
         myDoneQuotation = (TextView) naviHeader.findViewById(R.id.myDoneQuotation);
         fragmentManager = this.getSupportFragmentManager();
         activity = this;
+
+        postscriptList = new PostscriptList();
+        myQuotationOngoingDoneCount = new MyQuotationOngoingDoneCount();
+        myQuotationList = new MyQuotationList();
 
         uncompletedCount = 0;
         completedCount = 0;
@@ -136,7 +144,8 @@ public class MainActivity extends AppCompatActivity{
                         mainPageViewPagerObjectArrayList = new ArrayList<>();
                         mainValueObjectArrayList = new ArrayList<>();
 
-                        new MyQuotationList().execute();
+                        myQuotationList = new MyQuotationList();
+                        myQuotationList.execute();
                     }
                 }, 1500);
             }
@@ -147,7 +156,8 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",0);
-                startActivity(intent);
+                startActivityForResult(intent,1);
+
                 drawer.closeDrawer(naviList);
             }
         });
@@ -157,7 +167,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",1);
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 drawer.closeDrawer(naviList);
             }
         });
@@ -172,14 +182,15 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        new MyQuotationList().execute();
+        myQuotationList.execute();
     }
 
     public void update(){
         mainPageViewPagerObjectArrayList = new ArrayList<>();
         mainValueObjectArrayList = new ArrayList<>();
 
-        new MyQuotationList().execute();
+        myQuotationList =new MyQuotationList();
+        myQuotationList.execute();
     }
 
     @Override
@@ -288,18 +299,19 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(Integer result) {
+            myQuotationOngoingDoneCount = new MyQuotationOngoingDoneCount();
             if(result == 0){
                 mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.YES_MY_QUOTATION);
                 recyclerView.setAdapter(mainRecyclerViewAdapter);
 
-
                 mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList);
-                new MyQuotationOngoingDoneCount().execute();
+
+                myQuotationOngoingDoneCount.execute();
             }else if(result == 1){
                 mainRecyclerViewAdapter = new MainRecyclerViewAdapter(activity,fragmentManager,MainRecyclerViewAdapter.NO_MY_QUOTATION);
                 recyclerView.setAdapter(mainRecyclerViewAdapter);
 
-                new MyQuotationOngoingDoneCount().execute();
+                myQuotationOngoingDoneCount.execute();
             }else{
                 new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
             }
@@ -367,10 +379,11 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(Integer result) {
+            postscriptList = new PostscriptList();
             if(result == 0 || result == 1){
                 myOngoingQuotation.setText(String.valueOf(uncompletedCount));
                 myDoneQuotation.setText(String.valueOf(completedCount));
-                new PostscriptList().execute();
+                postscriptList.execute();
             }else{
                 new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
             }
@@ -458,21 +471,19 @@ public class MainActivity extends AppCompatActivity{
         protected void onPostExecute(Integer result) {
             if(result == 0 || result == 1){
                 mainRecyclerViewAdapter.initItem(mainValueObjectArrayList);
+
+                progressBar.setVisibility(View.GONE);
+                refreshLayout.setEnabled(true);
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
+                toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                toggle.syncState();
+
+                refreshLayout.setRefreshing(false);
             }else{
                 new WebHook().execute("MainActivity 후기 목록 안옴 result ===== " + result);
             }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            //toggle.setDrawerIndicatorEnabled(true);
-            progressBar.setVisibility(View.GONE);
-            refreshLayout.setEnabled(true);
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            toggle.syncState();
-
-            refreshLayout.setRefreshing(false);
         }
     }
 
@@ -510,5 +521,22 @@ public class MainActivity extends AppCompatActivity{
         }else{
 
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (postscriptList.getStatus() == AsyncTask.Status.RUNNING) {
+            postscriptList.cancel(true);
+        }
+
+        if (myQuotationOngoingDoneCount.getStatus() == AsyncTask.Status.RUNNING) {
+            myQuotationOngoingDoneCount.cancel(true);
+        }
+
+        if (myQuotationList.getStatus() == AsyncTask.Status.RUNNING) {
+            myQuotationList.cancel(true);
+        }
+
     }
 }

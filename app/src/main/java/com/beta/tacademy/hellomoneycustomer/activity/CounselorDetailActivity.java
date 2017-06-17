@@ -44,6 +44,8 @@ public class CounselorDetailActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String agentId;
     private Activity activity;
+    private CounselorHeaderDetail counselorHeaderDetail;
+    private CounselorPostscriptList counselorPostscriptList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,9 @@ public class CounselorDetailActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
+
+        counselorHeaderDetail  = new CounselorHeaderDetail();
+        counselorPostscriptList = new CounselorPostscriptList();
 
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
@@ -76,7 +81,7 @@ public class CounselorDetailActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        new CounselorHeaderDetail().execute();
+        counselorHeaderDetail.execute();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,12 +172,10 @@ public class CounselorDetailActivity extends AppCompatActivity {
                 counselorDetailRecyclerViewAdapter = new CounselorDetailRecyclerViewAdapter(activity,counselorDetailHeaderObject);
                 recyclerView.setAdapter(counselorDetailRecyclerViewAdapter);
 
-                new CounselorPostscriptList().execute();
+                counselorPostscriptList.execute();
             }else{
                 new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
-
-            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -258,9 +261,23 @@ public class CounselorDetailActivity extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             if(result == 0 || result == 1){
                 counselorDetailRecyclerViewAdapter.initItem(mainValueObjectArrayList);
+                progressBar.setVisibility(View.GONE);
             }else{
                 new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
+        }
+    }
+
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (counselorHeaderDetail.getStatus() == AsyncTask.Status.RUNNING) {
+            counselorHeaderDetail.cancel(true);
+        }
+
+        if (counselorPostscriptList.getStatus() == AsyncTask.Status.RUNNING) {
+            counselorPostscriptList.cancel(true);
         }
     }
 }

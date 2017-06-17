@@ -45,6 +45,7 @@ public class FAQActivity extends AppCompatActivity {
     private FAQRecyclerViewAdapter faqRecyclerViewAdapter;
     private ProgressBar progressBar;
     private ArrayList<FAQValueObject> faqValueObjectArrayList;
+    private FAQGet faqGet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,8 @@ public class FAQActivity extends AppCompatActivity {
         faqRecyclerViewAdapter = new FAQRecyclerViewAdapter();
         faqValueObjectArrayList = new ArrayList<>();
 ;
+        faqGet = new FAQGet();
+
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
         //Toolbar 설정
@@ -74,7 +77,8 @@ public class FAQActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(faqRecyclerViewAdapter);
 
-        new FAQGet().execute();
+
+        faqGet.execute();
     }
 
 
@@ -170,17 +174,24 @@ public class FAQActivity extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             if(result == 0){
                 initItems(faqValueObjectArrayList);
+                progressBar.setVisibility(View.GONE);
             }else if(result == 1){
             }else{
                 new WebHook().execute("FAQActivity FAQ 목록 안옴 result ===== " + result);
             }
-
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            progressBar.setVisibility(View.GONE);
         }
     }
 
     public void initItems(ArrayList<FAQValueObject> faqValueObjectArrayList){
         faqRecyclerViewAdapter.initItem(faqValueObjectArrayList);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (faqGet.getStatus() == AsyncTask.Status.RUNNING) {
+            faqGet.cancel(true);
+        }
+
     }
 }
