@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -82,7 +83,7 @@ public class CommonClass {
         TimeZone utc = TimeZone.getTimeZone("UTC");
 
         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM월 dd일");
         transFormat.setTimeZone(utc);
         dateFormat.setTimeZone(utc);
 
@@ -102,7 +103,7 @@ public class CommonClass {
         TimeZone utc = TimeZone.getTimeZone("UTC");
 
         SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
         transFormat.setTimeZone(utc);
         dateFormat.setTimeZone(utc);
 
@@ -119,17 +120,19 @@ public class CommonClass {
     }
 
     public static int timeLeftSecondParsing(String time){
-        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.KOREA);
+        transFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         try {
             Date endDate = transFormat.parse(time);
-            Calendar tempcal=Calendar.getInstance();
 
             long endTime = endDate.getTime(); //현재의 시간 설정
+
             Calendar cal = Calendar.getInstance();
             Date startDate=cal.getTime();
 
             long startTime=startDate.getTime();
+
             long mills=endTime-startTime; //분으로 변환
 
             //long hour=mills/3600000;

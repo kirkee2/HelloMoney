@@ -76,8 +76,9 @@
 
                 <View
                     android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/subNormal"/>
+                    android:layout_height="45dp"
+                    android:background="@color/subNormal"
+                    android:layout_gravity="center"/>
 
                 <RelativeLayout
                     android:layout_width="0dp"

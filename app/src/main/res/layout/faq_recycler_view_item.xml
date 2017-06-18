@@ -22,9 +22,10 @@
                 android:id="@+id/title"
                 android:layout_gravity="center"
                 android:textColor="@color/normalTypo"
-                android:textSize="@dimen/medium"
+                android:textSize="@dimen/small_medium"
                 android:gravity="center_vertical"
                 android:layout_width="0dp"
+                android:lineSpacingExtra="13sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="100"/>
 
@@ -43,7 +44,8 @@
         android:layout_height="wrap_content"
         android:background="@color/basement"
         android:textColor="@color/normalTypo"
-        android:textSize="@dimen/medium"
+        android:textSize="@dimen/small_medium"
+        android:lineSpacingExtra="13sp"
         android:layout_margin="16dp"
         android:visibility="gone"/>
 </LinearLayout>

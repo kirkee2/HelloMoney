@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:id="@+id/end"
-            android:textSize="20sp"
-            android:textColor="@color/pointTypo"
+            android:textSize="@dimen/medium"
+            android:textColor="@color/normalTypo"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/end"/>
@@ -49,22 +49,6 @@
             app:tabBackground="@drawable/tab_selector"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            android:layout_marginBottom="40dp"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="@color/progress"
-            android:visibility="gone"
-            android:text="@string/end"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_gravity="bottom"
-            android:id="@+id/endButton"
-            android:layout_marginBottom="40dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"/>
+            android:layout_marginBottom="15dp"/>
     </FrameLayout>
 </LinearLayout>

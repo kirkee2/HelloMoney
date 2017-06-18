@@ -31,24 +31,31 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="마감까지 02:22 남았습니다."
-                android:textColor="@color/pointTypo"
-                android:textSize="23sp" />
+                android:textColor="@color/progress"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="74dp"
+                android:layout_height="60dp"
                 android:layout_marginBottom="23dp"
                 android:orientation="horizontal"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp">
 
                 <ImageView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/loanType"
-                    android:layout_width="74dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:src="@drawable/lease_loan" />
+
+                <View
+                    android:layout_height="match_parent"
+                    android:layout_width="1dp"
+                    android:background="@color/subNormal"
+                    android:layout_marginEnd="12sp"
+                    android:layout_marginStart="12sp"
+                    />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -58,29 +65,28 @@
                     <TextView
                         android:id="@+id/region"
                         android:layout_width="match_parent"
-                        android:layout_height="24dp"
+                        android:layout_height="20dp"
                         android:gravity="center_vertical"
                         android:text="경기도 광주 초월읍"
                         android:textColor="@color/normalTypo"
-                        android:textSize="@dimen/medium" />
+                        android:textSize="@dimen/small_medium" />
 
                     <TextView
                         android:id="@+id/apt"
                         android:layout_width="match_parent"
-                        android:layout_height="24dp"
+                        android:layout_height="20dp"
                         android:gravity="center_vertical"
                         android:text="센트리빌 3차 아파트"
                         android:textColor="@color/normalTypo"
-                        android:textSize="@dimen/medium" />
+                        android:textSize="@dimen/small_medium" />
 
                     <TextView
                         android:id="@+id/size"
                         android:layout_width="match_parent"
-                        android:layout_height="24dp"
+                        android:layout_height="20dp"
                         android:gravity="center_vertical"
-                        android:text="105.24(84.8m)"
                         android:textColor="@color/normalTypo"
-                        android:textSize="@dimen/medium" />
+                        android:textSize="@dimen/small_medium" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -97,7 +103,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="1dp"
-                    android:layout_weight="50">
+                    android:layout_weight="60">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -130,7 +136,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="1dp"
-                    android:layout_weight="50">
+                    android:layout_weight="40">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -173,7 +179,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="1dp"
-                    android:layout_weight="50">
+                    android:layout_weight="60">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -197,7 +203,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="2018.03.14"
+                        android:text="2018년 03월 14일"
                         android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
@@ -206,7 +212,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="1dp"
-                    android:layout_weight="50">
+                    android:layout_weight="40">
 
                     <TextView
                         android:layout_width="wrap_content"

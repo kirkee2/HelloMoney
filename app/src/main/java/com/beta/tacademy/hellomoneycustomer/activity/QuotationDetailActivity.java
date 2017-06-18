@@ -64,6 +64,10 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private int poisition;
 
 
+    public Timer timer;
+    public TimerTask timerTask;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -353,6 +357,16 @@ public class QuotationDetailActivity extends AppCompatActivity {
         intent.putExtra("position",this.poisition);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(timer == null){
+
+        }else{
+            timer.cancel();
+        }
     }
 
     @Override

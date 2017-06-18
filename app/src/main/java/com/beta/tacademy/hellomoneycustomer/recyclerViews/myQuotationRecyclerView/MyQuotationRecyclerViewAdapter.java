@@ -102,46 +102,49 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         if(valueObject.getOngoingStatus().equals("견적접수중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_interection_waiting));
-            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.pointTypo,null));
+            //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.pointTypo,null));
 
             int leftSecond  = valueObject.getLeftSecond();
             int hour = leftSecond/3600;
             int tmp = leftSecond%3600;
             int minute = tmp/60;
             int second = tmp%60;
+
             if(leftSecond > 0){
                 ((MyQuotationViewHolder) holder).leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
             }else{
                 ((MyQuotationViewHolder) holder).leftTime.setText("견적 마감까지 " + "00" + ":" +"00"+ ":" +"00" + " 남았습니다.");
             }
 
+
+
         }else if(valueObject.getOngoingStatus().equals("선택대기중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
-            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText("대출 상담사를 선택해주세요.");
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("상담중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
-            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText("대출 상담이 진행 중 입니다.");
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("심사중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
-            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText("대출 심사가 진행 중 입니다.");
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("승인완료")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
-            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText( "대출 승인이 완료 되었습니다.");
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
 
         }else{
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_done));
-            ((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+            //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             //((MyQuotationViewHolder) holder).leftTime.setText("퍼센트 사용 후기를 남겨주세요.");
             ((MyQuotationViewHolder) holder).leftTime.setText("대출 실행이 완료 되었습니다.");
 

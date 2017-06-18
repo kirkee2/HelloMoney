@@ -136,7 +136,7 @@ public class MyQuotationFragment extends Fragment {
             };
 
             timer = new Timer();
-            timer.schedule(timerTask,1000,1000);
+            timer.schedule(timerTask,0,1000);
         }
     }
 

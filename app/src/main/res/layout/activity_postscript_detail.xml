@@ -38,7 +38,7 @@
                     android:layout_width="178dp"
                     android:layout_height="30dp"
                     android:gravity="center_vertical"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/quotation_result"
                     android:textColor="@color/subNormal"
@@ -60,17 +60,17 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="50"
-                        android:background="@color/subNormal">
+                        android:background="@color/white">
 
                         <TextView
                             android:layout_width="66dp"
                             android:layout_height="19dp"
                             android:textSize="@dimen/small"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/normalTypo"
                             android:gravity="center_vertical"
                             android:text="@string/quotation_result_count"
                             android:layout_marginTop="18dp"
-                            android:layout_marginLeft="16dp"
+                            android:layout_marginStart="16dp"
                             android:layout_marginBottom="18dp"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"/>
@@ -80,7 +80,7 @@
                             android:layout_width="33dp"
                             android:layout_height="33dp"
                             android:textSize="@dimen/large"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/normalTypo"
                             android:gravity="center_vertical"
                             android:layout_marginTop="11dp"
                             android:layout_marginRight="11dp"
@@ -88,6 +88,12 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"/>
                     </RelativeLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="45dp"
+                        android:background="@color/subNormal"
+                        android:layout_gravity="center"/>
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -122,7 +128,6 @@
                             android:layout_centerVertical="true"/>
                     </RelativeLayout>
                 </LinearLayout>
-
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -200,21 +205,12 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
-                                <TextView
-                                    android:id="@+id/pastTime"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="16dp"
-                                    android:layout_marginTop="11dp"
-                                    android:layout_gravity="end"
-                                    android:layout_marginEnd="19dp"
-                                    android:text="3일 전 작성"
-                                    android:textColor="@color/subNormal"
-                                    android:textSize="@dimen/tiny" />
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_marginBottom="16dp">
+                                    android:layout_marginBottom="16dp"
+                                    android:layout_marginTop="20dp">
 
 
                                     <de.hdodenhof.circleimageview.CircleImageView
@@ -249,16 +245,32 @@
                                             android:textSize="@dimen/small_medium"
                                             android:textColor="@color/normalTypo"/>
 
-
-                                        <RatingBar
-                                            android:id="@+id/starRatingBar"
-                                            style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                                            android:layout_width="wrap_content"
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
                                             android:layout_height="20dp"
-                                            android:isIndicator="false"
-                                            android:numStars="5"
-                                            android:stepSize="0.5" />
-                                    </LinearLayout>
+                                            android:orientation="horizontal">
+
+                                            <RatingBar
+                                                android:id="@+id/starRatingBar"
+                                                style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="20dp"
+                                                android:isIndicator="false"
+                                                android:numStars="5"
+                                                android:stepSize="0.5" />
+
+                                            <TextView
+                                                android:id="@+id/pastTime"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="20dp"
+                                                android:layout_marginStart="6dp"
+                                                android:gravity="center"
+                                                android:text="3일 전 작성"
+                                                android:textColor="@color/subNormal"
+                                                android:textSize="@dimen/tiny" />
+                                        </LinearLayout>
+
+                                        </LinearLayout>
                                 </RelativeLayout>
 
                                 <TextView

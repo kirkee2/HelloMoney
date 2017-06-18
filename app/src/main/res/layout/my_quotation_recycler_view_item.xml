@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/basement">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        tools:context="com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageFragment"
-        xmlns:tools="http://schemas.android.com/tools"
+
+
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="296dp"
         android:layout_height="144dp"
@@ -26,7 +26,7 @@
             android:layout_gravity="center">
 
             <LinearLayout
-                android:layout_width="210dp"
+                android:layout_width="175dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -60,7 +60,7 @@
 
                 <TextView
                     android:id="@+id/region"
-                    android:layout_width="215dp"
+                    android:layout_width="175dp"
                     android:layout_height="18dp"
                     android:layout_marginStart="3dp"
                     android:textColor="@color/normalTypo"
@@ -69,7 +69,7 @@
 
                 <TextView
                     android:id="@+id/apt"
-                    android:layout_width="215dp"
+                    android:layout_width="175dp"
                     android:layout_height="18dp"
                     android:layout_marginStart="3dp"
                     android:textColor="@color/normalTypo"
@@ -78,28 +78,29 @@
 
                 <TextView
                     android:id="@+id/size"
-                    android:layout_width="215dp"
+                    android:layout_width="175dp"
                     android:layout_height="18dp"
                     android:layout_marginStart="3dp"
                     android:textColor="@color/normalTypo"
                     android:textSize="@dimen/small_medium"
                     android:layout_gravity="center_vertical"/>
-
             </LinearLayout>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/subNormal"/>
-
-
             <RelativeLayout
-                android:layout_width="53dp"
+                android:layout_width="89dp"
                 android:layout_height="83dp"
                 android:layout_gravity="end">
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/subNormal"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toLeftOf="@+id/currentQuotation"/>
+
+
                 <TextView
-                    android:id="@+id/currentQuotation"
+                    android:id="@id/currentQuotation"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
@@ -135,12 +136,10 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="bottom|center"
                 android:gravity="center"
-                android:textColor="@color/pointTypo"
+                android:textColor="@color/progress"
                 android:textSize="@dimen/small_medium"
                 android:drawablePadding="3dp"/>
         </RelativeLayout>
-
-
     </LinearLayout>
 
 </FrameLayout>

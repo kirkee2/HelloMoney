@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/small"
+                    android:textSize="@dimen/small2"
                     android:layout_gravity="center_vertical"/>
 
                 <TextView
@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/small"
+                    android:textSize="@dimen/small2"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
@@ -56,7 +56,7 @@
                 android:layout_height="30dp"
                 android:layout_marginBottom="9dp"
                 android:layout_marginTop="9dp"
-                android:textSize="@dimen/medium"
+                android:textSize="@dimen/small2"
                 android:textColor="@color/progress"
                 android:background="@drawable/round_button_white"
                 android:gravity="center"

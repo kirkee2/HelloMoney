@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="11dp"
+        android:layout_marginTop="20dp"
         android:paddingBottom="11dp"
         android:paddingStart="18dp"
         android:paddingEnd="18dp">
@@ -21,22 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/pastTime"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:text="2016년 3월 12일"
-                android:textColor="@color/subNormal"
-                android:textSize="@dimen/tiny" />
-
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/typeImage"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/lease_loan"
-                android:layout_below="@id/pastTime"/>
+                android:layout_marginStart="13dp"/>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -44,7 +34,6 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@+id/typeImage"
-                android:layout_below="@id/pastTime"
                 android:orientation="vertical">
 
                 <TextView
@@ -66,17 +55,34 @@
                     android:textSize="@dimen/small_medium"
                     android:textColor="@color/normalTypo"/>
 
-                <RatingBar
-                    android:id="@+id/starRatingBar"
-                    style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/apt"
-                    android:isIndicator="false"
-                    android:numStars="5"
-                    android:rating="3.5"
-                    android:stepSize="0.5"/>
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/starRatingBar"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/apt"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="3.5"
+                        android:stepSize="0.5"/>
+
+                    <TextView
+                        android:id="@+id/pastTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="6dp"
+                        android:gravity="center"
+                        android:text="2016년 3월 12일"
+                        android:textColor="@color/subNormal"
+                        android:textSize="@dimen/tiny" />
+
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>

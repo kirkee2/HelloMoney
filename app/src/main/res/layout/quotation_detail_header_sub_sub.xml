@@ -6,7 +6,7 @@
     android:background="@color/basement">
 
     <android.support.v7.widget.CardView
-        android:layout_width="328dp"
+        android:layout_width="348dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
@@ -44,19 +44,17 @@
                         android:id="@+id/bank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/small2"
                         android:layout_gravity="center_vertical"
-                        android:text="국민은행"/>
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/small2" />
 
                     <TextView
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/small2"
                         android:layout_gravity="center_vertical"
-                        android:text="홍길동"/>
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/small2" />
                 </LinearLayout>
 
                 <TextView
@@ -78,29 +76,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/pastTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="19dp"
-                    android:text="3일 전 작성"
-                    android:textColor="@color/subNormal"
-                    android:textSize="@dimen/tiny" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="20dp">
 
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/loanType"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:layout_marginStart="26dp"
-                        android:src="@drawable/lease_loan" />
+                        android:layout_marginStart="26dp" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout"
@@ -116,7 +104,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:gravity="center|start"
-                            android:text="@string/test"
                             android:textSize="@dimen/small_medium"
                             android:textColor="@color/normalTypo"/>
 
@@ -126,22 +113,34 @@
                             android:layout_height="20dp"
                             android:gravity="center|start"
                             android:maxWidth="200dp"
-                            android:text="@string/test"
                             android:textSize="@dimen/small_medium"
                             android:textColor="@color/normalTypo"/>
 
-
-                        <RatingBar
-                            android:id="@+id/starRatingBar"
-                            style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@+id/apt"
-                            android:isIndicator="false"
-                            android:numStars="5"
-                            android:rating="3.5"
-                            android:stepSize="0.5" />
+                            android:orientation="horizontal">
+
+                            <RatingBar
+                                android:id="@+id/starRatingBar"
+                                style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:isIndicator="false"
+                                android:numStars="5"
+                                android:stepSize="0.5" />
+
+                            <TextView
+                                android:id="@+id/pastTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginStart="6dp"
+                                android:gravity="center"
+                                android:text="3일 전 작성"
+                                android:textColor="@color/subNormal"
+                                android:textSize="@dimen/tiny" />
+                        </LinearLayout>
+
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -151,7 +150,6 @@
                     android:layout_marginEnd="26dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="asdsajndasjdnas jdsoaiveouvouqenvijqwvuwrh80ewb8023ubn89"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="27dp"
                     android:textColor="@color/pointTypo"
