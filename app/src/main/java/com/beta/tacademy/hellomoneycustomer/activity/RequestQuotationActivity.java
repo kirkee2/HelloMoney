@@ -540,7 +540,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 final String printScheduledTime = step5DatePicker.getYear() +"년 "+ (int)(step5DatePicker.getMonth()+1) + "월 " + step5DatePicker.getDayOfMonth() +"일";
 
                 if(!stepCheck){
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5,printScheduledTime + "로 하겠습니다."));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5,printScheduledTime + "입니다."));
 
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -555,7 +555,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
                 }else{
-                    updateItem(10,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5, printScheduledTime + "로 하겠습니다."));
+                    updateItem(10,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5, printScheduledTime + "입니다."));
 
                     stepCheck =false;
 
@@ -601,6 +601,9 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             step7Text.requestFocus();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
+                            step6Text1.setEnabled(true);
+                            step6Text2.setEnabled(true);
+                            step6Text3.setEnabled(true);
                         }
                     }, 400);
 
@@ -654,6 +657,9 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             step7Text.requestFocus();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
+                            step6Text1.setEnabled(true);
+                            step6Text2.setEnabled(true);
+                            step6Text3.setEnabled(true);
                         }
                     }, 400);
                 }else{
@@ -706,6 +712,9 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             step7Text.requestFocus();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
+                            step6Text1.setEnabled(true);
+                            step6Text2.setEnabled(true);
+                            step6Text3.setEnabled(true);
                         }
                     }, 400);
 
@@ -837,6 +846,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                                 animateHorizontalProgressBar.setProgress(100);
                                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                                step7Button.setEnabled(true);
                             }
                         }, 400);
                     }else{
@@ -863,6 +873,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
                     step7Text.setText("");
                 }else{
+                    step7Button.setEnabled(true);
                     Toast.makeText(getApplicationContext(),"전화번호를 확인 해주세요.",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -1021,7 +1032,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
                 aptSizeSupply = stringTokenizer.nextToken();
                 tmp = stringTokenizer.nextToken();
-                aptPrice  = Integer.parseInt(tmp.substring(0,tmp.length()-3));
+                aptPrice  = Integer.parseInt(tmp.substring(0,tmp.length()-3)) * 7 / 10;
 
 
                 if(!stepCheck){

@@ -3,11 +3,13 @@ package com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 
 import java.util.ArrayList;
 
 
-public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<MainPageViewPagerObject> items;
 
     public MainFragmentPagerAdapter(FragmentManager fm) {
@@ -17,7 +19,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     public void init(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList) {
         items = mainPageViewPagerObjectArrayList;
-
         notifyDataSetChanged();
     }
 

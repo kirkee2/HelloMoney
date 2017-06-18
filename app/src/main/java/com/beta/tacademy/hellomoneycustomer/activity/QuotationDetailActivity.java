@@ -62,10 +62,12 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private QuotationFeedback quotationFeedback;
     private QuotationDetail quotationDetail;
     private int poisition;
+    private int myPage;
 
 
     public Timer timer;
     public TimerTask timerTask;
+
 
 
     @Override
@@ -80,6 +82,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         quotationDetailId = intent.getIntExtra("id",-1);
         poisition = intent.getIntExtra("position",0);
+        myPage = intent.getIntExtra("myPage",0);
 
         quotationFeedback = new QuotationFeedback();
         quotationDetail = new QuotationDetail();
@@ -116,6 +119,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
+            intent.putExtra("position",this.poisition);
+            intent.putExtra("myPage",this.myPage);
             finish();
         }
 
@@ -355,6 +360,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         intent.putExtra("position",this.poisition);
+        intent.putExtra("myPage",this.myPage);
         setResult(RESULT_OK, intent);
         finish();
     }

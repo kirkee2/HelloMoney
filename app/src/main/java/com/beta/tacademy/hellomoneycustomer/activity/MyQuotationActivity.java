@@ -55,6 +55,7 @@ public class MyQuotationActivity extends AppCompatActivity {
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectTwoM;
     private boolean firstCome;
     private int recyclerViewPosition;
+    private int myPage;
 
     private MyQuotationList myQuotationList;
 
@@ -72,6 +73,8 @@ public class MyQuotationActivity extends AppCompatActivity {
         mainPageViewPagerObjectTwoM = new ArrayList<>();
 
         myQuotationList = new MyQuotationList();
+
+        myPage = -1;
 
         firstCome =true;
 
@@ -209,13 +212,17 @@ public class MyQuotationActivity extends AppCompatActivity {
 
                 viewPager.setAdapter(myQuotationFragmentPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager, true);
+                myQuotationFragmentPagerAdapter.notifyDataSetChanged();
 
 
                 if(firstCome){
                     Intent intent = getIntent();
                     viewPager.setCurrentItem(intent.getIntExtra("page",0));
                     firstCome = false;
+                }else if(myPage !=-1){
+                    viewPager.setCurrentItem(myPage);
                 }
+
 
 
             }else{
@@ -231,8 +238,6 @@ public class MyQuotationActivity extends AppCompatActivity {
 
         myQuotationList = new MyQuotationList();
         myQuotationList.execute();
-
-        new WebHook().execute("update update update update update ");
     }
 
     @Override
@@ -241,7 +246,8 @@ public class MyQuotationActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                //update();
+                update();
+                myPage = data.getIntExtra("myPage",-1);
             }
         }else{
 

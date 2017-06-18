@@ -38,6 +38,7 @@ import java.util.TimerTask;
 public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
     private Activity activity;
+    private int myPage;
 
     public MyQuotationRecyclerViewAdapter(Activity activity){
         //변수 초기화
@@ -45,13 +46,15 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         mainPageViewPagerObjectArrayList = new ArrayList<>();
     }
 
-    public void init(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+    public void init(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList,int myPage){
         this.mainPageViewPagerObjectArrayList = mainPageViewPagerObjectArrayList; //아이템 추가
+        this.myPage = myPage;
         notifyDataSetChanged();
     }
 
-    public void update(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList){
+    public void update(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList,int myPage){
         this.mainPageViewPagerObjectArrayList = mainPageViewPagerObjectArrayList; //아이템 추가
+        this.myPage = myPage;
         notifyDataSetChanged();
     }
 
@@ -82,7 +85,6 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             leftTime = (TextView)itemView.findViewById(R.id.leftTime);
             linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
             ongoingSub = (TextView)itemView.findViewById(R.id.ongoing_sub);
-
         }
     }
 
@@ -111,9 +113,9 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             int second = tmp%60;
 
             if(leftSecond > 0){
-                ((MyQuotationViewHolder) holder).leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+                ((MyQuotationViewHolder) holder).leftTime.setText("마감" + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
             }else{
-                ((MyQuotationViewHolder) holder).leftTime.setText("견적 마감까지 " + "00" + ":" +"00"+ ":" +"00" + " 남았습니다.");
+                ((MyQuotationViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00"+ ":" +"00" + " 전");
             }
 
 
@@ -121,32 +123,32 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         }else if(valueObject.getOngoingStatus().equals("선택대기중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-            ((MyQuotationViewHolder) holder).leftTime.setText("대출 상담사를 선택해주세요.");
+            ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("상담중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-            ((MyQuotationViewHolder) holder).leftTime.setText("대출 상담이 진행 중 입니다.");
+            ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content3));
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("심사중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-            ((MyQuotationViewHolder) holder).leftTime.setText("대출 심사가 진행 중 입니다.");
+            ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content4));
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("승인완료")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
-            ((MyQuotationViewHolder) holder).leftTime.setText( "대출 승인이 완료 되었습니다.");
+            ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content5));
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
 
         }else{
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_done));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             //((MyQuotationViewHolder) holder).leftTime.setText("퍼센트 사용 후기를 남겨주세요.");
-            ((MyQuotationViewHolder) holder).leftTime.setText("대출 실행이 완료 되었습니다.");
+            ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content6));
 
             ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
         }
@@ -156,6 +158,7 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             public void onClick(View v) {
                 Intent intent = new Intent(activity, QuotationDetailActivity.class);
                 intent.putExtra("id",valueObject.getId());
+                intent.putExtra("myPage",myPage);
                 activity.startActivityForResult(intent,1);
             }
         });

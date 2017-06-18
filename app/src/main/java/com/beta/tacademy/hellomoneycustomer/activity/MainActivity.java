@@ -120,13 +120,12 @@ public class MainActivity extends AppCompatActivity{
         //ActionBarDrawerToggle
 
 
-        //ActionBarDrawerToggle 초기화 및 싱크 설정
-
         naviList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,new String[]{getString(R.string.how_to),getString(R.string.faq),getString(R.string.contact)}));
         naviList.setOnItemClickListener(new DrawerItemClickListener());
         naviList.setClickable(false);
-
         naviList.addHeaderView(naviHeader);
+
+        //ActionBarDrawerToggle 초기화 및 싱크 설정
 
         //SwipeRefreshLayout
 
@@ -182,7 +181,6 @@ public class MainActivity extends AppCompatActivity{
                 intent.putExtra("page",1);
                 intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition()+1);
 
-
                 startActivityForResult(intent,1);
                 drawer.closeDrawer(naviList);
             }
@@ -193,6 +191,10 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void update(int position){
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+
         this.position = position;
         mainPageViewPagerObjectArrayList = new ArrayList<>();
         mainValueObjectArrayList = new ArrayList<>();
@@ -483,10 +485,9 @@ public class MainActivity extends AppCompatActivity{
                 progressBar.setVisibility(View.GONE);
                 refreshLayout.setEnabled(true);
 
-
-                //recyclerView.scrollToPosition(recyclerViewPosition);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setDisplayShowHomeEnabled(true);
+
                 toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
                 toggle.syncState();
 

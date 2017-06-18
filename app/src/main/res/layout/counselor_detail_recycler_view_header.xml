@@ -50,7 +50,7 @@
         android:paddingEnd="10dp"
         android:lineSpacingExtra="6sp"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/small" />
+        android:textSize="@dimen/small_medium" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -42,7 +42,7 @@ public class MyQuotationFragment extends Fragment {
     Timer timer;
     TimerTask timerTask;
     int timerCheck;
-    int page;
+    int myPage;
 
 
     public MyQuotationFragment() {
@@ -56,11 +56,11 @@ public class MyQuotationFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static MyQuotationFragment newInstance(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList,int page) {
+    public static MyQuotationFragment newInstance(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList,int myPage) {
         MyQuotationFragment fragment = new MyQuotationFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("mainPageViewPagerObjectArrayList",mainPageViewPagerObjectArrayList);
-        args.putInt("page",page);
+        args.putInt("myPage",myPage);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,7 +70,7 @@ public class MyQuotationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.mainPageViewPagerObjectArrayList = getArguments().getParcelableArrayList("mainPageViewPagerObjectArrayList");
-            this.page = getArguments().getInt("page");
+            this.myPage = getArguments().getInt("myPage");
         }
 
         myQuotationRecyclerViewAdapter = new MyQuotationRecyclerViewAdapter(getActivity());
@@ -95,7 +95,7 @@ public class MyQuotationFragment extends Fragment {
 
         recyclerView.setAdapter(myQuotationRecyclerViewAdapter);
         if(mainPageViewPagerObjectArrayList.size() == 0){
-            if(page == 1){
+            if(myPage == 1){
                 noResultOngoing.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.INVISIBLE);
             }else{
@@ -107,7 +107,7 @@ public class MyQuotationFragment extends Fragment {
             noResultOngoing.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
 
-            myQuotationRecyclerViewAdapter.init(mainPageViewPagerObjectArrayList);
+            myQuotationRecyclerViewAdapter.init(mainPageViewPagerObjectArrayList,myPage);
 
 
             timerTask = new TimerTask() {
@@ -129,7 +129,7 @@ public class MyQuotationFragment extends Fragment {
                                 timer.cancel();
                             }
                             */
-                            myQuotationRecyclerViewAdapter.update(mainPageViewPagerObjectArrayList);
+                            myQuotationRecyclerViewAdapter.update(mainPageViewPagerObjectArrayList,myPage);
                         }
                     });
                 }

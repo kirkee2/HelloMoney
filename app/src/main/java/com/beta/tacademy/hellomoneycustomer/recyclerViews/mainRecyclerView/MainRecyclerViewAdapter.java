@@ -241,7 +241,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainSubHeaderViewHolder) holder).viewPager.setAdapter(pagerAdapter);
             ((MainSubHeaderViewHolder) holder).tabLayout.setupWithViewPager(((MainSubHeaderViewHolder) holder).viewPager, true);
             ((MainSubHeaderViewHolder) holder).viewPager.setCurrentItem(this.position);
-
+            pagerAdapter.notifyDataSetChanged();
         }
     }
 

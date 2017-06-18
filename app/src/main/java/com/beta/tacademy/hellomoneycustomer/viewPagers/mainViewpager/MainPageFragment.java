@@ -111,10 +111,10 @@ public class MainPageFragment extends Fragment {
             int second = tmp%60;
 
             if(leftSecond > 0){
-               leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+               leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
 
             }else{
-                leftTime.setText("견적 마감까지 " + "00" + ":" +"00" + ":" +"00"+ " 남았습니다.");
+                leftTime.setText("마감 " + "00" + ":" +"00" + ":" +"00"+ " 전");
             }
 
             timerTask = new TimerTask() {
@@ -131,9 +131,9 @@ public class MainPageFragment extends Fragment {
                             int second = tmp%60;
 
                             if(leftSecond > 0){
-                                leftTime.setText("견적 마감까지 " + CommonClass.formatNumber2(hour) + ":"+ CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 남았습니다.");
+                                leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":"+ CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
                             }else{
-                                leftTime.setText("견적 마감까지 " + "00" + ":" +"00"+ ":" +"00" + " 남았습니다.");
+                                leftTime.setText("마감 " + "00" + ":" +"00"+ ":" +"00" + " 전.");
                             }
                         }
                     });
@@ -145,28 +145,28 @@ public class MainPageFragment extends Fragment {
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("선택대기중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText("대출 상담사를 선택해주세요.");
+            leftTime.setText(getString(R.string.step_content2));
             leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("상담중")){
             leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText("대출 상담이 진행 중 입니다.");
+            leftTime.setText(getString(R.string.step_content3));
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("심사중")){
             leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText("대출 심사가 진행 중 입니다.");
+            leftTime.setText(getString(R.string.step_content4));
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("승인완료")){
             leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText( "대출 승인이 완료 되었습니다.");
+            leftTime.setText(getString(R.string.step_content5));
         }else{
             leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_done));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText("대출 실행이 완료 되었습니다.");
+            leftTime.setText(getString(R.string.step_content6));
 
         }
 
@@ -175,7 +175,7 @@ public class MainPageFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), QuotationDetailActivity.class);
                 intent.putExtra("id",mainPageViewPagerObject.getId());
-                intent.putExtra("position",position);
+                intent.putExtra("my",position);
                 //getActivity().startActivity(intent);
                 getActivity().startActivityForResult(intent,1);
             }
