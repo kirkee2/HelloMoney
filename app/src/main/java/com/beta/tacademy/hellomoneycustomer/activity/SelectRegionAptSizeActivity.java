@@ -18,7 +18,6 @@ import com.beta.tacademy.hellomoneycustomer.fragment.Region1Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.Region2Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.Region3Fragment;
 import com.beta.tacademy.hellomoneycustomer.fragment.AptSizeFragment;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 
 public class SelectRegionAptSizeActivity extends AppCompatActivity {
 

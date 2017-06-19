@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
-
 public class MainPageViewPagerObject implements Parcelable {
     private int id;
     private String ongoingStatus;

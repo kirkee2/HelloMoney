@@ -20,7 +20,6 @@ import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailRecyclerViewAdapter;
@@ -281,9 +280,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
 
                 postscriptDetail.execute();
             }else if(result == 1){
-                new WebHook().execute("ㅁㄴㅇㄴㅁㅇ PostscriptDetailActivity 내 견적 목록 안옴 result ===== " + result);
             }else{
-                new WebHook().execute("PostscriptDetailActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }
@@ -397,9 +394,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.GONE);
             }else if(result == 1){
-                new WebHook().execute("PostscriptDetailActivity 내 견적 목록 안옴 result ===== " + result);
             }else{
-                new WebHook().execute("PostscriptDetailActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }

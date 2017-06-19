@@ -26,7 +26,6 @@ import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.Connect;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailHeaderObject;
@@ -61,7 +60,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private Activity activity;
     private QuotationFeedback quotationFeedback;
     private QuotationDetail quotationDetail;
-    private int poisition;
+    private int position;
     private int myPage;
 
 
@@ -81,7 +80,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         activity = this;
         Intent intent = getIntent();
         quotationDetailId = intent.getIntExtra("id",-1);
-        poisition = intent.getIntExtra("position",0);
+        position = intent.getIntExtra("position",0);
         myPage = intent.getIntExtra("myPage",0);
 
         quotationFeedback = new QuotationFeedback();
@@ -119,7 +118,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
-            intent.putExtra("position",this.poisition);
+            intent.putExtra("position",this.position);
             intent.putExtra("myPage",this.myPage);
             finish();
         }
@@ -219,7 +218,6 @@ public class QuotationDetailActivity extends AppCompatActivity {
                 quotationFeedback = new QuotationFeedback();
                 quotationFeedback.execute();
             }else{
-                new WebHook().execute(" 123   MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }
@@ -359,7 +357,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        intent.putExtra("position",this.poisition);
+        intent.putExtra("position",this.position);
         intent.putExtra("myPage",this.myPage);
         setResult(RESULT_OK, intent);
         finish();

@@ -2,17 +2,14 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,25 +18,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
+import com.beta.tacademy.hellomoneycustomer.activity.MainActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
+import com.beta.tacademy.hellomoneycustomer.module.listener.EndlessScrollListener;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainFragmentPagerAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
-import com.bumptech.glide.Glide;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
 
 
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -57,9 +46,15 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private ArrayList<MainValueObject> mainValueObjectArrayList;
     private int type;
+    EndlessScrollListener endlessScrollListener;
 
     public void initItem(ArrayList<MainValueObject> mainValueObjectArrayList){
         this.mainValueObjectArrayList = mainValueObjectArrayList; //아이템 추가
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(ArrayList<MainValueObject> mainValueObject){
+        this.mainValueObjectArrayList.addAll(mainValueObject); //아이템 추가
         notifyDataSetChanged();
     }
 
@@ -73,6 +68,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         //변수 초기화
         this.type = type;
         this.activity = activity;
+        this.endlessScrollListener = (MainActivity)activity;
         mainValueObjectArrayList = new ArrayList<>();
         position = 0;
         pagerAdapter = new MainFragmentPagerAdapter(fragmentManager);
@@ -242,6 +238,12 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MainSubHeaderViewHolder) holder).tabLayout.setupWithViewPager(((MainSubHeaderViewHolder) holder).viewPager, true);
             ((MainSubHeaderViewHolder) holder).viewPager.setCurrentItem(this.position);
             pagerAdapter.notifyDataSetChanged();
+        }
+
+        if(position == getItemCount() - 1) {
+            if(endlessScrollListener != null) {
+                endlessScrollListener.onLoadMore(position+1);
+            }
         }
     }
 

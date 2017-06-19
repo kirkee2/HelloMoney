@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.selectRegionRecyclerView.SelectRegionRecyclerViewAdapter;
 
 import org.json.JSONArray;
@@ -184,9 +183,7 @@ public class AptSizeFragment extends Fragment {
 
                 selectRegionRecyclerViewAdapter.initItem(stringArraylist);
             }else if(result == 1){
-                new WebHook().execute("AptSizeFragment 내 견적 목록 안옴 result ===== " + result);
             }else{
-                new WebHook().execute("AptSizeFragment 내 견적 목록 안옴 result ===== " + result);
             }
 
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정

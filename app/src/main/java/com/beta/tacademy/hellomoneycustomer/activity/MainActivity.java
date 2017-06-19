@@ -26,10 +26,8 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.module.listener.EndlessScrollListener;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationValueObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
@@ -41,13 +39,12 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements EndlessScrollListener{
 
     private DrawerLayout drawer;
     private Toolbar toolbar;
@@ -67,6 +64,8 @@ public class MainActivity extends AppCompatActivity{
     private int uncompletedCount;
     private int completedCount;
     private int position;
+    private int endlessPosition;
+
 
     private PostscriptList postscriptList;
     private MyQuotationOngoingDoneCount myQuotationOngoingDoneCount;
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity{
         completedCount = 0;
         position = 0;
         recyclerViewPosition = 0;
+        endlessPosition = 0;
 
         //Toolbar
 
@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        endlessPosition = 0;
                         mainPageViewPagerObjectArrayList = new ArrayList<>();
                         mainValueObjectArrayList = new ArrayList<>();
 
@@ -191,9 +192,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void update(int position){
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        endlessPosition = 0;
 
         this.position = position;
         mainPageViewPagerObjectArrayList = new ArrayList<>();
@@ -203,11 +202,6 @@ public class MainActivity extends AppCompatActivity{
         myQuotationList.execute();
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -225,6 +219,13 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(), "'뒤로' 버튼 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public boolean onLoadMore(int position) {
+        endlessPosition++;
+        new PostscriptListUpdate().execute();
+        return true;
     }
 
     private class MyQuotationList extends AsyncTask<Void, Void, Integer>{
@@ -323,7 +324,6 @@ public class MainActivity extends AppCompatActivity{
 
                 myQuotationOngoingDoneCount.execute();
             }else{
-                new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }
@@ -395,7 +395,6 @@ public class MainActivity extends AppCompatActivity{
                 myDoneQuotation.setText(String.valueOf(completedCount));
                 postscriptList.execute();
             }else{
-                new WebHook().execute("MainActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }
@@ -418,7 +417,7 @@ public class MainActivity extends AppCompatActivity{
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(getResources().getString(R.string.get_post_script_url))
+                        .url(String.format(getResources().getString(R.string.get_post_script_url), String.valueOf(endlessPosition)))
                         .get()
                         .build();
 
@@ -494,7 +493,100 @@ public class MainActivity extends AppCompatActivity{
                 recyclerViewPosition = 0;
                 refreshLayout.setRefreshing(false);
             }else{
-                new WebHook().execute("MainActivity 후기 목록 안옴 result ===== " + result);
+            }
+        }
+    }
+
+    private class PostscriptListUpdate extends AsyncTask<Void, Void, Integer>{
+        ArrayList<MainValueObject> tmpMainValueObjectArrayList;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            tmpMainValueObjectArrayList = new ArrayList<>();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
+
+            JSONObject jsonObject = null;
+
+            try{
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                Request request = new Request.Builder()
+                        .url(String.format(getResources().getString(R.string.get_post_script_url), String.valueOf(endlessPosition)))
+                        .get()
+                        .build();
+
+                //동기 방식
+                response = toServer.newCall(request).execute();
+
+                flag = response.isSuccessful();
+
+                String returedJSON;
+
+                if(flag){ //성공했다면
+                    returedJSON = response.body().string();
+
+                    try {
+                        jsonObject = new JSONObject(returedJSON);
+                    }catch(JSONException jsone){
+                        Log.e("json에러", jsone.toString());
+                    }
+                }else{
+                    return 2;
+                }
+            }catch (UnknownHostException une) {
+            } catch (UnsupportedEncodingException uee) {
+            } catch (Exception e) {
+            } finally{
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                }
+            }
+
+            if(jsonObject != null){
+                try {
+                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                        JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
+
+                        for(int i = 0 ; i < data.length(); i++){
+                            try {
+                                JSONObject jsonData = (JSONObject)data.get(i);
+                                tmpMainValueObjectArrayList.add(new MainValueObject((int)jsonData.get("review_id"),jsonData.getString("loan_type"),jsonData.getString("register_time"),jsonData.getString("region_1"),jsonData.getString("region_2"),jsonData.getString("region_3"),jsonData.getString("apt_name"),jsonData.getInt("score"),jsonData.getString("content"),jsonData.getDouble("benefit")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return 0;
+                    }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                        return 1;
+                    }else{
+                        return 3;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return 4;
+                }
+            }else{
+                return 5;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            if(result == 0){
+                mainRecyclerViewAdapter.updateItem(tmpMainValueObjectArrayList);
+                progressBar.setVisibility(View.GONE);
+            }else if(result == 1){
+                endlessPosition--;
+                progressBar.setVisibility(View.GONE);
+            }else{
+                endlessPosition--;
             }
         }
     }

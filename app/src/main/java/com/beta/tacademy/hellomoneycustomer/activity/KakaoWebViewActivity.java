@@ -15,7 +15,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView.CounselorDetailRecyclerViewAdapter;
 
 import java.net.URISyntaxException;

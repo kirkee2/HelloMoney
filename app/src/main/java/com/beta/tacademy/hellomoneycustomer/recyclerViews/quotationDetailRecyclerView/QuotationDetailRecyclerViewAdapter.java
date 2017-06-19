@@ -39,7 +39,6 @@ import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
@@ -558,12 +557,13 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 int hour = leftSecond/3600;
                 int tmp = leftSecond%3600;
                 int minute = tmp/60;
+                int second = tmp%60;
 
                 if(leftSecond > 0){
-                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + " 전");
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");;
 
                 }else{
-                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00" + " 전");
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00" + ":" +"00"+ " 전");
                     if(((QuotationDetailActivity)activity).timer == null){
 
                     }else{
@@ -585,10 +585,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                                 int second = tmp%60;
 
                                 if(leftSecond > 0){
-                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + " 전");
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
 
                                 }else{
-                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00" + " 전");
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00" + ":" +"00"+ " 전");
                                     if(((QuotationDetailActivity)activity).timer == null){
 
                                     }else{
@@ -1029,7 +1029,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     dismiss();
                     ((QuotationDetailActivity)activity).update();
                 }else{
-                    new WebHook().execute("asdasd 안옴 result == " + result);
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -1220,7 +1219,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                             .error(R.drawable.error)
                             .into(image);
                 }else{
-                    new WebHook().execute("asdasd 안옴 result == " + result);
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -1312,7 +1310,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     dismiss();
                     ((QuotationDetailActivity)activity).update();
                 }else{
-                    new WebHook().execute("result == " + result);
                 }
 
                 progressBar.setVisibility(View.GONE);

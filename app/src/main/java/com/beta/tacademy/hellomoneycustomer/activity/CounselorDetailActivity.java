@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView.CounselorDetailHeaderObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.counselorDetailRecyclerView.CounselorDetailRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
@@ -174,7 +173,6 @@ public class CounselorDetailActivity extends AppCompatActivity {
 
                 counselorPostscriptList.execute();
             }else{
-                new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }
@@ -263,7 +261,6 @@ public class CounselorDetailActivity extends AppCompatActivity {
                 counselorDetailRecyclerViewAdapter.initItem(mainValueObjectArrayList);
                 progressBar.setVisibility(View.GONE);
             }else{
-                new WebHook().execute("MyQuotationActivity 내 견적 목록 안옴 result ===== " + result);
             }
         }
     }

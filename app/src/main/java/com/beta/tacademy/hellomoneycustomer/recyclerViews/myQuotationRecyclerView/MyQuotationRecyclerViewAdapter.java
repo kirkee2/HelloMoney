@@ -25,7 +25,6 @@ import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 

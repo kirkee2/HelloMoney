@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroFragmentPagerAdapter;
@@ -137,7 +136,7 @@ public class MyQuotationActivity extends AppCompatActivity {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_request_quotation_url), CommonClass.getUUID(),"false"))
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_no_limit_url), CommonClass.getUUID(),"false"))
                         .get()
                         .build();
 

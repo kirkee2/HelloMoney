@@ -49,9 +49,10 @@
     <string name="check_id_url">http://13.124.127.93:3000/clients/customers/%s</string>
     <string name="registered_id_url">http://13.124.127.93:3000/clients/customers</string>
     <string name="my_request_quotation_url">http://13.124.127.93:3000/clients/requests?customerId=%1$s&amp;&amp;exceptCompletedRequest=%2$s&amp;limitCount=3</string>
+    <string name="my_request_quotation_no_limit_url">http://13.124.127.93:3000/clients/requests?customerId=%1$s&amp;&amp;exceptCompletedRequest=%2$s</string>
     <string name="request_quotation_url">http://13.124.127.93:3000/clients/requests</string>
     <string name="my_request_quotation_ongoing_done_url">http://13.124.127.93:3000/clients/requests/calculate?customerId=%s</string>
-    <string name="get_post_script_url">http://13.124.127.93:3000/clients/reviews?page=1&amp;count=30</string>
+    <string name="get_post_script_url">http://13.124.127.93:3000/clients/reviews?page=%s&amp;count=30</string>
     <string name="my_quotation_list_url">http://13.124.127.93:3000/clients/requests/%s</string>
     <string name="quotation_detail_counselor_feedback_url">http://13.124.127.93:3000/clients/estimates?requestId=%s</string>
     <string name="my_quotation_detail_url">http://13.124.127.93:3000/clients/requests/%s</string>

@@ -24,7 +24,6 @@ import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.RequestQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 
 import java.text.SimpleDateFormat;
@@ -111,7 +110,7 @@ public class MainPageFragment extends Fragment {
             int second = tmp%60;
 
             if(leftSecond > 0){
-               leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
+                leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
 
             }else{
                 leftTime.setText("마감 " + "00" + ":" +"00" + ":" +"00"+ " 전");
@@ -133,7 +132,7 @@ public class MainPageFragment extends Fragment {
                             if(leftSecond > 0){
                                 leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":"+ CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
                             }else{
-                                leftTime.setText("마감 " + "00" + ":" +"00"+ ":" +"00" + " 전.");
+                                leftTime.setText("마감 " + "00" + ":" +"00"+ ":" +"00" + " 전");
                             }
                         }
                     });
@@ -175,7 +174,7 @@ public class MainPageFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), QuotationDetailActivity.class);
                 intent.putExtra("id",mainPageViewPagerObject.getId());
-                intent.putExtra("my",position);
+                intent.putExtra("position",position);
                 //getActivity().startActivity(intent);
                 getActivity().startActivityForResult(intent,1);
             }

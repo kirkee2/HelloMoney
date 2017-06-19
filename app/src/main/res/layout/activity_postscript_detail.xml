@@ -265,7 +265,6 @@
                                                 android:layout_height="20dp"
                                                 android:layout_marginStart="6dp"
                                                 android:gravity="center"
-                                                android:text="3일 전 작성"
                                                 android:textColor="@color/subNormal"
                                                 android:textSize="@dimen/tiny" />
                                         </LinearLayout>

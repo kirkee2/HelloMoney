@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.FAQRecyclerView.FAQRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.FAQRecyclerView.FAQValueObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
@@ -177,7 +176,6 @@ public class FAQActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }else if(result == 1){
             }else{
-                new WebHook().execute("FAQActivity FAQ 목록 안옴 result ===== " + result);
             }
         }
     }
