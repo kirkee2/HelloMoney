@@ -32,7 +32,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textColor="@color/progress"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:drawablePadding="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +68,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:gravity="center_vertical"
-                        android:text="경기도 광주 초월읍"
                         android:textColor="@color/normalTypo"
                         android:textSize="@dimen/small_medium" />
 
@@ -76,7 +76,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         android:gravity="center_vertical"
-                        android:text="센트리빌 3차 아파트"
                         android:textColor="@color/normalTypo"
                         android:textSize="@dimen/small_medium" />
 
@@ -113,7 +112,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="대출 금액"
+                        android:text="대출금액"
                         android:textColor="@color/subNormal"
                         android:textSize="@dimen/small2"
                         android:drawableStart="@drawable/abc1"
@@ -127,7 +126,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="23,0000만원"
                         android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
@@ -146,7 +144,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="금리 방식"
+                        android:text="금리방식"
                         android:textColor="@color/subNormal"
                         android:textSize="@dimen/small2"
                         android:drawableStart="@drawable/abc2"
@@ -160,7 +158,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="고정"
                         android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
@@ -189,7 +186,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="대출 실행 예정일"
+                        android:text="대출실행예정일"
                         android:textColor="@color/subNormal"
                         android:textSize="@dimen/small2"
                         android:drawableStart="@drawable/abc3"
@@ -203,7 +200,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="2018년 03월 14일"
                         android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
@@ -222,7 +218,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="직업 구분"
+                        android:text="직업구분"
                         android:textColor="@color/subNormal"
                         android:textSize="@dimen/small2"
                         android:drawableStart="@drawable/abc4"
@@ -236,7 +232,6 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:text="직장근로인"
                         android:textColor="@color/pointTypo"
                         android:textSize="@dimen/medium" />
                 </RelativeLayout>
@@ -271,7 +266,6 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
-                    android:text="010-0000-0000"
                     android:textColor="@color/pointTypo"
                     android:textSize="@dimen/medium" />
             </RelativeLayout>

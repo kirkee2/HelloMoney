@@ -66,15 +66,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/loanName"
-            android:layout_width="296dp"
-            android:layout_height="48dp"
-            android:textColor="@color/pointTypo"
-            android:textSize="@dimen/medium"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"/>
-
-        <TextView
             android:id="@+id/finalRegisterDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

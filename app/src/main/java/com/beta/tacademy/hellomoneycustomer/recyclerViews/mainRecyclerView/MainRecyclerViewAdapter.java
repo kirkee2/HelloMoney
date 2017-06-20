@@ -228,7 +228,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, PostscriptDetailActivity.class);
                     intent.putExtra("id",valueObject.getId());
-                    activity.startActivity(intent);
+                    activity.startActivityForResult(intent,2);
                     //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " +valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }
             });

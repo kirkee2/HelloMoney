@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -401,11 +402,21 @@ public class PostscriptDetailActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
             finish();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
 
     @Override
     protected void onDestroy(){

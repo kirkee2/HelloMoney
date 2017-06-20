@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
     private PostscriptList postscriptList;
     private MyQuotationOngoingDoneCount myQuotationOngoingDoneCount;
     private MyQuotationList myQuotationList;
+    private PostscriptListUpdate postscriptListUpdate;
+    private MyQuotationUpdateList myQuotationUpdateList;
 
     private TextView myOngoingQuotation;
     private TextView myDoneQuotation;
@@ -99,11 +101,12 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
         postscriptList = new PostscriptList();
         myQuotationOngoingDoneCount = new MyQuotationOngoingDoneCount();
         myQuotationList = new MyQuotationList();
+        postscriptListUpdate = new PostscriptListUpdate();
+        myQuotationUpdateList = new MyQuotationUpdateList();
 
         uncompletedCount = 0;
         completedCount = 0;
         position = 0;
-        recyclerViewPosition = 0;
         endlessPosition = 0;
 
         //Toolbar
@@ -202,6 +205,12 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
         myQuotationList.execute();
     }
 
+    public void updateMyQuotation(){
+        mainPageViewPagerObjectArrayList = new ArrayList<>();
+        myQuotationUpdateList =new MyQuotationUpdateList();
+        myQuotationUpdateList.execute();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -224,7 +233,8 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
     @Override
     public boolean onLoadMore(int position) {
         endlessPosition++;
-        new PostscriptListUpdate().execute();
+        postscriptListUpdate = new PostscriptListUpdate();
+        postscriptListUpdate.execute();
         return true;
     }
 
@@ -323,6 +333,98 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                 recyclerView.setAdapter(mainRecyclerViewAdapter);
 
                 myQuotationOngoingDoneCount.execute();
+            }else{
+            }
+        }
+    }
+
+
+    private class MyQuotationUpdateList extends AsyncTask<Void, Void, Integer>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //시작 전에 ProgressBar를 보여주어 사용자와 interact
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            boolean flag;
+            Response response = null;
+            OkHttpClient toServer;
+
+            JSONObject jsonObject = null;
+
+            try{
+                toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
+
+                Request request = new Request.Builder()
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_url),CommonClass.getUUID(),"true"))
+                        .get()
+                        .build();
+
+                //동기 방식
+                response = toServer.newCall(request).execute();
+
+                flag = response.isSuccessful();
+
+                String returedJSON;
+
+                if(flag){ //성공했다면
+                    returedJSON = response.body().string();
+
+                    try {
+                        jsonObject = new JSONObject(returedJSON);
+                    }catch(JSONException jsone){
+                        Log.e("json에러", jsone.toString());
+                    }
+                }else{
+                    return 2;
+                }
+            }catch (UnknownHostException une) {
+            } catch (UnsupportedEncodingException uee) {
+            } catch (Exception e) {
+            } finally{
+                if(response != null) {
+                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                }
+            }
+
+            if(jsonObject != null){
+                try {
+                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                        JSONArray data= jsonObject.getJSONArray(getResources().getString(R.string.url_data));
+
+                        for(int i = 0 ; i < data.length(); i++){
+                            try {
+                                JSONObject jsonData = (JSONObject)data.get(i);
+                                mainPageViewPagerObjectArrayList.add(new MainPageViewPagerObject(jsonData.getInt("request_id"),jsonData.getString("status"),jsonData.getString("loan_type"),jsonData.getString("end_time"),jsonData.getString("region_1"),jsonData.getString("region_2"),jsonData.getString("region_3"),jsonData.getString("apt_name"),jsonData.getString("apt_size_supply") + "(" + jsonData.getString("apt_size_exclusive") +")",jsonData.getInt("estimate_count")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return 0;
+                    }else if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_no_data))){
+                        return 1;
+                    }else{
+                        return 3;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                return 4;
+            }
+
+            return 5;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            if(result == 0){
+                progressBar.setVisibility(View.INVISIBLE);
+                mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList,position);
+            }else if(result == 1){
             }else{
             }
         }
@@ -619,8 +721,14 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 update(data.getIntExtra("position",0));
-                recyclerViewPosition = data.getIntExtra("recyclerViewPosition",0);
+            }else if(requestCode == 2){
+                updateMyQuotation();
             }else{
+                if(!data.getBooleanExtra("write",false)){
+                    updateMyQuotation();
+                }else{
+                    update(data.getIntExtra("position",0));
+                }
             }
         }else{
 
@@ -642,5 +750,8 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
             myQuotationList.cancel(true);
         }
 
+        if (postscriptListUpdate.getStatus() == AsyncTask.Status.RUNNING) {
+            postscriptListUpdate.cancel(true);
+        }
     }
 }

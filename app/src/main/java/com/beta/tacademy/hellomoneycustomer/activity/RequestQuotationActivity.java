@@ -81,6 +81,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
     String aptSizeSupply;
     String aptSizeExclusive;
     int aptPrice;
+    int aptPriceForShow;
     String telephone;
 
     private LinearLayout step1;
@@ -1031,7 +1032,8 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
                 aptSizeSupply = stringTokenizer.nextToken();
                 tmp = stringTokenizer.nextToken();
-                aptPrice  = Integer.parseInt(tmp.substring(0,tmp.length()-3)) * 7 / 10;
+                aptPrice  = Integer.parseInt(tmp.substring(0,tmp.length()-3));
+                aptPriceForShow = aptPrice *7 / 10;
 
 
                 if(!stepCheck){
@@ -1047,7 +1049,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.\n(대출한도 "+ aptPrice +"만원)"));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.\n(대출한도 "+ aptPriceForShow +"만원)"));
 
                             originStep++;
                             step2.setVisibility(View.GONE);
@@ -1062,7 +1064,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     }, 700);
 
                 }else{
-                    updateItem(5,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.\n(대출한도 "+ aptPrice +"만원)"));
+                    updateItem(5,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.\n(대출한도 "+ aptPriceForShow +"만원)"));
 
                     updateItem(4,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,2,region1 + " " + region2 + " " + region3 + "\n" + aptName + "\n" + aptSizeExclusive+ "/" +aptSizeSupply + "입니다."));
 
@@ -1187,6 +1189,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             if(result == 0){
                 Toast.makeText(getApplicationContext(),"견적 요청을 등록하였습니다.",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
+                intent.putExtra("write",true);
                 setResult(RESULT_OK, intent);
                 finish();
             }else{

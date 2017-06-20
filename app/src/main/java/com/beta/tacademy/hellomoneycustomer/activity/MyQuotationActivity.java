@@ -97,19 +97,11 @@ public class MyQuotationActivity extends AppCompatActivity {
         myQuotationList.execute();
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-        /*
-        mainPageViewPagerObjectOneM = new ArrayList<>();
-        mainPageViewPagerObjectTwoM = new ArrayList<>();
-
-        new MyQuotationList().execute();
-        */
-    }
-
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            intent.putExtra("recyclerViewPosition", this.recyclerViewPosition);
             finish();
         }
 

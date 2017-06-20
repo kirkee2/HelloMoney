@@ -39,6 +39,7 @@ import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
+import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
@@ -719,7 +720,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         private TextView bank;
         private TextView name;
         private TextView goCounselor;
-        private TextView loanName;
         private TextView finalRegisterDate;
         private TextView loanInterestRate;
         private TextView interestType;
@@ -772,7 +772,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             bank = (TextView)findViewById(R.id.bank);
             name = (TextView)findViewById(R.id.name);
             goCounselor = (TextView)findViewById(R.id.goCounselor);
-            loanName = (TextView)findViewById(R.id.loanName);
             finalRegisterDate = (TextView)findViewById(R.id.finalRegisterDate);
             loanInterestRate = (TextView)findViewById(R.id.loanInterestRate);
             interestType = (TextView)findViewById(R.id.interestType);
@@ -877,7 +876,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                             imageInfo = data.getString("photo");
                             bankInfo = data.getString("item_bank");
                             nameInfo = data.getString("name");
-                            loanNameInfo = data.getString("item_name");
                             finalRegisterDateInfo = data.getString("register_time");
                             loanInterestRateInfo = data.getString("interest_rate");
                             interestTypeInfo = data.getString("interest_rate_type");
@@ -928,19 +926,20 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
                     bank.setText(bankInfo);
                     name.setText(nameInfo);
-                    loanName.setText("["+loanNameInfo+"]");
                     loanInterestRate.setText(loanInterestRateInfo+"%");
                     interestType.setText(interestTypeInfo);
                     monthlyRepayMoney.setText(monthlyRepayMoneyInfo+"만원");
                     repayType.setText(repayTypeInfo);
-                    interestRateInfo1.setText(overDueInfo1 + " : 대출 금리 + "+interestRateInfo1Info + "%");
-                    interestRateInfo2.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo2Info + "%");
-                    interestRateInfo3.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo3Info + "%");
+                    //interestRateInfo1.setText(overDueInfo1 + " : 대출 금리 + "+interestRateInfo1Info + "%");
+                    //interestRateInfo2.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo2Info + "%");
+                    //interestRateInfo3.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo3Info + "%");
+                    interestRateInfo1.setText("30일 이내" + " : 대출 금리 + "+5 + "%");
+                    interestRateInfo2.setText("90일 이내" + " : 대출 금리 + "+6 + "%");
+                    interestRateInfo3.setText("90일 초과" + " : 대출 금리 + "+7 + "%");
                     feeInfo1.setText(feeInfo1Info);
                     feeInfo2.setText(feeInfo2Info);
                     goCounselor.setEnabled(true);
                     requestCounsel.setEnabled(true);
-
                 }else{
                 }
 
@@ -1123,9 +1122,13 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             writeComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    content = comment.getText().toString();
-                    ratingBarInfo = ratingBar.getRating();
-                    new WritePostScript().execute();
+                    if(comment.getText().length() < 10){
+                        Toast.makeText(activity,"10자 이상 입력해주세요.",Toast.LENGTH_SHORT).show();
+                    }else{
+                        content = comment.getText().toString();
+                        ratingBarInfo = ratingBar.getRating();
+                        new WritePostScript().execute();
+                    }
                 }
             });
 

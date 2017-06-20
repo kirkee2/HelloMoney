@@ -219,13 +219,23 @@
                                         android:layout_height="60dp"
                                         android:layout_marginStart="26dp" />
 
+                                    <View
+                                        android:id="@+id/line"
+                                        android:layout_width="1dp"
+                                        android:layout_toEndOf="@id/loanType"
+                                        android:layout_height="60dp"
+                                        android:background="@color/subNormal"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginEnd="8dp"
+                                        />
+
                                     <LinearLayout
                                         android:id="@+id/linearLayout"
                                         android:layout_width="match_parent"
                                         android:layout_height="60dp"
-                                        android:layout_marginStart="8dp"
+                                        android:layout_marginStart="5dp"
                                         android:layout_marginEnd="26dp"
-                                        android:layout_toEndOf="@+id/loanType"
+                                        android:layout_toEndOf="@id/line"
                                         android:orientation="vertical">
 
                                         <TextView
@@ -274,11 +284,10 @@
 
                                 <TextView
                                     android:id="@+id/content"
-                                    android:layout_marginStart="26dp"
+                                    android:layout_marginStart="36dp"
                                     android:layout_marginEnd="26dp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
                                     android:layout_marginBottom="27dp"
                                     android:textColor="@color/pointTypo"
                                     android:lineSpacingExtra="7dp"

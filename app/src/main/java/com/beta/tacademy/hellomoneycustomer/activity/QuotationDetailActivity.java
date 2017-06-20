@@ -363,6 +363,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
     @Override
     protected void onPause(){
         super.onPause();
@@ -372,6 +373,7 @@ public class QuotationDetailActivity extends AppCompatActivity {
             timer.cancel();
         }
     }
+    */
 
     @Override
     protected void onDestroy(){
@@ -383,6 +385,12 @@ public class QuotationDetailActivity extends AppCompatActivity {
 
         if (quotationFeedback.getStatus() == AsyncTask.Status.RUNNING) {
             quotationFeedback.cancel(true);
+        }
+
+        if(timer == null){
+
+        }else{
+            timer.cancel();
         }
     }
 }

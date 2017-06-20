@@ -89,6 +89,12 @@ public class MainPageFragment extends Fragment {
         size = (TextView)view.findViewById(R.id.size);
         ongoingSub = (TextView)view.findViewById(R.id.ongoing_sub);
 
+        return view;
+    }
+
+    public void onResume(){
+        super.onResume();
+
         region.setText(mainPageViewPagerObject.getRegion1() + " " + mainPageViewPagerObject.getRegion2() + " " +  mainPageViewPagerObject.getRegion3());
         apt.setText(mainPageViewPagerObject.getApt());
         size.setText( mainPageViewPagerObject.getSize());
@@ -138,6 +144,7 @@ public class MainPageFragment extends Fragment {
                     });
                 }
             };
+
             timer = new Timer();
             timer.schedule(timerTask,0,1000);
 
@@ -175,15 +182,10 @@ public class MainPageFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), QuotationDetailActivity.class);
                 intent.putExtra("id",mainPageViewPagerObject.getId());
                 intent.putExtra("position",position);
-                //getActivity().startActivity(intent);
                 getActivity().startActivityForResult(intent,1);
             }
         });
-
-
-        return view;
     }
-
 
     @Override
     public void onPause() {
