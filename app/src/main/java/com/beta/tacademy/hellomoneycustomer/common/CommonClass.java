@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -150,4 +151,19 @@ public class CommonClass {
     public static String formatNumber2(int num){
         return String.format("%02d",num);
     }
+
+    public static String formatMoney(int num){
+        return String.format("%,d", num);
+    }
+
+    public static String formatPhoneNumber(String phoneNumber) {
+        String regEx = "(\\d{3})(\\d{3,4})(\\d{4})";
+
+        if(!Pattern.matches(regEx, phoneNumber)) return null;
+
+        return phoneNumber.replaceAll(regEx, "$1-$2-$3");
+
+    }
+
+
 }

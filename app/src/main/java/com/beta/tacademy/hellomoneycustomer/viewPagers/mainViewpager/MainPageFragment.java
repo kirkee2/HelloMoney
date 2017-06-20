@@ -107,7 +107,7 @@ public class MainPageFragment extends Fragment {
         if(mainPageViewPagerObject.getOngoingStatus().equals("견적접수중")){
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_interection_waiting));
 
-            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step1_small, 0, 0, 0);
+            //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step1_small, 0, 0, 0);
 
             int leftSecond  = mainPageViewPagerObject.getLeftSecond();
             int hour = leftSecond/3600;
@@ -152,24 +152,24 @@ public class MainPageFragment extends Fragment {
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
             leftTime.setText(getString(R.string.step_content2));
-            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
+            //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("상담중")){
-            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
+            //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
             leftTime.setText(getString(R.string.step_content3));
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("심사중")){
-            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
+            //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
             leftTime.setText(getString(R.string.step_content4));
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("승인완료")){
-            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
+           // leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
             leftTime.setText(getString(R.string.step_content5));
         }else{
-            leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
+            //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
             linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_done));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
             leftTime.setText(getString(R.string.step_content6));

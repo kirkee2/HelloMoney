@@ -99,7 +99,6 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         ((MyQuotationViewHolder) holder).ongoingSub.setText(valueObject.getOngoingStatus());
         ((MyQuotationViewHolder) holder).currentQuotation.setText(String.valueOf(valueObject.getCurrentQuotation()));
-        ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step1_small, 0, 0, 0);
 
         if(valueObject.getOngoingStatus().equals("견적접수중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_interection_waiting));
@@ -123,25 +122,25 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
-            ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
+            //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("상담중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content3));
-            ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
+            //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("심사중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content4));
-            ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
+            //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("승인완료")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content5));
-            ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
+            //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
 
         }else{
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_done));
@@ -149,7 +148,7 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             //((MyQuotationViewHolder) holder).leftTime.setText("퍼센트 사용 후기를 남겨주세요.");
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content6));
 
-            ((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
+            //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
         }
 
         ((MyQuotationViewHolder) holder).linearLayout.setOnClickListener(new View.OnClickListener() {

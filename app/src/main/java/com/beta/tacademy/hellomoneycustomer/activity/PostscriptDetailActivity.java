@@ -246,11 +246,11 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 BarDataSet dataSet = new BarDataSet(entries, "금리");
                 BarDataSet dataSetMin = new BarDataSet(entriesMin, "최저 금리");
 
-                dataSet.setColor(0xFF00BFA5);
+                dataSet.setColor(0xFFBDBDBD);
                 dataSet.setHighlightEnabled(false);
                 dataSet.setValueTextSize(10);
 
-                dataSetMin.setColor(0xFFFF4081);
+                dataSetMin.setColor(0xFF00BFA5);
                 dataSetMin.setHighlightEnabled(false);
                 dataSetMin.setValueTextSize(10);
 

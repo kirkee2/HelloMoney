@@ -58,8 +58,8 @@ public class FAQRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final FAQValueObject valueObject = faqValueObjectArrayList.get(position);
 
-        ((FAQItemViewHolder) holder).title.setText(valueObject.getTitle());
-        ((FAQItemViewHolder) holder).content.setText(valueObject.getContent());
+        ((FAQItemViewHolder) holder).title.setText(valueObject.getTitle().replace("\\n", "\n"));
+        ((FAQItemViewHolder) holder).content.setText(valueObject.getContent().replace("\\n", "\n"));
         ((FAQItemViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
 
             @Override

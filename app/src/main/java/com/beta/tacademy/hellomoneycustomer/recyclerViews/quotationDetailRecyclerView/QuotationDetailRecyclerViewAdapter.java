@@ -426,11 +426,11 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 BarDataSet dataSet = new BarDataSet(entries, "금리");
                 BarDataSet dataSetMin = new BarDataSet(entriesMin, "최저 금리");
 
-                dataSet.setColor(0xFF00BFA5);
+                dataSet.setColor(0xFFBDBDBD);
                 dataSet.setHighlightEnabled(false);
                 dataSet.setValueTextSize(10);
 
-                dataSetMin.setColor(0xFFFF4081);
+                dataSetMin.setColor(0xFF00BFA5);
                 dataSetMin.setHighlightEnabled(false);
                 dataSetMin.setValueTextSize(10);
 
@@ -544,15 +544,15 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " "+ valueObject.getRegion3());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).apt.setText(valueObject.getApt());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).size.setText(valueObject.getSize());
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(String.valueOf(valueObject.getLoanSum())+"만원");
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(CommonClass.formatMoney(valueObject.getLoanSum())+"만원");
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).rateType.setText(valueObject.getRateType());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanDate.setText(CommonClass.timeDashParsing(valueObject.getLoanDate()));
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText(valueObject.getJobType());
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(valueObject.getTelephone());
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(CommonClass.formatPhoneNumber(valueObject.getTelephone()));
 
             if(valueObject.getOngoingStatus().equals("견적접수중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_interection_waiting));
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step1,0,0,0);
+                //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step1,0,0,0);
                 valueObject.setLeftSecond(CommonClass.timeLeftSecondParsing(valueObject.getLeftTime()));
                 int leftSecond  = CommonClass.timeLeftSecondParsing(valueObject.getLeftTime());
                 int hour = leftSecond/3600;
@@ -605,34 +605,34 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 ((QuotationDetailActivity)activity).timer.schedule(((QuotationDetailActivity)activity).timerTask,0,1000);
 
             }else if(valueObject.getOngoingStatus().equals("선택대기중")){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2,0,0,0);
+                //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2,0,0,0);
 
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
             }else if(valueObject.getOngoingStatus().equals("상담중")){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3,0,0,0);
+                //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3,0,0,0);
 
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setText("선택된 견적");
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content3));
             }else if(valueObject.getOngoingStatus().equals("심사중")){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4,0,0,0);
+               // ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4,0,0,0);
 
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setText("선택된 견적");
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content4));
             }else if(valueObject.getOngoingStatus().equals("승인완료")){
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5,0,0,0);
+                //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5,0,0,0);
 
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).feedbackList.setText("선택된 견적");
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_ongoing));
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content5));
             }else{
-                ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6,0,0,0);
+               // ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6,0,0,0);
 
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_done));
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
@@ -881,12 +881,16 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                             interestTypeInfo = data.getString("interest_rate_type");
                             monthlyRepayMoneyInfo = data.getInt("repayment_amount_per_month");
                             repayTypeInfo = data.getString("repayment_type");
+                            /*
                             interestRateInfo1Info = String.valueOf(data.getInt("overdue_interest_rate_1"));
                             interestRateInfo2Info = String.valueOf(data.getInt("overdue_interest_rate_2"));
                             interestRateInfo3Info = String.valueOf(data.getInt("overdue_interest_rate_3"));
+                            */
+                            /*
                             overDueInfo1 = data.getString("overdue_time_1");
                             overDueInfo2 = data.getString("overdue_time_2");
                             overDueInfo3 = data.getString("overdue_time_3");
+                            */
                             feeInfo1Info = "조기 상환 원금 X 1.4% X [(3년 대출 경과 일 수/ 3년)]";
                             feeInfo2Info = "매년 대출 잔액의 10%까지 중도 상환 수수료 면제";
 
@@ -928,7 +932,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     name.setText(nameInfo);
                     loanInterestRate.setText(loanInterestRateInfo+"%");
                     interestType.setText(interestTypeInfo);
-                    monthlyRepayMoney.setText(monthlyRepayMoneyInfo+"만원");
+                    monthlyRepayMoney.setText(CommonClass.formatMoney(monthlyRepayMoneyInfo)+"만원");
                     repayType.setText(repayTypeInfo);
                     //interestRateInfo1.setText(overDueInfo1 + " : 대출 금리 + "+interestRateInfo1Info + "%");
                     //interestRateInfo2.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo2Info + "%");
@@ -942,7 +946,6 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     requestCounsel.setEnabled(true);
                 }else{
                 }
-
                 progressBar.setVisibility(View.GONE);
             }
         }
