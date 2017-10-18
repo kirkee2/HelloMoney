@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",0);
                 intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition()+1);
-
                 startActivityForResult(intent,1);
 
                 drawer.closeDrawer(naviList);
@@ -422,11 +421,11 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0){
-                progressBar.setVisibility(View.INVISIBLE);
                 mainRecyclerViewAdapter.initHeader(mainPageViewPagerObjectArrayList,position);
             }else if(result == 1){
             }else{
             }
+            progressBar.setVisibility(View.GONE);
         }
     }
 

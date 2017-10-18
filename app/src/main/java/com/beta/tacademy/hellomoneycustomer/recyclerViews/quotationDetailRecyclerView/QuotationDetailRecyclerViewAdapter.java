@@ -38,12 +38,15 @@ import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.CustomAxisValueFormatter;
+import com.beta.tacademy.hellomoneycustomer.common.CustomValueFormatter;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -429,10 +432,12 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 dataSet.setColor(0xFFBDBDBD);
                 dataSet.setHighlightEnabled(false);
                 dataSet.setValueTextSize(10);
+                dataSet.setValueFormatter(new CustomValueFormatter());
 
                 dataSetMin.setColor(0xFF00BFA5);
                 dataSetMin.setHighlightEnabled(false);
                 dataSetMin.setValueTextSize(10);
+                dataSetMin.setValueFormatter(new CustomValueFormatter());
 
                 BarData data = new BarData(dataSet);
                 data.addDataSet(dataSetMin);
@@ -447,6 +452,8 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 ((QuotationDetailHeaderViewHolder) holder).barChart.animateY(500);
                 ((QuotationDetailHeaderViewHolder) holder).barChart.setDoubleTapToZoomEnabled(false);
                 ((QuotationDetailHeaderViewHolder) holder).barChart.setScaleEnabled(false);
+                YAxis yAxis = ((QuotationDetailHeaderViewHolder) holder).barChart.getAxisLeft();
+                yAxis.setValueFormatter(new CustomAxisValueFormatter());
                 ((QuotationDetailHeaderViewHolder) holder).barChart.invalidate();
             }
 

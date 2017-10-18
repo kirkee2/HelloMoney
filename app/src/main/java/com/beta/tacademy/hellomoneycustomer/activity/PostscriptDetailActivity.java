@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.CustomAxisValueFormatter;
+import com.beta.tacademy.hellomoneycustomer.common.CustomValueFormatter;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
@@ -27,9 +29,11 @@ import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecycle
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +41,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -225,6 +230,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0){
+
                 ArrayList<BarEntry> entries = new ArrayList<>();
                 ArrayList<BarEntry> entriesMin = new ArrayList<>();
                 float min = 100;
@@ -234,6 +240,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                         min = rate.get(i);
                         minIndex = i;
                     }
+
                     entries.add(new BarEntry(i*0.5F,rate.get(i)));
                 }
 
@@ -249,10 +256,12 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 dataSet.setColor(0xFFBDBDBD);
                 dataSet.setHighlightEnabled(false);
                 dataSet.setValueTextSize(10);
+                dataSet.setValueFormatter(new CustomValueFormatter());
 
                 dataSetMin.setColor(0xFF00BFA5);
                 dataSetMin.setHighlightEnabled(false);
                 dataSetMin.setValueTextSize(10);
+                dataSetMin.setValueFormatter(new CustomValueFormatter());
 
                 BarData data = new BarData(dataSet);
                 data.addDataSet(dataSetMin);
@@ -266,6 +275,10 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 barChart.animateY(500);
                 barChart.setDoubleTapToZoomEnabled(false);
                 barChart.setScaleEnabled(false);
+                YAxis yAxis = barChart.getAxisLeft();
+                yAxis.setValueFormatter(new CustomAxisValueFormatter());
+
+
                 barChart.invalidate();
 
                 //

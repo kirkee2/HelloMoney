@@ -206,7 +206,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
             if( valueObject.getBenefit() < 0){
-                String benefitString = CommonClass.formatMoney(valueObject.getBenefit()) + "만원 대출 조건 보기";
+                String benefitString = CommonClass.formatMoney(valueObject.getBenefit()) + "만원 절약한 대출 조건 보기";
                 final String tmp = valueObject.getBenefit() + "";
                 SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
 
@@ -214,7 +214,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                 ((MainViewHolder) holder).benefit.setText(builder);
             }else{
-                String benefitString = "+" + CommonClass.formatMoney(valueObject.getBenefit()) + "만원 대출 조건 보기";
+                String benefitString = "+" + CommonClass.formatMoney(valueObject.getBenefit()) + "만원 절약한 대출 조건 보기";
                 final String tmp = "+"+valueObject.getBenefit() + "";
                 SpannableStringBuilder builder = new SpannableStringBuilder(benefitString);
 

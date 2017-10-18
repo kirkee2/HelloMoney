@@ -5,19 +5,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -34,21 +30,18 @@ import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationValueObject;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailRecyclerViewAdapter;
 import com.daasuu.ahp.AnimateHorizontalProgressBar;
-import com.github.mikephil.charting.data.LineRadarDataSet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.StringTokenizer;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -63,27 +56,26 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private RequestQuotationRecyclerViewAdapter requestQuotationRecyclerViewAdapter;
     private AnimateHorizontalProgressBar animateHorizontalProgressBar;
-    private int fixStep;
     private int originStep;
     private boolean stepCheck;
     private Activity activity;
 
 
-    String loanType;
-    int loanAmount;
-    String scheduledTime;
-    String interestRateType;
-    String jobType;
-    String region1;
-    String region2;
-    String region3;
-    String aptName;
-    String aptSize;
-    String aptSizeSupply;
-    String aptSizeExclusive;
-    int aptPrice;
-    int aptPriceForShow;
-    String telephone;
+    private String loanType;
+    private int loanAmount;
+    private String scheduledTime;
+    private String interestRateType;
+    private String jobType;
+    private String region1;
+    private String region2;
+    private String region3;
+    private String aptName;
+    private String aptSize;
+    private String aptSizeSupply;
+    private String aptSizeExclusive;
+    private int aptPrice;
+    private int aptPriceForShow;
+    private String telephone;
 
     private LinearLayout step1;
     private LinearLayout step2;
@@ -101,9 +93,9 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private Button step3Button;
     private DatePicker step5DatePicker;
     private Button step5Button;
-    private TextView step4Text2;
     private TextView step4Text1;
-    //private TextView step4Text3;
+    private TextView step4Text2;
+    private TextView step4Text3;
     private TextView step6Text1;
     private TextView step6Text2;
     private TextView step6Text3;
@@ -122,37 +114,37 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         animateHorizontalProgressBar = (AnimateHorizontalProgressBar) findViewById(R.id.animate_progress_bar);
 
-        step1 = (LinearLayout)findViewById(R.id.step1);
-        step2 = (LinearLayout)findViewById(R.id.step2);
-        step3 = (LinearLayout)findViewById(R.id.step3);
-        step4 = (LinearLayout)findViewById(R.id.step4);
-        step5 = (LinearLayout)findViewById(R.id.step5);
-        step6 = (LinearLayout)findViewById(R.id.step6);
-        step7 = (LinearLayout)findViewById(R.id.step7);
-        step8 = (LinearLayout)findViewById(R.id.step8);
+        step1 = (LinearLayout) findViewById(R.id.step1);
+        step2 = (LinearLayout) findViewById(R.id.step2);
+        step3 = (LinearLayout) findViewById(R.id.step3);
+        step4 = (LinearLayout) findViewById(R.id.step4);
+        step5 = (LinearLayout) findViewById(R.id.step5);
+        step6 = (LinearLayout) findViewById(R.id.step6);
+        step7 = (LinearLayout) findViewById(R.id.step7);
+        step8 = (LinearLayout) findViewById(R.id.step8);
 
-        step1Text1 = (TextView)findViewById(R.id.step1Text1);
-        step1Text2  = (TextView)findViewById(R.id.step1Text2);
-        step2Button  = (Button)findViewById(R.id.step2Button);
-        step3Text  = (EditText) findViewById(R.id.step3Text);
+        step1Text1 = (TextView) findViewById(R.id.step1Text1);
+        step1Text2 = (TextView) findViewById(R.id.step1Text2);
+        step2Button = (Button) findViewById(R.id.step2Button);
+        step3Text = (EditText) findViewById(R.id.step3Text);
         step3Button = (Button) findViewById(R.id.step3Button);
-        step4Text1 = (TextView)findViewById(R.id.step4Text1);
-        step4Text2 = (TextView)findViewById(R.id.step4Text2);
-        //step4Text3 = (TextView)findViewById(R.id.step4Text3);
-        step6Text1 = (TextView)findViewById(R.id.step6Text1);
-        step6Text2 = (TextView)findViewById(R.id.step6Text2);
-        step6Text3 = (TextView)findViewById(R.id.step6Text3);
+        step4Text1 = (TextView) findViewById(R.id.step4Text1);
+        step4Text2 = (TextView) findViewById(R.id.step4Text2);
+        step4Text3 = (TextView) findViewById(R.id.step4Text3);
+        step6Text1 = (TextView) findViewById(R.id.step6Text1);
+        step6Text2 = (TextView) findViewById(R.id.step6Text2);
+        step6Text3 = (TextView) findViewById(R.id.step6Text3);
         step7Text = (EditText) findViewById(R.id.step7Text);
         step7Button = (Button) findViewById(R.id.step7Button);
-        step5DatePicker = (DatePicker)findViewById(R.id.step5DataPicker);
-        step5Button = (Button)findViewById(R.id.step5Button);
-        step8Button  = (Button)findViewById(R.id.step8Button);
+        step5DatePicker = (DatePicker) findViewById(R.id.step5DataPicker);
+        step5Button = (Button) findViewById(R.id.step5Button);
+        step8Button = (Button) findViewById(R.id.step8Button);
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(new View(this).getWindowToken(), 0);
 
         requestQuotation = new RequestQuotation();
@@ -169,13 +161,13 @@ public class RequestQuotationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
 
         //Toolbar 설정
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
         //RecyclerView에 LayoutManager 설정 및 adapter 설정
 
@@ -186,14 +178,14 @@ public class RequestQuotationActivity extends AppCompatActivity {
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if ( bottom < oldBottom) {
+                if (bottom < oldBottom) {
                     recyclerView.smoothScrollToPosition(requestQuotationRecyclerViewAdapter.getItemCount());
                 }
             }
         });
 
         toolbar.setTitle(getResources().getString(R.string.request_quotation));
-        toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
+        toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(), R.color.normalTypo, null));
 
         initItems();
 
@@ -203,15 +195,15 @@ public class RequestQuotationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 step1Text1.setEnabled(false);
                 step1Text2.setEnabled(false);
-                if(!stepCheck){
+                if (!stepCheck) {
                     loanType = "주택담보대출";
 
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"주택담보대출 입니다."));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 1, "주택담보대출 입니다."));
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)"));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 2, "담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)"));
 
                             originStep++;
 
@@ -222,22 +214,22 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             step1Text2.setEnabled(true);
                         }
                     }, 400);
-                }else{
+                } else {
                     loanType = "주택담보대출";
 
-                    updateItem(2,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"주택담보대출 입니다."));
+                    updateItem(2, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 1, "주택담보대출 입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
                     step1Text1.setEnabled(true);
                     step1Text2.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -251,16 +243,16 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 step1Text1.setEnabled(false);
                 step1Text2.setEnabled(false);
 
-                if(!stepCheck){
+                if (!stepCheck) {
                     loanType = "전세자금대출";
 
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"전세자금대출 입니다."));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 1, "전세자금대출 입니다."));
 
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)"));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 2, "담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)"));
 
                             originStep++;
                             step1.setVisibility(View.GONE);
@@ -270,22 +262,22 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             step1Text2.setEnabled(true);
                         }
                     }, 400);
-                }else{
+                } else {
                     loanType = "전세자금대출";
 
-                    updateItem(2,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,1,"전세자금대출 입니다."));
+                    updateItem(2, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 1, "전세자금대출 입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
                     step1Text1.setEnabled(true);
                     step1Text2.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -298,7 +290,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 step2Button.setEnabled(false);
-                startActivityForResult(new Intent(RequestQuotationActivity.this,SelectRegionAptSizeActivity.class),REGION_APT_SIZE_INTENT);
+                startActivityForResult(new Intent(RequestQuotationActivity.this, SelectRegionAptSizeActivity.class), REGION_APT_SIZE_INTENT);
             }
         });
 
@@ -307,66 +299,66 @@ public class RequestQuotationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 step3Button.setEnabled(false);
-                if(!stepCheck){
-                    if(step3Text.getText().length() == 0){
-                        Toast.makeText(getApplicationContext(),"금액을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                if (!stepCheck) {
+                    if (step3Text.getText().length() == 0) {
+                        Toast.makeText(getApplicationContext(), "금액을 입력해주세요.", Toast.LENGTH_SHORT).show();
                         step3Button.setEnabled(true);
-                    }else{
+                    } else {
                         loanAmount = Integer.parseInt(step3Text.getText().toString());
-                        if(loanAmount > aptPrice){
-                            Toast.makeText(getApplicationContext(),"선택하신 아파트의 금액보다 높은 금액을 적으실 수 없습니다.",Toast.LENGTH_SHORT).show();
+                        if (loanAmount > aptPriceForShow) {
+                            Toast.makeText(getApplicationContext(), "대출한도보다 높은 금액을 적으실 수 없습니다.", Toast.LENGTH_SHORT).show();
                             step3Button.setEnabled(true);
-                        }else if(loanAmount == 0){
-                            Toast.makeText(getApplicationContext(),"만원 이상 금액을 적어주세요.",Toast.LENGTH_SHORT).show();
+                        } else if (loanAmount == 0) {
+                            Toast.makeText(getApplicationContext(), "만원 이상 금액을 적어주세요.", Toast.LENGTH_SHORT).show();
                             step3Button.setEnabled(true);
-                        }else{
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,3,CommonClass.formatMoney(loanAmount) + "만원 입니다."));
+                        } else {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 3, CommonClass.formatMoney(loanAmount) + "만원 입니다."));
 
 
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?"));
+                                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 4, "변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?"));
 
                                     originStep++;
                                     step3.setVisibility(View.GONE);
                                     step4.setVisibility(View.VISIBLE);
                                     animateHorizontalProgressBar.setProgress(42);
-                                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                                     step3Button.setEnabled(true);
                                 }
                             }, 400);
                         }
                     }
-                }else{
-                    if(step3Text.getText().length() == 0){
-                        Toast.makeText(getApplicationContext(),"금액을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                } else {
+                    if (step3Text.getText().length() == 0) {
+                        Toast.makeText(getApplicationContext(), "금액을 입력해주세요.", Toast.LENGTH_SHORT).show();
                         step3Button.setEnabled(true);
-                    }else{
+                    } else {
                         loanAmount = Integer.parseInt(step3Text.getText().toString());
 
-                        if(loanAmount > aptPrice){
-                            Toast.makeText(getApplicationContext(),"선택하신 아파트의 금액보다 높은 금액을 적으실 수 없습니다.",Toast.LENGTH_SHORT).show();
+                        if (loanAmount > aptPrice) {
+                            Toast.makeText(getApplicationContext(), "선택하신 아파트의 금액보다 높은 금액을 적으실 수 없습니다.", Toast.LENGTH_SHORT).show();
                             step3Button.setEnabled(true);
-                        }else if(loanAmount == 0){
-                            Toast.makeText(getApplicationContext(),"만원 이상 금액을 적어주세요.",Toast.LENGTH_SHORT).show();
+                        } else if (loanAmount == 0) {
+                            Toast.makeText(getApplicationContext(), "만원 이상 금액을 적어주세요.", Toast.LENGTH_SHORT).show();
                             step3Button.setEnabled(true);
-                        }else{
-                            updateItem(6,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,3,CommonClass.formatMoney(loanAmount) + "만원 입니다."));
+                        } else {
+                            updateItem(6, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 3, CommonClass.formatMoney(loanAmount) + "만원 입니다."));
 
-                            stepCheck =false;
-                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            stepCheck = false;
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
                             stepVisible(originStep);
                             step3Button.setEnabled(true);
 
-                            if(originStep == 3){
+                            if (originStep == 3) {
                                 step3Text.requestFocus();
                                 imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                            }else if(originStep == 7){
+                            } else if (originStep == 7) {
                                 step7Text.requestFocus();
                                 imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
                             }
@@ -383,18 +375,18 @@ public class RequestQuotationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 step4Text1.setEnabled(false);
                 step4Text2.setEnabled(false);
-                //step4Text3.setEnabled(false);
+                step4Text3.setEnabled(false);
 
-                if(!stepCheck){
+                if (!stepCheck) {
                     interestRateType = "변동금리";
 
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "입니다."));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 4, interestRateType + "입니다."));
 
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,5,"대출실행예정일을 알려주세요."));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 5, "대출실행예정일을 알려주세요."));
 
                             originStep++;
                             step4.setVisibility(View.GONE);
@@ -402,26 +394,26 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             animateHorizontalProgressBar.setProgress(56);
                             step4Text1.setEnabled(true);
                             step4Text2.setEnabled(true);
-                            //step4Text3.setEnabled(true);
+                            step4Text3.setEnabled(true);
                         }
                     }, 400);
-                }else{
+                } else {
                     interestRateType = "변동금리";
 
-                    updateItem(8,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "입니다."));
+                    updateItem(8, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 4, interestRateType + "입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
                     step4Text1.setEnabled(true);
                     step4Text2.setEnabled(true);
-                    //step4Text3.setEnabled(true);
+                    step4Text3.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -434,68 +426,17 @@ public class RequestQuotationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 step4Text1.setEnabled(false);
                 step4Text2.setEnabled(false);
-                //step4Text3.setEnabled(false);
-                if(!stepCheck){
-                    interestRateType = "고정금리";
-
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "입니다."));
-
-
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,5,"대출실행예정일을 알려주세요."));
-
-                            originStep++;
-                            step4.setVisibility(View.GONE);
-                            step5.setVisibility(View.VISIBLE);
-                            animateHorizontalProgressBar.setProgress(56);
-                            step4Text1.setEnabled(true);
-                            step4Text2.setEnabled(true);
-                            //step4Text3.setEnabled(true);
-                        }
-                    }, 400);
-                }else{
-                    interestRateType = "고정금리";
-
-                    updateItem(8,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "입니다."));
-
-                    stepCheck =false;
-
-                    stepVisible(originStep);
-                    step4Text1.setEnabled(true);
-                    step4Text2.setEnabled(true);
-                    //step4Text3.setEnabled(true);
-
-                    if(originStep == 3){
-                        step3Text.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
-                        step7Text.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
-                    }
-                }
-            }
-        });
-        /*
-        step4Text3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                step4Text1.setEnabled(false);
-                step4Text2.setEnabled(false);
                 step4Text3.setEnabled(false);
+                if (!stepCheck) {
+                    interestRateType = "고정금리";
 
-                if(!stepCheck){
-                    interestRateType = "없음";
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 4, interestRateType + "입니다."));
 
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "입니다."));
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,5,"대출실행예정일을 알려주세요."));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 5, "대출실행예정일을 알려주세요."));
 
                             originStep++;
                             step4.setVisibility(View.GONE);
@@ -506,23 +447,23 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             step4Text3.setEnabled(true);
                         }
                     }, 400);
-                }else{
-                    interestRateType = "없음";
+                } else {
+                    interestRateType = "고정금리";
 
-                    updateItem(8,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,4,interestRateType + "으로 하겠습니다."));
+                    updateItem(8, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 4, interestRateType + "입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
                     step4Text1.setEnabled(true);
                     step4Text2.setEnabled(true);
                     step4Text3.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -530,47 +471,133 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 }
             }
         });
-        */
+
+        step4Text3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                step4Text1.setEnabled(false);
+                step4Text2.setEnabled(false);
+                step4Text3.setEnabled(false);
+
+                if (!stepCheck) {
+                    interestRateType = "상관없음";
+
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 4, interestRateType + "입니다."));
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 5, "대출실행예정일을 알려주세요."));
+
+                            originStep++;
+                            step4.setVisibility(View.GONE);
+                            step5.setVisibility(View.VISIBLE);
+                            animateHorizontalProgressBar.setProgress(56);
+                            step4Text1.setEnabled(true);
+                            step4Text2.setEnabled(true);
+                            step4Text3.setEnabled(true);
+                        }
+                    }, 400);
+                } else {
+                    interestRateType = "상관없음";
+
+                    updateItem(8, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 4, interestRateType + "으로 하겠습니다."));
+
+                    stepCheck = false;
+
+                    stepVisible(originStep);
+                    step4Text1.setEnabled(true);
+                    step4Text2.setEnabled(true);
+                    step4Text3.setEnabled(true);
+
+                    if (originStep == 3) {
+                        step3Text.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
+                    } else if (originStep == 7) {
+                        step7Text.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
+                    }
+                }
+            }
+        });
+
 
         step5Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 step5Button.setEnabled(false);
 
-                scheduledTime = step5DatePicker.getYear() +"-"+ (int)(step5DatePicker.getMonth()+1) + "-" + step5DatePicker.getDayOfMonth();
-                final String printScheduledTime = step5DatePicker.getYear() +"년 "+ (int)(step5DatePicker.getMonth()+1) + "월 " + step5DatePicker.getDayOfMonth() +"일";
+                scheduledTime = step5DatePicker.getYear() + "-" + (int) (step5DatePicker.getMonth() + 1) + "-" + step5DatePicker.getDayOfMonth();
 
-                if(!stepCheck){
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5,printScheduledTime + "입니다."));
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+                String getTime = sdf.format(date);
+                boolean pastDay = false;
 
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,6,"고객님의 근로형태는 무엇인가요?"));
+                int year = Integer.parseInt(getTime.substring(0, 4));
+                int month = Integer.parseInt(getTime.substring(5, 7));
+                int day = Integer.parseInt(getTime.substring(8, 10));
 
-                            originStep++;
-                            step5.setVisibility(View.GONE);
-                            step6.setVisibility(View.VISIBLE);
-                            animateHorizontalProgressBar.setProgress(70);
-                            step5Button.setEnabled(true);
+                final String printScheduledTime = step5DatePicker.getYear() + "년 " + (int) (step5DatePicker.getMonth() + 1) + "월 " + step5DatePicker.getDayOfMonth() + "일";
+
+                if (year < step5DatePicker.getYear()) {
+                    pastDay = false;
+                } else if (year == step5DatePicker.getYear()) {
+                    if (month < step5DatePicker.getMonth() + 1) {
+                        pastDay = false;
+                    } else if (month == step5DatePicker.getMonth() + 1) {
+                        if (day <= step5DatePicker.getDayOfMonth()) {
+                            pastDay = false;
+                        } else {
+                            pastDay = true;
                         }
-                    }, 400);
-                }else{
-                    updateItem(10,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,5, printScheduledTime + "입니다."));
+                    } else {
+                        pastDay = true;
+                    }
+                } else {
+                    pastDay = true;
+                }
 
-                    stepCheck =false;
 
-                    stepVisible(originStep);
+                if (pastDay) {
+                    Toast.makeText(getApplicationContext(), "지난 일을 대출실행예정일로 잡으실 수 없습니다.", Toast.LENGTH_SHORT).show();
                     step5Button.setEnabled(true);
+                } else {
+                    if (!stepCheck) {
+                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 5, printScheduledTime + "입니다."));
 
-                    if(originStep == 3){
-                        step3Text.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
-                        step7Text.requestFocus();
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 6, "고객님의 근로형태는 무엇인가요?"));
+
+                                originStep++;
+                                step5.setVisibility(View.GONE);
+                                step6.setVisibility(View.VISIBLE);
+                                animateHorizontalProgressBar.setProgress(70);
+                                step5Button.setEnabled(true);
+                            }
+                        }, 400);
+                    } else {
+                        updateItem(10, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 5, printScheduledTime + "입니다."));
+
+                        stepCheck = false;
+
+                        stepVisible(originStep);
+                        step5Button.setEnabled(true);
+
+                        if (originStep == 3) {
+                            step3Text.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
+                        } else if (originStep == 7) {
+                            step7Text.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
+                        }
                     }
                 }
             }
@@ -584,16 +611,16 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 step6Text2.setEnabled(false);
                 step6Text3.setEnabled(false);
 
-                if(!stepCheck){
+                if (!stepCheck) {
                     jobType = "직장근로자";
 
 
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다."));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 6, jobType + "입니다."));
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요."));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 7, "마지막으로 전화번호를 입력해주세요."));
 
                             originStep++;
                             step6.setVisibility(View.GONE);
@@ -608,12 +635,12 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
 
-                }else{
+                } else {
                     jobType = "직장근로자";
 
-                    updateItem(12,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다."));
+                    updateItem(12, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 6, jobType + "입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
 
@@ -621,11 +648,11 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     step6Text2.setEnabled(true);
                     step6Text3.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -640,16 +667,16 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 step6Text2.setEnabled(false);
                 step6Text3.setEnabled(false);
 
-                if(!stepCheck){
+                if (!stepCheck) {
                     jobType = "개인사업자";
 
 
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다."));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 6, jobType + "입니다."));
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요."));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 7, "마지막으로 전화번호를 입력해주세요."));
 
                             originStep++;
                             step6.setVisibility(View.GONE);
@@ -663,12 +690,12 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             step6Text3.setEnabled(true);
                         }
                     }, 400);
-                }else{
+                } else {
                     jobType = "개인사업자";
 
-                    updateItem(12,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다."));
+                    updateItem(12, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 6, jobType + "입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
 
@@ -676,11 +703,11 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     step6Text2.setEnabled(true);
                     step6Text3.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -695,16 +722,16 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 step6Text2.setEnabled(false);
                 step6Text3.setEnabled(false);
 
-                if(!stepCheck){
+                if (!stepCheck) {
                     jobType = "프리랜서";
 
 
-                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다."));
+                    addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 6, jobType + "입니다."));
 
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요."));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 7, "마지막으로 전화번호를 입력해주세요."));
 
                             originStep++;
                             step6.setVisibility(View.GONE);
@@ -719,13 +746,13 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 400);
 
-                }else{
+                } else {
                     jobType = "프리랜서";
 
 
-                    updateItem(12,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,6,jobType + "입니다."));
+                    updateItem(12, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 6, jobType + "입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
 
@@ -733,11 +760,11 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     step6Text2.setEnabled(true);
                     step6Text3.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -752,54 +779,54 @@ public class RequestQuotationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 step7Button.setEnabled(false);
 
-                if(step7Text.getText().length() == 10 ||step7Text.getText().length() == 11){
-                    if(!stepCheck){
+                if (step7Text.getText().length() == 10 || step7Text.getText().length() == 11) {
+                    if (!stepCheck) {
                         telephone = step7Text.getText().toString();
 
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,7,CommonClass.formatPhoneNumber(telephone) + "입니다."));
+                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 7, CommonClass.formatPhoneNumber(telephone) + "입니다."));
 
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
 
-                                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,8,"수고하셨습니다. 모든 정보가 맞습니까?"));
+                                addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 8, "수고하셨습니다. 모든 정보가 맞습니까?"));
 
                                 originStep++;
                                 step7.setVisibility(View.GONE);
                                 step8.setVisibility(View.VISIBLE);
                                 step7Button.setEnabled(true);
                                 animateHorizontalProgressBar.setProgress(100);
-                                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                                 step7Button.setEnabled(true);
                             }
                         }, 400);
-                    }else{
+                    } else {
                         telephone = step7Text.getText().toString();
 
-                        updateItem(14,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,7,CommonClass.formatPhoneNumber(telephone) + "입니다."));
+                        updateItem(14, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 7, CommonClass.formatPhoneNumber(telephone) + "입니다."));
 
-                        stepCheck =false;
+                        stepCheck = false;
 
                         stepVisible(originStep);
                         step7Button.setEnabled(true);
 
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                        if(originStep == 3){
+                        if (originStep == 3) {
                             step3Text.requestFocus();
                             imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                        }else if(originStep == 7){
+                        } else if (originStep == 7) {
                             step7Text.requestFocus();
                             imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
                         }
                     }
 
                     step7Text.setText("");
-                }else{
+                } else {
                     step7Button.setEnabled(true);
-                    Toast.makeText(getApplicationContext(),"전화번호를 확인 해주세요.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "전화번호를 확인 해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -813,26 +840,24 @@ public class RequestQuotationActivity extends AppCompatActivity {
         });
     }
 
-    public void stepFix(int step){
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    public void stepFix(int step) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         stepVisible(step);
         stepCheck = true;
-        fixStep = step;
 
-
-        if(step == 3){
+        if (step == 3) {
             step3Text.requestFocus();
             imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-        }else if(step == 7){
+        } else if (step == 7) {
             step7Text.requestFocus();
             imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
         }
     }
 
 
-    public void stepVisible(int step){
-        if(step == 1){
+    public void stepVisible(int step) {
+        if (step == 1) {
             step1.setVisibility(View.VISIBLE);
             step2.setVisibility(View.GONE);
             step3.setVisibility(View.GONE);
@@ -841,7 +866,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             step6.setVisibility(View.GONE);
             step7.setVisibility(View.GONE);
             step8.setVisibility(View.GONE);
-        }else if(step ==2){
+        } else if (step == 2) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.VISIBLE);
             step3.setVisibility(View.GONE);
@@ -850,7 +875,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             step6.setVisibility(View.GONE);
             step7.setVisibility(View.GONE);
             step8.setVisibility(View.GONE);
-        }else if(step ==3){
+        } else if (step == 3) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.GONE);
             step3.setVisibility(View.VISIBLE);
@@ -859,7 +884,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             step6.setVisibility(View.GONE);
             step7.setVisibility(View.GONE);
             step8.setVisibility(View.GONE);
-        }else if(step ==4){
+        } else if (step == 4) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.GONE);
             step3.setVisibility(View.GONE);
@@ -868,7 +893,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             step6.setVisibility(View.GONE);
             step7.setVisibility(View.GONE);
             step8.setVisibility(View.GONE);
-        }else if(step ==5){
+        } else if (step == 5) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.GONE);
             step3.setVisibility(View.GONE);
@@ -877,7 +902,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             step6.setVisibility(View.GONE);
             step7.setVisibility(View.GONE);
             step8.setVisibility(View.GONE);
-        }else if(step ==6){
+        } else if (step == 6) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.GONE);
             step3.setVisibility(View.GONE);
@@ -886,7 +911,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             step6.setVisibility(View.VISIBLE);
             step7.setVisibility(View.GONE);
             step8.setVisibility(View.GONE);
-        }else if(step ==7){
+        } else if (step == 7) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.GONE);
             step3.setVisibility(View.GONE);
@@ -895,7 +920,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             step6.setVisibility(View.GONE);
             step7.setVisibility(View.VISIBLE);
             step8.setVisibility(View.GONE);
-        }else if(step ==8){
+        } else if (step == 8) {
             step1.setVisibility(View.GONE);
             step2.setVisibility(View.GONE);
             step3.setVisibility(View.GONE);
@@ -907,30 +932,23 @@ public class RequestQuotationActivity extends AppCompatActivity {
         }
     }
 
-    public void stepQuotation(int step){
-        if(step == 1){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"먼저, 어떤 대출을 받을려고 하시나요??\n(아래에서 선택해주세요.)"));
-        }else if(step ==2){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,2,"담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)"));
-
-        }else if(step ==3){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.(대출한도는 + "+ aptPrice +"만원)"));
-
-        }else if(step ==4){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,4,"변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?"));
-
-        }else if(step ==5){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,5,"대출실행예정일을 알려주세요."));
-
-        }else if(step ==6){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,6,"고객님의 근로형태는 무엇인가요?"));
-
-        }else if(step ==7){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,7,"마지막으로 전화번호를 입력해주세요."));
-
-        }else if(step ==8){
-            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,8,"모든 정보가 맞습니까?"));
-
+    public void stepQuotation(int step) {
+        if (step == 1) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 1, "먼저, 어떤 대출을 받을려고 하시나요??\n(아래에서 선택해주세요.)"));
+        } else if (step == 2) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 2, "담보할 아파트를 선택해주세요. (전세로 얻을 아파트를 선택해주세요.)"));
+        } else if (step == 3) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 3, "필요하신 대출금액을 입력해주세요.(대출한도는 + " + aptPrice + "만원)"));
+        } else if (step == 4) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 4, "변동금리와 고정금리 중 선호하시는 금리는 무엇인가요?"));
+        } else if (step == 5) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 5, "대출실행예정일을 알려주세요."));
+        } else if (step == 6) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 6, "고객님의 근로형태는 무엇인가요?"));
+        } else if (step == 7) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 7, "마지막으로 전화번호를 입력해주세요."));
+        } else if (step == 8) {
+            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 8, "모든 정보가 맞습니까?"));
         }
     }
 
@@ -946,27 +964,27 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 aptName = data.getStringExtra("apt");
                 aptSize = data.getStringExtra("aptSize");
 
-                aptSize = aptSize.replace("\n","");
+                aptSize = aptSize.replace("\n", "");
 
-                StringTokenizer stringTokenizer = new StringTokenizer(aptSize,"/");
+                StringTokenizer stringTokenizer = new StringTokenizer(aptSize, "/");
 
                 aptSizeExclusive = stringTokenizer.nextToken();
                 String tmp = stringTokenizer.nextToken();
 
-                stringTokenizer = new StringTokenizer(tmp,"(");
+                stringTokenizer = new StringTokenizer(tmp, "(");
 
                 aptSizeSupply = stringTokenizer.nextToken();
                 tmp = stringTokenizer.nextToken();
-                aptPrice  = Integer.parseInt(tmp.substring(0,tmp.length()-3));
-                aptPriceForShow = aptPrice *7 / 10;
+                aptPrice = Integer.parseInt(tmp.substring(0, tmp.length() - 3));
+                aptPriceForShow = aptPrice * 7 / 10;
 
 
-                if(!stepCheck){
+                if (!stepCheck) {
                     step2Button.setEnabled(false);
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,2,region1 + " " + region2 + " " + region3 + "\n" + aptName + "\n" + aptSizeExclusive+ "/" +aptSizeSupply + "입니다."));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 2, region1 + " " + region2 + " " + region3 + "\n" + aptName + "\n" + aptSizeExclusive + "/" + aptSizeSupply + "입니다."));
                         }
                     }, 500);
 
@@ -974,7 +992,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.\n(대출한도 "+ CommonClass.formatMoney(aptPriceForShow) +"만원)"));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 3, "필요하신 대출금액을 입력해주세요.\n(대출한도 " + CommonClass.formatMoney(aptPriceForShow) + "만원)"));
 
                             originStep++;
                             step2.setVisibility(View.GONE);
@@ -988,21 +1006,21 @@ public class RequestQuotationActivity extends AppCompatActivity {
                         }
                     }, 700);
 
-                }else{
-                    updateItem(5,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,3,"필요하신 대출금액을 입력해주세요.\n(대출한도 "+ CommonClass.formatMoney(aptPriceForShow) +"만원)"));
+                } else {
+                    updateItem(5, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 3, "필요하신 대출금액을 입력해주세요.\n(대출한도 " + CommonClass.formatMoney(aptPriceForShow) + "만원)"));
 
-                    updateItem(4,new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING,2,region1 + " " + region2 + " " + region3 + "\n" + aptName + "\n" + aptSizeExclusive+ "/" +aptSizeSupply + "입니다."));
+                    updateItem(4, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 2, region1 + " " + region2 + " " + region3 + "\n" + aptName + "\n" + aptSizeExclusive + "/" + aptSizeSupply + "입니다."));
 
-                    stepCheck =false;
+                    stepCheck = false;
 
                     stepVisible(originStep);
                     step2Button.setEnabled(true);
 
-                    if(originStep == 3){
+                    if (originStep == 3) {
                         step3Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step3Text, InputMethodManager.SHOW_FORCED);
-                    }else if(originStep == 7){
+                    } else if (originStep == 7) {
                         step7Text.requestFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(step7Text, InputMethodManager.SHOW_FORCED);
@@ -1011,11 +1029,11 @@ public class RequestQuotationActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(RequestQuotationActivity.this, "REQUEST_ACT가 아님", Toast.LENGTH_SHORT).show();
             }
-        }else if(resultCode == RESULT_CANCELED){
+        } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == REGION_APT_SIZE_INTENT) {
                 step2Button.setEnabled(true);
             }
-        }else{
+        } else {
             return;
         }
     }
@@ -1038,24 +1056,24 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
             JSONObject jsonObject = null;
 
-            try{
+            try {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 RequestBody postBody = new FormBody.Builder()
                         .add("customerId", CommonClass.getUUID())
-                        .add("loanType",loanType)
-                        .add("loanAmount",String.valueOf(loanAmount))
-                        .add("scheduledTime",scheduledTime)
-                        .add("interestRateType",interestRateType)
-                        .add("jobType",jobType)
-                        .add("region1",region1)
-                        .add("region2",region2)
-                        .add("region3",region3)
-                        .add("aptName",aptName)
-                        .add("phoneNumber",telephone)
-                        .add("aptPrice",String.valueOf(aptPrice))
-                        .add("aptSizeSupply",aptSizeSupply)
-                        .add("aptSizeExclusive",aptSizeExclusive)
+                        .add("loanType", loanType)
+                        .add("loanAmount", String.valueOf(loanAmount))
+                        .add("scheduledTime", scheduledTime)
+                        .add("interestRateType", interestRateType)
+                        .add("jobType", jobType)
+                        .add("region1", region1)
+                        .add("region2", region2)
+                        .add("region3", region3)
+                        .add("aptName", aptName)
+                        .add("phoneNumber", telephone)
+                        .add("aptPrice", String.valueOf(aptPrice))
+                        .add("aptSizeSupply", aptSizeSupply)
+                        .add("aptSizeExclusive", aptSizeExclusive)
                         .build();
 
                 Request request = new Request.Builder()
@@ -1070,29 +1088,29 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
                 String returedJSON;
 
-                if(flag){ //성공했다면
+                if (flag) { //성공했다면
                     returedJSON = response.body().string();
 
                     try {
                         jsonObject = new JSONObject(returedJSON);
-                    }catch(JSONException jsone){
+                    } catch (JSONException jsone) {
                         Log.e("json에러", jsone.toString());
                     }
-                }else{
+                } else {
                     return 2;
                 }
-            }catch (UnknownHostException une) {
+            } catch (UnknownHostException une) {
             } catch (UnsupportedEncodingException uee) {
             } catch (Exception e) {
-            } finally{
-                if(response != null) {
+            } finally {
+                if (response != null) {
                     response.close(); //3.* 이상에서는 반드시 닫아 준다.
                 }
             }
 
-            if(jsonObject != null){
+            if (jsonObject != null) {
                 try {
-                    if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
+                    if (jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))) {
                         //JSONArray data1= jsonObject1.getJSONArray("data");
                         //ArrayList<JSONArray> tmp = new ArrayList();
                         //tmp.add(data1);
@@ -1102,7 +1120,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     e.printStackTrace();
                     return 3;
                 }
-            }else{
+            } else {
                 return 1;
             }
 
@@ -1111,13 +1129,13 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 0){
-                Toast.makeText(getApplicationContext(),"견적 요청을 등록하였습니다.",Toast.LENGTH_SHORT).show();
+            if (result == 0) {
+                Toast.makeText(getApplicationContext(), "견적 요청을 등록하였습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
-                intent.putExtra("write",true);
+                intent.putExtra("write", true);
                 setResult(RESULT_OK, intent);
                 finish();
-            }else{
+            } else {
 
             }
             step8Button.setEnabled(true);
@@ -1132,7 +1150,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
     public void onBackPressed() {
         CancelDialog cancelDialog = new CancelDialog(RequestQuotationActivity.this);
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(new View(this).getWindowToken(), 0);
         cancelDialog.show();
     }
@@ -1143,7 +1161,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             CancelDialog cancelDialog = new CancelDialog(RequestQuotationActivity.this);
 
 
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(new View(this).getWindowToken(), 0);
             cancelDialog.show();
         }
@@ -1155,6 +1173,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
         private Button no;
         private Button yes;
+
         public CancelDialog(@NonNull Context context) {
             super(context);
         }
@@ -1165,8 +1184,8 @@ public class RequestQuotationActivity extends AppCompatActivity {
 
             setContentView(R.layout.cancel_custom_dialog);
 
-            yes = (Button)findViewById(R.id.yes);
-            no = (Button)findViewById(R.id.no);
+            yes = (Button) findViewById(R.id.yes);
+            no = (Button) findViewById(R.id.no);
 
             no.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1187,26 +1206,26 @@ public class RequestQuotationActivity extends AppCompatActivity {
         }
     }
 
-    public void addItem(RequestQuotationValueObject requestQuotationValueObject){
+    public void addItem(RequestQuotationValueObject requestQuotationValueObject) {
         requestQuotationRecyclerViewAdapter.addItem(requestQuotationValueObject);
         recyclerView.smoothScrollToPosition(requestQuotationRecyclerViewAdapter.getItemCount());
     }
 
-    public void updateItem(int index,RequestQuotationValueObject requestQuotationValueObject){
-        requestQuotationRecyclerViewAdapter.updateItem(index,requestQuotationValueObject);
+    public void updateItem(int index, RequestQuotationValueObject requestQuotationValueObject) {
+        requestQuotationRecyclerViewAdapter.updateItem(index, requestQuotationValueObject);
         recyclerView.smoothScrollToPosition(requestQuotationRecyclerViewAdapter.getItemCount());
     }
 
-    public void initItems(){
+    public void initItems() {
         ArrayList<RequestQuotationValueObject> tmp = new ArrayList<>();
 
-        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"반갑습니다 :)\n 지금부터 최저 금리 대출을 확인하기 위해 꼭 필요한 7가지 사항을 알려주세요."));
-        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING,1,"먼저, 어떤 대출을 받을려고 하시나요?? (아래에서 선택해주세요.)"));
+        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 1, "반갑습니다 :)\n 지금부터 최저 금리 대출을 확인하기 위해 꼭 필요한 7가지 사항을 알려주세요."));
+        tmp.add(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 1, "먼저, 어떤 대출을 받을려고 하시나요?? (아래에서 선택해주세요.)"));
         requestQuotationRecyclerViewAdapter.initItem(tmp);
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
 
         if (requestQuotation.getStatus() == AsyncTask.Status.RUNNING) {

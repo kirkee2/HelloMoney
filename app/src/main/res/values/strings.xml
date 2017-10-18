@@ -86,6 +86,7 @@
     <string name="step_content4">심사가 진행 중입니다.</string>
     <string name="step_content5">승인이 완료되었습니다.</string>
     <string name="step_content6">대출이 실행되었습니다.</string>
+    <string name="days">견적은 3일간 유효합니다.</string>
 
 
     <string name="fix">수정</string>

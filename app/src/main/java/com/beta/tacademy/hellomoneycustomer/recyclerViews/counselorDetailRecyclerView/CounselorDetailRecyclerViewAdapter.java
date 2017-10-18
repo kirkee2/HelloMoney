@@ -165,10 +165,10 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((CounselorDetailViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(HelloMoneyCustomerApplication.getInstance(), PostscriptDetailActivity.class);
+                    Intent intent = new Intent(activity, PostscriptDetailActivity.class);
                     intent.putExtra("id",valueObject.getId());
                     intent.putExtra("goCounselor",false);
-                    HelloMoneyCustomerApplication.getInstance().startActivity(intent);
+                    activity.startActivity(intent);
                     //Toast.makeText(HelloMoneyCustomerApplication.getInstance(),"id = " +valueObject.getId(),Toast.LENGTH_SHORT).show();
                 }
             });
