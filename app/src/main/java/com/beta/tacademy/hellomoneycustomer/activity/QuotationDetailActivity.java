@@ -22,10 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.Connect;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailHeaderObject;
@@ -191,20 +189,6 @@ public class QuotationDetailActivity extends AppCompatActivity {
                         return 3;
                     }
                 } catch (JSONException e) {
-                    Connect con = new Connect("https://hooks.slack.com/services/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");
-
-                    JSONObject json = null;
-
-                    json = new JSONObject();
-
-                    try {
-                        json.put("text", e.toString());
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-
-                    con.postString(con.getURL(), json);
-
                     return 5;
                 }
             }else{

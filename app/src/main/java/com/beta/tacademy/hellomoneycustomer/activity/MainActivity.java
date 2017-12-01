@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.util.SharedReferenceUtil;
 import com.beta.tacademy.hellomoneycustomer.module.listener.EndlessScrollListener;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
@@ -40,12 +41,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements EndlessScrollListener{
-
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -65,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
     private int completedCount;
     private int position;
     private int endlessPosition;
-
 
     private PostscriptList postscriptList;
     private MyQuotationOngoingDoneCount myQuotationOngoingDoneCount;
@@ -122,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
 
         //ActionBarDrawerToggle
 
-
         naviList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,new String[]{getString(R.string.how_to),getString(R.string.faq),getString(R.string.contact)}));
         naviList.setOnItemClickListener(new DrawerItemClickListener());
         naviList.setClickable(false);
@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                 Intent intent = new Intent(MainActivity.this,MyQuotationActivity.class);
                 intent.putExtra("page",0);
                 intent.putExtra("recyclerViewPosition", linearLayoutManager.findFirstCompletelyVisibleItemPosition()+1);
+
                 startActivityForResult(intent,1);
 
                 drawer.closeDrawer(naviList);
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_request_quotation_url),CommonClass.getUUID(),"true"))
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_url), SharedReferenceUtil.getUUID(),"true"))
                         .get()
                         .build();
 
@@ -358,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_request_quotation_url),CommonClass.getUUID(),"true"))
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_url),SharedReferenceUtil.getUUID(),"true"))
                         .get()
                         .build();
 
@@ -447,7 +448,7 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_request_quotation_ongoing_done_url), CommonClass.getUUID()))
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_ongoing_done_url), SharedReferenceUtil.getUUID()))
                         .get()
                         .build();
 
@@ -589,6 +590,7 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                 getSupportActionBar().setDisplayShowHomeEnabled(true);
 
                 toggle = new ActionBarDrawerToggle(activity, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                drawer.addDrawerListener(toggle);
                 toggle.syncState();
 
                 recyclerViewPosition = 0;
@@ -729,14 +731,12 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
                     update(data.getIntExtra("position",0));
                 }
             }
-        }else{
-
         }
     }
 
+
     @Override
     protected void onDestroy(){
-        super.onDestroy();
         if (postscriptList.getStatus() == AsyncTask.Status.RUNNING) {
             postscriptList.cancel(true);
         }
@@ -749,8 +749,12 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
             myQuotationList.cancel(true);
         }
 
-        if (postscriptListUpdate.getStatus() == AsyncTask.Status.RUNNING) {
+       if (postscriptListUpdate.getStatus() == AsyncTask.Status.RUNNING) {
             postscriptListUpdate.cancel(true);
         }
+
+        mainRecyclerViewAdapter.clear();
+
+        super.onDestroy();
     }
 }

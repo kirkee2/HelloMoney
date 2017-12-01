@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.util.SharedReferenceUtil;
+import com.beta.tacademy.hellomoneycustomer.common.util.StringUtil;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationValueObject;
@@ -58,8 +60,6 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private AnimateHorizontalProgressBar animateHorizontalProgressBar;
     private int originStep;
     private boolean stepCheck;
-    private Activity activity;
-
 
     private String loanType;
     private int loanAmount;
@@ -77,14 +77,14 @@ public class RequestQuotationActivity extends AppCompatActivity {
     private int aptPriceForShow;
     private String telephone;
 
-    private LinearLayout step1;
-    private LinearLayout step2;
+    private ConstraintLayout step1;
+    private ConstraintLayout step2;
     private LinearLayout step3;
-    private LinearLayout step4;
-    private LinearLayout step5;
-    private LinearLayout step6;
+    private ConstraintLayout step4;
+    private ConstraintLayout step5;
+    private ConstraintLayout step6;
     private LinearLayout step7;
-    private LinearLayout step8;
+    private ConstraintLayout step8;
 
     private TextView step1Text1;
     private TextView step1Text2;
@@ -118,14 +118,14 @@ public class RequestQuotationActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         animateHorizontalProgressBar = (AnimateHorizontalProgressBar) findViewById(R.id.animate_progress_bar);
 
-        step1 = (LinearLayout) findViewById(R.id.step1);
-        step2 = (LinearLayout) findViewById(R.id.step2);
+        step1 = (ConstraintLayout) findViewById(R.id.step1);
+        step2 = (ConstraintLayout) findViewById(R.id.step2);
         step3 = (LinearLayout) findViewById(R.id.step3);
-        step4 = (LinearLayout) findViewById(R.id.step4);
-        step5 = (LinearLayout) findViewById(R.id.step5);
-        step6 = (LinearLayout) findViewById(R.id.step6);
+        step4 = (ConstraintLayout) findViewById(R.id.step4);
+        step5 = (ConstraintLayout) findViewById(R.id.step5);
+        step6 = (ConstraintLayout) findViewById(R.id.step6);
         step7 = (LinearLayout) findViewById(R.id.step7);
-        step8 = (LinearLayout) findViewById(R.id.step8);
+        step8 = (ConstraintLayout) findViewById(R.id.step8);
 
         step1Text1 = (TextView) findViewById(R.id.step1Text1);
         step1Text2 = (TextView) findViewById(R.id.step1Text2);
@@ -312,7 +312,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "만원 이상 금액을 적어주세요.", Toast.LENGTH_SHORT).show();
                             step3Button.setEnabled(true);
                         } else {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 3, CommonClass.formatMoney(loanAmount) + "만원 입니다."));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 3, StringUtil.formatMoney(loanAmount) + "만원 입니다."));
 
 
                             handler.postDelayed(new Runnable() {
@@ -346,7 +346,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "만원 이상 금액을 적어주세요.", Toast.LENGTH_SHORT).show();
                             step3Button.setEnabled(true);
                         } else {
-                            updateItem(6, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 3, CommonClass.formatMoney(loanAmount) + "만원 입니다."));
+                            updateItem(6, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 3, StringUtil.formatMoney(loanAmount) + "만원 입니다."));
 
                             stepCheck = false;
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -783,7 +783,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     if (!stepCheck) {
                         telephone = step7Text.getText().toString();
 
-                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 7, CommonClass.formatPhoneNumber(telephone) + "입니다."));
+                        addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 7, StringUtil.formatPhoneNumber(telephone) + "입니다."));
 
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -804,7 +804,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     } else {
                         telephone = step7Text.getText().toString();
 
-                        updateItem(14, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 7, CommonClass.formatPhoneNumber(telephone) + "입니다."));
+                        updateItem(14, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 7, StringUtil.formatPhoneNumber(telephone) + "입니다."));
 
                         stepCheck = false;
 
@@ -976,7 +976,12 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 aptSizeSupply = stringTokenizer.nextToken();
                 tmp = stringTokenizer.nextToken();
                 aptPrice = Integer.parseInt(tmp.substring(0, tmp.length() - 3));
-                aptPriceForShow = aptPrice * 7 / 10;
+
+                if("전세자금대출".equals(loanType)){
+                    aptPriceForShow = aptPrice;
+                }else{
+                    aptPriceForShow = aptPrice * 7 / 10;
+                }
 
 
                 if (!stepCheck) {
@@ -992,7 +997,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 3, "필요하신 대출금액을 입력해주세요.\n(대출한도 " + CommonClass.formatMoney(aptPriceForShow) + "만원)"));
+                            addItem(new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 3, "필요하신 대출금액을 입력해주세요.\n(대출한도 " + StringUtil.formatMoney(aptPriceForShow) + "만원)"));
 
                             originStep++;
                             step2.setVisibility(View.GONE);
@@ -1007,7 +1012,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                     }, 700);
 
                 } else {
-                    updateItem(5, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 3, "필요하신 대출금액을 입력해주세요.\n(대출한도 " + CommonClass.formatMoney(aptPriceForShow) + "만원)"));
+                    updateItem(5, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.SYSTEM_CHATTING, 3, "필요하신 대출금액을 입력해주세요.\n(대출한도 " + StringUtil.formatMoney(aptPriceForShow) + "만원)"));
 
                     updateItem(4, new RequestQuotationValueObject(RequestQuotationRecyclerViewAdapter.MY_CHATTING, 2, region1 + " " + region2 + " " + region3 + "\n" + aptName + "\n" + aptSizeExclusive + "/" + aptSizeSupply + "입니다."));
 
@@ -1060,7 +1065,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 RequestBody postBody = new FormBody.Builder()
-                        .add("customerId", CommonClass.getUUID())
+                        .add("customerId", SharedReferenceUtil.getUUID())
                         .add("loanType", loanType)
                         .add("loanAmount", String.valueOf(loanAmount))
                         .add("scheduledTime", scheduledTime)
@@ -1130,6 +1135,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             if (result == 0) {
+                Log.e("asd",SharedReferenceUtil.getUUID() + " " + loanType + " " + String.valueOf(loanAmount)  + " " + scheduledTime + " " + interestRateType  + " " + jobType + " " + region1 + " " + region2 + " " + region3 + " " + aptName + " " + telephone + " " +  String.valueOf(aptPrice) + " " +  aptSizeSupply + " " +  aptSizeExclusive);
                 Toast.makeText(getApplicationContext(), "견적 요청을 등록하였습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.putExtra("write", true);
@@ -1164,6 +1170,7 @@ public class RequestQuotationActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(new View(this).getWindowToken(), 0);
             cancelDialog.show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

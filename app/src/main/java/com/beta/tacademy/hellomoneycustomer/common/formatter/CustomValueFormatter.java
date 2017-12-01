@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.common;
+package com.beta.tacademy.hellomoneycustomer.common.formatter;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IValueFormatter;

@@ -4,9 +4,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 
-/**
- * Created by kirkee on 2017. 6. 8..
- */
 
 public class OkHttpInitSingtonManager {
     private static OkHttpClient okHttpClient;

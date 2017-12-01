@@ -2,7 +2,7 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecycl
 
 import android.widget.ArrayAdapter;
 
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.util.TimeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,7 +65,7 @@ public class QuotationDetailHeaderObject {
         this.photo = photo;
         this.bank = bank;
         this.agentId = agentId;
-        this.leftSecond = CommonClass.timeLeftSecondParsing(leftTime);
+        this.leftSecond = TimeUtil.timeLeftSecondParsing(leftTime);
     }
 
     public int getId() {

@@ -46,30 +46,30 @@
     <string name="hello_money_email">help@percent.co.kr</string>
     <string name="operation_time">운영시간</string>
     <string name="hello_money_operation_time">평일 10:00 ~ 19:00</string>
-    <string name="check_id_url">http://13.124.127.93:3000/clients/customers/%s</string>
-    <string name="registered_id_url">http://13.124.127.93:3000/clients/customers</string>
-    <string name="my_request_quotation_url">http://13.124.127.93:3000/clients/requests?customerId=%1$s&amp;&amp;exceptCompletedRequest=%2$s&amp;limitCount=3</string>
-    <string name="my_request_quotation_no_limit_url">http://13.124.127.93:3000/clients/requests?customerId=%1$s&amp;&amp;exceptCompletedRequest=%2$s</string>
-    <string name="request_quotation_url">http://13.124.127.93:3000/clients/requests</string>
-    <string name="my_request_quotation_ongoing_done_url">http://13.124.127.93:3000/clients/requests/calculate?customerId=%s</string>
-    <string name="get_post_script_url">http://13.124.127.93:3000/clients/reviews?page=%s&amp;count=30</string>
-    <string name="my_quotation_list_url">http://13.124.127.93:3000/clients/requests/%s</string>
-    <string name="quotation_detail_counselor_feedback_url">http://13.124.127.93:3000/clients/estimates?requestId=%s</string>
-    <string name="my_quotation_detail_url">http://13.124.127.93:3000/clients/requests/%s</string>
-    <string name="my_quotation_feedback_detail_url">http://13.124.127.93:3000/clients/estimates/%s</string>
-    <string name="request_counsel_url">http://13.124.127.93:3000/clients/requests/%s</string>
-    <string name="write_post_script_url">http://13.124.127.93:3000/clients/reviews</string>
-    <string name="detail_counselor_url">http://13.124.127.93:3000/clients/agents/%s</string>
-    <string name="detail_counselor_post_script_list_url">http://13.124.127.93:3000/clients/agents/%s/reviews</string>
-    <string name="request_region1_url">http://13.124.127.93:3000/clients/apts/regions1/</string>
-    <string name="request_region2_url">http://13.124.127.93:3000/clients/apts/regions1/%s/regions2</string>
-    <string name="request_region3_url">http://13.124.127.93:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3</string>
-    <string name="request_apt_url">http://13.124.127.93:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3/%3$s/aptNames</string>
-    <string name="request_apt_size_url">http://13.124.127.93:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3/%3$s/aptNames/%4$s</string>
-    <string name="faq_url">http://13.124.127.93:3000/commons/faqs</string>
-    <string name="post_script_interest_url">http://13.124.127.93:3000/clients/reviews/collected/%s</string>
-    <string name="post_script_detail_url">http://13.124.127.93:3000/clients/reviews/%s</string>
-    <string name="selected_feedback_detail_url">http://13.124.127.93:3000/clients/reviews/agents/%s</string>
+    <string name="check_id_url">http://52.78.186.37:3000/clients/customers/%s</string>
+    <string name="registered_id_url">http://52.78.186.37:3000/clients/customers</string>
+    <string name="my_request_quotation_url">http://52.78.186.37:3000/clients/requests?customerId=%1$s&amp;&amp;exceptCompletedRequest=%2$s&amp;limitCount=3</string>
+    <string name="my_request_quotation_no_limit_url">http://52.78.186.37:3000/clients/requests?customerId=%1$s&amp;&amp;exceptCompletedRequest=%2$s</string>
+    <string name="request_quotation_url">http://52.78.186.37:3000/clients/requests</string>
+    <string name="my_request_quotation_ongoing_done_url">http://52.78.186.37:3000/clients/requests/calculate?customerId=%s</string>
+    <string name="get_post_script_url">http://52.78.186.37:3000/clients/reviews?page=%s&amp;count=30</string>
+    <string name="my_quotation_list_url">http://52.78.186.37:3000/clients/requests/%s</string>
+    <string name="quotation_detail_counselor_feedback_url">http://52.78.186.37:3000/clients/estimates?requestId=%s</string>
+    <string name="my_quotation_detail_url">http://52.78.186.37:3000/clients/requests/%s</string>
+    <string name="my_quotation_feedback_detail_url">http://52.78.186.37:3000/clients/estimates/%s</string>
+    <string name="request_counsel_url">http://52.78.186.37:3000/clients/requests/%s</string>
+    <string name="write_post_script_url">http://52.78.186.37:3000/clients/reviews</string>
+    <string name="detail_counselor_url">http://52.78.186.37:3000/clients/agents/%s</string>
+    <string name="detail_counselor_post_script_list_url">http://52.78.186.37:3000/clients/agents/%s/reviews</string>
+    <string name="request_region1_url">http://52.78.186.37:3000/clients/apts/regions1/</string>
+    <string name="request_region2_url">http://52.78.186.37:3000/clients/apts/regions1/%s/regions2</string>
+    <string name="request_region3_url">http://52.78.186.37:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3</string>
+    <string name="request_apt_url">http://52.78.186.37:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3/%3$s/aptNames</string>
+    <string name="request_apt_size_url">http://52.78.186.37:3000/clients/apts/regions1/%1$s/regions2/%2$s/regions3/%3$s/aptNames/%4$s</string>
+    <string name="faq_url">http://52.78.186.37:3000/commons/faqs</string>
+    <string name="post_script_interest_url">http://52.78.186.37:3000/clients/reviews/collected/%s</string>
+    <string name="post_script_detail_url">http://52.78.186.37:3000/clients/reviews/%s</string>
+    <string name="selected_feedback_detail_url">http://52.78.186.37:3000/clients/reviews/agents/%s</string>
     <string name="url_success">SUCCESS</string>
     <string name="url_no_data">NO_DATA</string>
     <string name="url_message">msg</string>
@@ -87,6 +87,7 @@
     <string name="step_content5">승인이 완료되었습니다.</string>
     <string name="step_content6">대출이 실행되었습니다.</string>
     <string name="days">견적은 3일간 유효합니다.</string>
+    <string name="ongoing_quotation_check">http://52.78.186.37:3000/clients/requests/permission?customerId=%s</string>
 
 
     <string name="fix">수정</string>

@@ -21,7 +21,7 @@ import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.util.SharedReferenceUtil;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.RequestQuotationRecyclerView.RequestQuotationRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
@@ -128,7 +128,7 @@ public class MyQuotationActivity extends AppCompatActivity {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.my_request_quotation_no_limit_url), CommonClass.getUUID(),"false"))
+                        .url(String.format(getResources().getString(R.string.my_request_quotation_no_limit_url), SharedReferenceUtil.getUUID(),"false"))
                         .get()
                         .build();
 
@@ -213,12 +213,7 @@ public class MyQuotationActivity extends AppCompatActivity {
                 }else if(myPage !=-1){
                     viewPager.setCurrentItem(myPage);
                 }
-
-
-
-            }else{
             }
-
             progressBar.setVisibility(View.GONE);
         }
     }

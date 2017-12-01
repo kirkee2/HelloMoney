@@ -23,15 +23,13 @@ import android.widget.Toast;
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
 import com.beta.tacademy.hellomoneycustomer.common.HelloMoneyCustomerApplication;
+import com.beta.tacademy.hellomoneycustomer.common.util.StringUtil;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageViewPagerObject;
 
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -111,12 +109,13 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             int second = tmp%60;
 
             if(leftSecond > 0){
-                ((MyQuotationViewHolder) holder).leftTime.setText("마감" + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
+                ((MyQuotationViewHolder) holder).leftTime.setText("마감 " + StringUtil.formatNumber2(hour) + ":" + StringUtil.formatNumber2(minute)  + ":" + StringUtil.formatNumber2(second) + " 전");
             }else{
-                ((MyQuotationViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00"+ ":" +"00" + " 전");
+                ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+                //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
+                valueObject.setOngoingStatus("선택대기중");
             }
-
-
 
         }else if(valueObject.getOngoingStatus().equals("선택대기중")){
             ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));

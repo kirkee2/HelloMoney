@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -109,7 +110,6 @@ public class MyQuotationFragment extends Fragment {
 
             myQuotationRecyclerViewAdapter.init(mainPageViewPagerObjectArrayList,myPage);
 
-
             timerTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -119,7 +119,11 @@ public class MyQuotationFragment extends Fragment {
                             //timerCheck = 0;
                             for (int i = 0; i < mainPageViewPagerObjectArrayList.size(); i++) {
                                 if (mainPageViewPagerObjectArrayList.get(i).getOngoingStatus().equals("견적접수중")) {
-                                    mainPageViewPagerObjectArrayList.get(i).setLeftSecond(mainPageViewPagerObjectArrayList.get(i).getLeftSecond() - 1);
+                                    if( mainPageViewPagerObjectArrayList.get(i).getLeftSecond() > 0){
+                                        mainPageViewPagerObjectArrayList.get(i).setLeftSecond(mainPageViewPagerObjectArrayList.get(i).getLeftSecond() - 1);
+                                    }else{
+                                        mainPageViewPagerObjectArrayList.get(i).setOngoingStatus("선택대기중");
+                                    }
                                     //timerCheck++;
                                 }
                             }

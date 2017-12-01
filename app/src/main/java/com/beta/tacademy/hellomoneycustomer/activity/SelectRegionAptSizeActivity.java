@@ -38,7 +38,9 @@ public class SelectRegionAptSizeActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        setSupportActionBar(toolbar); //Toolbar를 현재 Activity의 Actionbar로 설정.
+        setSupportActionBar(toolbar);
+        //Toolbar를 현재 Activity의 Actionbar로 설정.
+
         //Toolbar 설정
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

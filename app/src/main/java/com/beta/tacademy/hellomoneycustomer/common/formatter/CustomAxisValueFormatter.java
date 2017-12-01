@@ -1,4 +1,4 @@
-package com.beta.tacademy.hellomoneycustomer.common;
+package com.beta.tacademy.hellomoneycustomer.common.formatter;
 
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
@@ -17,7 +17,7 @@ public class CustomAxisValueFormatter implements IAxisValueFormatter {
     protected DecimalFormat mFormat;
 
     public CustomAxisValueFormatter() {
-        mFormat = new DecimalFormat("0.0");
+        mFormat = new DecimalFormat("0.00");
     }
 
     @Override

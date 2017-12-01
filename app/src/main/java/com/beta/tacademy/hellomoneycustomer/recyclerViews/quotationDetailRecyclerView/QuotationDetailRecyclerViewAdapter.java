@@ -3,14 +3,11 @@ package com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecycl
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -34,15 +31,12 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.activity.CounselorDetailActivity;
-import com.beta.tacademy.hellomoneycustomer.activity.MyQuotationActivity;
-import com.beta.tacademy.hellomoneycustomer.activity.PostscriptDetailActivity;
 import com.beta.tacademy.hellomoneycustomer.activity.QuotationDetailActivity;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
-import com.beta.tacademy.hellomoneycustomer.common.CustomAxisValueFormatter;
-import com.beta.tacademy.hellomoneycustomer.common.CustomValueFormatter;
+import com.beta.tacademy.hellomoneycustomer.common.formatter.CustomAxisValueFormatter;
+import com.beta.tacademy.hellomoneycustomer.common.formatter.CustomValueFormatter;
+import com.beta.tacademy.hellomoneycustomer.common.util.StringUtil;
+import com.beta.tacademy.hellomoneycustomer.common.util.TimeUtil;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.webhook.WebHook;
-import com.beta.tacademy.hellomoneycustomer.recyclerViews.myQuotationRecyclerView.MyQuotationRecyclerViewAdapter;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -529,7 +523,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubSubHeaderViewHolder) holder).starRatingBar.setEnabled(false);
             ((QuotationDetailSubSubHeaderViewHolder) holder).starRatingBar.setRating((float)valueObject.getScore());
             ((QuotationDetailSubSubHeaderViewHolder) holder).content.setText(valueObject.getContent());
-            ((QuotationDetailSubSubHeaderViewHolder) holder).pastTime.setText(CommonClass.timeParsing(valueObject.getReviewRegisterTime()));
+            ((QuotationDetailSubSubHeaderViewHolder) holder).pastTime.setText(TimeUtil.timeParsing(valueObject.getReviewRegisterTime()));
 
             ((QuotationDetailSubSubHeaderViewHolder) holder).goCounselor.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -551,32 +545,33 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " "+ valueObject.getRegion3());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).apt.setText(valueObject.getApt());
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).size.setText(valueObject.getSize());
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(CommonClass.formatMoney(valueObject.getLoanSum())+"만원");
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanSum.setText(StringUtil.formatMoney(valueObject.getLoanSum())+"만원");
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).rateType.setText(valueObject.getRateType());
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanDate.setText(CommonClass.timeDashParsing(valueObject.getLoanDate()));
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).loanDate.setText(TimeUtil.timeDashParsing(valueObject.getLoanDate()));
             ((QuotationDetailSubSubSubHeaderViewHolder) holder).jobtype.setText(valueObject.getJobType());
-            ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(CommonClass.formatPhoneNumber(valueObject.getTelephone()));
+            ((QuotationDetailSubSubSubHeaderViewHolder) holder).telephone.setText(StringUtil.formatPhoneNumber(valueObject.getTelephone()));
 
             if(valueObject.getOngoingStatus().equals("견적접수중")){
                 ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_interection_waiting));
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step1,0,0,0);
-                valueObject.setLeftSecond(CommonClass.timeLeftSecondParsing(valueObject.getLeftTime()));
-                int leftSecond  = CommonClass.timeLeftSecondParsing(valueObject.getLeftTime());
+                valueObject.setLeftSecond(TimeUtil.timeLeftSecondParsing(valueObject.getLeftTime()));
+                int leftSecond  = TimeUtil.timeLeftSecondParsing(valueObject.getLeftTime());
                 int hour = leftSecond/3600;
                 int tmp = leftSecond%3600;
                 int minute = tmp/60;
                 int second = tmp%60;
 
                 if(leftSecond > 0){
-                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");;
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + StringUtil.formatNumber2(hour) + ":" + StringUtil.formatNumber2(minute)  + ":" + StringUtil.formatNumber2(second) + " 전");;
 
                 }else{
-                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00" + ":" +"00"+ " 전");
-                    if(((QuotationDetailActivity)activity).timer == null){
-
-                    }else{
+                    if(((QuotationDetailActivity)activity).timer != null){
                         ((QuotationDetailActivity)activity).timer.cancel();
                     }
+                    valueObject.setOngoingStatus("선택대기중");
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+                    //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
                 }
 
                 ((QuotationDetailActivity)activity).timerTask = new TimerTask() {
@@ -593,15 +588,16 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                                 int second = tmp%60;
 
                                 if(leftSecond > 0){
-                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + CommonClass.formatNumber2(hour) + ":" + CommonClass.formatNumber2(minute)  + ":" + CommonClass.formatNumber2(second) + " 전");
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + StringUtil.formatNumber2(hour) + ":" + StringUtil.formatNumber2(minute)  + ":" + StringUtil.formatNumber2(second) + " 전");
 
                                 }else{
-                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText("마감 " + "00" + ":" +"00" + ":" +"00"+ " 전");
-                                    if(((QuotationDetailActivity)activity).timer == null){
-
-                                    }else{
+                                    if(((QuotationDetailActivity)activity).timer != null){
                                         ((QuotationDetailActivity)activity).timer.cancel();
                                     }
+                                    valueObject.setOngoingStatus("선택대기중");
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+                                    //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
+                                    ((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
                                 }
                             }
                         });
@@ -610,6 +606,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
                 ((QuotationDetailActivity)activity).timer = new Timer();
                 ((QuotationDetailActivity)activity).timer.schedule(((QuotationDetailActivity)activity).timerTask,0,1000);
+
 
             }else if(valueObject.getOngoingStatus().equals("선택대기중")){
                 //((QuotationDetailSubSubSubHeaderViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2,0,0,0);
@@ -809,6 +806,10 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 }
             });
 
+            if(!ongoingStatus.equals("선택대기중") && !ongoingStatus.equals("견적접수중")){
+                requestCounsel.setVisibility(View.GONE);
+            }
+
             requestCounsel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -939,7 +940,7 @@ public class QuotationDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     name.setText(nameInfo);
                     loanInterestRate.setText(loanInterestRateInfo+"%");
                     interestType.setText(interestTypeInfo);
-                    monthlyRepayMoney.setText(CommonClass.formatMoney(monthlyRepayMoneyInfo)+"만원");
+                    monthlyRepayMoney.setText(StringUtil.formatMoney(monthlyRepayMoneyInfo)+"만원");
                     repayType.setText(repayTypeInfo);
                     //interestRateInfo1.setText(overDueInfo1 + " : 대출 금리 + "+interestRateInfo1Info + "%");
                     //interestRateInfo2.setText(overDueInfo2 + " : 대출 금리 + "+interestRateInfo2Info + "%");

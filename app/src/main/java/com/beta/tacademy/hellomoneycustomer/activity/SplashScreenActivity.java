@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.util.SharedReferenceUtil;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -16,7 +16,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        if(CommonClass.getIntro()){
+        if(SharedReferenceUtil.getIntro()){
             new Handler().postDelayed(new Runnable(){
                 @Override
                 public void run() {

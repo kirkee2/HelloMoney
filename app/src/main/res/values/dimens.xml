@@ -9,4 +9,16 @@
     <dimen name="medium">18sp</dimen>
     <dimen name="large">28sp</dimen>
     <dimen name="main">500dp</dimen>
+
+
+    <dimen name="title_text">16sp</dimen>
+    <dimen name="sub_text">12sp</dimen>
+    <dimen name="content_text">14sp</dimen>
+
+
+    <dimen name="card_view_inner_side">14dp</dimen>
+    <dimen name="card_view_inner_bottom">20dp</dimen>
+    <dimen name="card_view_inner_top">24dp</dimen>
+    <dimen name="card_view_outer_side">8dp</dimen>
+    <dimen name="card_view_outer_top">5dp</dimen>
 </resources>

@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:background="@color/basement"
-    android:layout_marginBottom="@dimen/card_margin_side">
+    android:layout_marginTop="11dp"
+    android:layout_marginBottom="11dp"
+    android:layout_marginStart="24dp">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:text="@string/loan_postscript"
         android:background="@color/basement"
-        android:textColor="@color/molaType"
-        android:textSize="@dimen/medium"
-        android:layout_marginStart="16dp"/>
-
+        android:textColor="#989898"
+        android:textSize="15sp"/>
 </RelativeLayout>

@@ -15,9 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.util.SharedReferenceUtil;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
 import com.beta.tacademy.hellomoneycustomer.viewPagers.introViewPager.IntroFragmentPagerAdapter;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.gun0912.tedpermission.PermissionListener;
@@ -39,7 +38,6 @@ import okhttp3.Response;
 import static com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager.getOkHttpNormalClient;
 
 public class IntroActivity extends AppCompatActivity {
-
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private TextView skip;
@@ -80,7 +78,6 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-
         tabLayout.setupWithViewPager(viewPager, true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -90,7 +87,7 @@ public class IntroActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 3) {
+                if (position == introFragmentPagerAdapter.getCount()-1) {
                     tabLayout.setVisibility(TabLayout.INVISIBLE);
                     startButton.setVisibility(View.VISIBLE);
                 } else {
@@ -123,17 +120,18 @@ public class IntroActivity extends AppCompatActivity {
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CommonClass.saveUUID();
-
-                idCheck.execute();
+                if(SharedReferenceUtil.saveUUID()){
+                    idCheck.execute();
+                }
             }
 
             @Override
             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                getPermission();
+                Toast.makeText(getApplication(),"권한을 설정하지 않으시면 앱을 실행할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                startButton.setEnabled(true);
+                skip.setEnabled(true);
             }
-
-
         };
 
         new TedPermission(this)
@@ -162,16 +160,16 @@ public class IntroActivity extends AppCompatActivity {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.check_id_url), CommonClass.getUUID()))
+                        .url(String.format(getResources().getString(R.string.check_id_url), SharedReferenceUtil.getUUID()))
                         .get()
                         .build();
-                //동기 방식
+
                 response = toServer.newCall(request).execute();
 
                 flag = response.isSuccessful();
                 String returedJSON;
 
-                if(flag){ //성공했다면
+                if(flag){
                     returedJSON = response.body().string();
 
                     try {
@@ -182,8 +180,6 @@ public class IntroActivity extends AppCompatActivity {
                 }else{
                     return 2;
                 }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
             } catch (Exception e) {
             } finally{
                 if(response != null) {
@@ -212,12 +208,11 @@ public class IntroActivity extends AppCompatActivity {
                 if(checkFCMToken.equals(FirebaseInstanceId.getInstance().getToken())){
                     progressBar.setVisibility(View.INVISIBLE);
                     startActivity(new Intent(IntroActivity.this, MainActivity.class));
-                    CommonClass.saveIntro();
+                    SharedReferenceUtil.saveIntro();
                     finish();
                 }else{
                     fcmCheck.execute();
                 }
-
             }else if(result == 1){
                 idRegister.execute();
             }else{
@@ -249,16 +244,16 @@ public class IntroActivity extends AppCompatActivity {
                         .build();
 
                 Request request = new Request.Builder()
-                        .url(String.format(getResources().getString(R.string.check_id_url), CommonClass.getUUID()))
+                        .url(String.format(getResources().getString(R.string.check_id_url), SharedReferenceUtil.getUUID()))
                         .put(postBody)
                         .build();
-                //동기 방식
+
                 response = toServer.newCall(request).execute();
 
                 flag = response.isSuccessful();
                 String returedJSON;
 
-                if(flag){ //성공했다면
+                if(flag){
                     returedJSON = response.body().string();
 
                     try {
@@ -269,9 +264,7 @@ public class IntroActivity extends AppCompatActivity {
                 }else{
                     return 2;
                 }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
-            } catch (Exception e) {
+            }catch (Exception e) {
             } finally{
                 if(response != null) {
                     response.close(); //3.* 이상에서는 반드시 닫아 준다.
@@ -294,7 +287,7 @@ public class IntroActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             if(result == 0){
-                CommonClass.saveIntro();
+                SharedReferenceUtil.saveIntro();
                 progressBar.setVisibility(View.INVISIBLE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
@@ -324,7 +317,7 @@ public class IntroActivity extends AppCompatActivity {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 RequestBody postBody = new FormBody.Builder()
-                        .add("customerId", CommonClass.getUUID())
+                        .add("customerId", SharedReferenceUtil.getUUID())
                         .add("fcmToken", FirebaseInstanceId.getInstance().getToken())
                         .build();
 
@@ -370,7 +363,7 @@ public class IntroActivity extends AppCompatActivity {
             //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
             if(result == 0){
                 Toast.makeText(IntroActivity.this,"아이디 등록 안되있어서 추가함.",Toast.LENGTH_LONG).show();
-                CommonClass.saveIntro();
+                SharedReferenceUtil.saveIntro();
                 progressBar.setVisibility(View.GONE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
@@ -383,8 +376,8 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
+    protected void onStop(){
+        super.onStop();
         if (idCheck.getStatus() == AsyncTask.Status.RUNNING) {
             idCheck.cancel(true);
         }

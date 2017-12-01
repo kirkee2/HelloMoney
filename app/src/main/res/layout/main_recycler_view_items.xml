@@ -1,137 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
-    android:layout_marginBottom="10dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp">
+    android:layout_width="344dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="@dimen/card_view_outer_top"
+    android:layout_marginLeft="@dimen/card_view_outer_side"
+    android:layout_marginRight="@dimen/card_view_outer_side"
+    android:layout_marginTop="@dimen/card_view_outer_top">
 
-    <LinearLayout
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:paddingBottom="11dp"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/card_view_inner_bottom"
+        android:paddingEnd="@dimen/card_view_inner_side"
+        android:paddingLeft="@dimen/card_view_inner_side"
+        android:paddingRight="@dimen/card_view_inner_side"
+        android:paddingStart="@dimen/card_view_inner_side"
+        android:paddingTop="@dimen/card_view_inner_top">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:layout_marginStart="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/typeImage"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/lease_loan"
-                android:layout_marginStart="13dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/line"
-                android:layout_width="1dp"
-                android:layout_toEndOf="@+id/typeImage"
-                android:layout_height="60dp"
-                android:background="@color/subNormal"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="8dp"
-                />
+            <TextView
+                android:id="@+id/region"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/title_text"
+                app:layout_constraintBottom_toTopOf="@+id/apt_time"
+                app:layout_constraintStart_toEndOf="@id/typeImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/line"
-                android:orientation="vertical">
+            <TextView
+                android:id="@+id/apt_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/sub_color"
+                android:textSize="@dimen/sub_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/typeImage"
+                app:layout_constraintTop_toBottomOf="@+id/region" />
+        </android.support.constraint.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/region"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:gravity="center|start"
-                    android:text="@string/test"
-                    android:textSize="@dimen/small_medium"
-                    android:textColor="@color/normalTypo"/>
-
-                <TextView
-                    android:id="@+id/apt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:gravity="center|start"
-                    android:maxWidth="200dp"
-                    android:text="@string/test"
-                    android:textSize="@dimen/small_medium"
-                    android:textColor="@color/normalTypo"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:orientation="horizontal">
-
-                    <RatingBar
-                        android:id="@+id/starRatingBar"
-                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/apt"
-                        android:isIndicator="false"
-                        android:numStars="5"
-                        android:rating="3.5"
-                        android:stepSize="0.5"/>
-
-                    <TextView
-                        android:id="@+id/pastTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="6dp"
-                        android:gravity="center"
-                        android:text="2016년 3월 12일"
-                        android:textColor="@color/subNormal"
-                        android:textSize="@dimen/tiny" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/content"
-            android:layout_width="wrap_content"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="26dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/pointTypo"
-            android:lineSpacingExtra="7dp"
-            android:textSize="@dimen/small_medium"/>
+            android:layout_marginEnd="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="14dp"
+            android:lineSpacingExtra="3sp"
+            android:textColor="@color/title_color"
+            android:textSize="@dimen/content_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sub" />
 
         <View
-            android:layout_width="match_parent"
+            android:id="@+id/space"
+            android:layout_width="316dp"
             android:layout_height="2dp"
-            android:background="@color/subNormal" />
+            android:layout_marginTop="23dp"
+            android:background="@color/line_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/benefit"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp">
-
-            <TextView
-                android:id="@+id/benefit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text=" +25만원 대출 조건 보기"
-                android:textSize="18sp"
-                android:drawableRight="@drawable/next"
-                android:drawableEnd="@drawable/next"/>
-        </RelativeLayout>
-    </LinearLayout>
-
-
+            android:layout_marginTop="20dp"
+            android:drawableEnd="@drawable/next"
+            android:drawablePadding="24dp"
+            android:gravity="center"
+            android:textColor="@color/title_color"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/space" />
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
+
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:orientation="vertical"
+         android:paddingBottom="11dp"
+         android:paddingEnd="18dp"
+         android:paddingStart="18dp">
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+             <de.hdodenhof.circleimageview.CircleImageView
+                 android:id="@+id/typeImage"
+                 android:layout_width="60dp"
+                 android:layout_height="60dp"
+                 android:layout_marginStart="13dp"
+                 android:src="@drawable/lease_loan" />
+
+             <View
+                 android:id="@+id/line"
+                 android:layout_width="1dp"
+                 android:layout_height="60dp"
+                 android:layout_marginEnd="8dp"
+                 android:layout_marginStart="10dp"
+                 android:layout_toEndOf="@+id/typeImage"
+                 android:background="@color/subNormal" />
+
+             <LinearLayout
+                 android:id="@+id/linearLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="60dp"
+                 android:layout_marginStart="5dp"
+                 android:layout_toEndOf="@+id/line"
+                 android:orientation="vertical">
+
+                 <TextView
+                     android:id="@+id/region"
+                     android:layout_width="match_parent"
+                     android:layout_height="20dp"
+                     android:gravity="center|start"
+                     android:text="@string/test"
+                     android:textColor="@color/normalTypo"
+                     android:textSize="@dimen/small_medium" />
+
+                 <TextView
+                     android:id="@+id/apt"
+                     android:layout_width="wrap_content"
+                     android:layout_height="20dp"
+                     android:gravity="center|start"
+                     android:maxWidth="200dp"
+                     android:text="@string/test"
+                     android:textColor="@color/normalTypo"
+                     android:textSize="@dimen/small_medium" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="20dp"
+                     android:orientation="horizontal">
+
+                     <RatingBar
+                         android:id="@+id/starRatingBar"
+                         style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                         android:layout_width="wrap_content"
+                         android:layout_height="20dp"
+                         android:layout_centerVertical="true"
+                         android:layout_toEndOf="@+id/apt"
+                         android:isIndicator="false"
+                         android:numStars="5"
+                         android:rating="3.5"
+                         android:stepSize="0.5" />
+
+                     <TextView
+                         android:id="@+id/pastTime"
+                         android:layout_width="wrap_content"
+                         android:layout_height="20dp"
+                         android:layout_marginStart="6dp"
+                         android:gravity="center"
+                         android:text="2016년 3월 12일"
+                         android:textColor="@color/subNormal"
+                         android:textSize="@dimen/tiny" />
+
+                 </LinearLayout>
+             </LinearLayout>
+
+         </RelativeLayout>
+
+         <TextView
+             android:id="@+id/content"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="16dp"
+             android:layout_marginEnd="26dp"
+             android:layout_marginStart="26dp"
+             android:layout_marginTop="16dp"
+             android:lineSpacingExtra="7dp"
+             android:textColor="@color/pointTypo"
+             android:textSize="@dimen/small_medium" />
+
+         <View
+             android:layout_width="match_parent"
+             android:layout_height="2dp"
+             android:background="@color/subNormal" />
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="6dp"
+             android:layout_marginTop="6dp">
+
+             <TextView
+                 android:id="@+id/benefit"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerInParent="true"
+                 android:drawableEnd="@drawable/next"
+                 android:drawableRight="@drawable/next"
+                 android:gravity="center"
+                 android:text=" +25만원 대출 조건 보기"
+                 android:textSize="18sp" />
+         </RelativeLayout>
+     </LinearLayout>-->

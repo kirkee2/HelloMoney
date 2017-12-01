@@ -30,10 +30,6 @@ import com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager.MainPageVie
 
 import java.util.ArrayList;
 
-/**
- * Created by kirkee on 2017. 6. 12..
- */
-
 public class SelectRegionRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Activity activity;
     private int step;

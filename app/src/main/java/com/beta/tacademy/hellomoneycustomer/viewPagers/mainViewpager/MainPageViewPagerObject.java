@@ -3,7 +3,10 @@ package com.beta.tacademy.hellomoneycustomer.viewPagers.mainViewpager;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.beta.tacademy.hellomoneycustomer.common.CommonClass;
+import com.beta.tacademy.hellomoneycustomer.common.util.TimeUtil;
+
+import java.sql.Time;
+
 public class MainPageViewPagerObject implements Parcelable {
     private int id;
     private String ongoingStatus;
@@ -32,15 +35,13 @@ public class MainPageViewPagerObject implements Parcelable {
         this.apt = apt;
         this.size = size;
         this.currentQuotation = currentQuotation;
-        this.leftSecond = CommonClass.timeLeftSecondParsing(leftTime);
+        this.leftSecond = TimeUtil.timeLeftSecondParsing(leftTime);
     }
 
     public int getId() {
 
         return id;
     }
-
-
 
     public void setId(int id) {
         this.id = id;

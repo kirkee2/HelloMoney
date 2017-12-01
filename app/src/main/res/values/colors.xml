@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#00897b</color>
+    <color name="colorPrimaryDark">#468AB2</color>
+    <color name="colorPrimary">#FFFFFFFF</color>
+    <color name="colorPrimaryTint">#FF24AAF2</color>
+    <color name="colorPrimaryLight">#47b1ee</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="basement">#F5F5F5</color>
-    <color name="progress">#00BFA5</color>
+    <color name="basement">#f2f2f2</color>
+    <color name="progress">#47b1ee</color>
     <color name="pointTypo">#262637</color>
     <color name="normalTypo">#757575</color>
     <color name="subNormal">#BDBDBD</color>
@@ -12,4 +14,9 @@
     <color name="orange">#FF5722</color>
     <color name="white">#FFFFFFFF</color>
     <color name="molaType">#9e9e9e</color>
+
+
+    <color name="title_color">#333333</color>
+    <color name="sub_color">#808080</color>
+    <color name="line_color">#e2e6e5</color>
 </resources>

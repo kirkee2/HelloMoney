@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="30dp"
+    android:layout_marginEnd="21dp">
 
     <TextView
         android:id="@+id/myChattingText"
@@ -10,12 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:background="@drawable/my_chatting_balloon"
-        android:textColor="@color/white"
+        android:textColor="#fffefe"
         android:gravity="end|center_vertical"
         android:textSize="@dimen/small_medium"
         android:lineSpacingExtra="7sp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="32dp"
         android:layout_alignParentEnd="true"/>
 
     <TextView
@@ -24,9 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:text="@string/fix"
-        android:layout_marginTop="6dp"
-        android:textSize="@dimen/small_medium"
-        android:lineSpacingExtra="7sp"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp"
         android:gravity="end|center_vertical"
         android:textColor="@color/fix"
         android:layout_alignParentEnd="true"
