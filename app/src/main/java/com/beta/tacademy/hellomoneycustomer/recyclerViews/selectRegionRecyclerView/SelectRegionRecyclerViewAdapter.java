@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -56,13 +57,13 @@ public class SelectRegionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
     }
 
     private class MainViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
+        FrameLayout frameLayout;
         TextView text;
 
         private MainViewHolder(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.text);
-            cardView = (CardView)itemView.findViewById(R.id.cardView);
+            frameLayout = (FrameLayout)itemView.findViewById(R.id.frameLayout);
         }
     }
 
@@ -70,7 +71,7 @@ public class SelectRegionRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final String valueObject = stringArrayList.get(position);
         ((MainViewHolder) holder).text.setText(valueObject);
-        ((MainViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+        ((MainViewHolder) holder).frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(step == 4){

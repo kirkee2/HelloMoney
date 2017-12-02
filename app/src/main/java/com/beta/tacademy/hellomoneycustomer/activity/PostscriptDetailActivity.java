@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.beta.tacademy.hellomoneycustomer.R;
@@ -32,6 +33,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
@@ -43,23 +45,22 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class PostscriptDetailActivity extends AppCompatActivity {
-
     private Toolbar toolbar;
     private int postscriptId;
     private BarChart barChart;
     private ArrayList<Float> rate;
     private TextView finalQuotationCount;
-    private TextView averageInterestRate;
+    //private TextView averageInterestRate;
     private TextView bank;
     private TextView name;
-    private TextView goCounselor;
+    private RelativeLayout goCounselor;
     private ImageView loanType;
     private CircleImageView image;
-    private TextView region;
+    //private TextView region;
     private TextView apt;
     private RatingBar starRatingBar;
     private TextView content;
-    private TextView pastTime;
+    //private TextView pastTime;
     private ProgressBar progressBar;
 
     private String imageInfo;
@@ -73,9 +74,15 @@ public class PostscriptDetailActivity extends AppCompatActivity {
     private String counselorId;
     private String pastTimeInfo;
     private Activity activity;
+    private TextView aptTime;
+    private TextView minRateText;
+    private TextView maxRateText;
 
     private PostscriptInterest postscriptInterest;
     private PostscriptDetail postscriptDetail;
+
+    private float minRate;
+    private float maxRate;
 
 
     @Override
@@ -88,17 +95,20 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         barChart = (BarChart)findViewById(R.id.barChart);
         rate = new ArrayList<>();
         finalQuotationCount = (TextView)findViewById(R.id.finalQuotationCount);
-        averageInterestRate = (TextView)findViewById(R.id.averageInterestRate);
+        //averageInterestRate = (TextView)findViewById(R.id.averageInterestRate);
         bank = (TextView)findViewById(R.id.bank);
         name = (TextView)findViewById(R.id.name);
-        goCounselor =(TextView)findViewById(R.id.goCounselor);
+        goCounselor =(RelativeLayout)findViewById(R.id.goCounselor);
         loanType = (ImageView)findViewById(R.id.loanType);
         image = (CircleImageView)findViewById(R.id.image);
-        region = (TextView)findViewById(R.id.region);
+        //region = (TextView)findViewById(R.id.region);
         apt = (TextView)findViewById(R.id.apt);
         starRatingBar = (RatingBar)findViewById(R.id.starRatingBar);
         content = (TextView)findViewById(R.id.content);
-        pastTime = (TextView)findViewById(R.id.pastTime);
+        //pastTime = (TextView)findViewById(R.id.pastTime);
+        aptTime = (TextView)findViewById(R.id.apt_time);
+        maxRateText = (TextView)findViewById(R.id.maxRate);
+        minRateText = (TextView)findViewById(R.id.minRate);
 
         activity = this;
         starRatingBar.setEnabled(false);
@@ -108,12 +118,20 @@ public class PostscriptDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         postscriptId = intent.getIntExtra("id",-1);
+
+        minRate = 0;
+        maxRate = 0;
         if(intent.getBooleanExtra("goCounselor",true)){
-
+            goCounselor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PostscriptDetailActivity.this,CounselorDetailActivity.class);
+                    intent.putExtra("agentId",counselorId);
+                    startActivity(intent);
+                }
+            });
         }else{
-            goCounselor.setVisibility(View.GONE);
         }
-
         setSupportActionBar(toolbar);
 
         //Toolbar 설정
@@ -126,18 +144,9 @@ public class PostscriptDetailActivity extends AppCompatActivity {
 
         //toolbar
         toolbar.setTitle(getResources().getString(R.string.postscript_detail));
-        toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.normalTypo,null));
+        toolbar.setTitleTextColor(ResourcesCompat.getColor(getApplicationContext().getResources(),R.color.title_color,null));
 
         postscriptInterest.execute();
-
-        goCounselor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PostscriptDetailActivity.this,CounselorDetailActivity.class);
-                intent.putExtra("agentId",counselorId);
-                startActivity(intent);
-            }
-        });
     }
 
     private class PostscriptInterest extends AsyncTask<Void, Void, Integer> {
@@ -227,15 +236,27 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 ArrayList<BarEntry> entries = new ArrayList<>();
                 ArrayList<BarEntry> entriesMin = new ArrayList<>();
                 float min = 100;
+                float max = -100;
                 int minIndex = 0;
+                int maxIndex = 0;
+
                 for(int i = 0 ; i <rate.size() ; i++){
                     if(rate.get(i) < min){
                         min = rate.get(i);
                         minIndex = i;
                     }
 
+                    if(rate.get(i) > max){
+                        max = rate.get(i);
+                        maxIndex = i;
+                    }
+
+
                     entries.add(new BarEntry(i*0.5F,rate.get(i)));
                 }
+
+                minRate = rate.get(minIndex);
+                maxRate = rate.get(maxIndex);
 
                 entriesMin.add(entries.get(minIndex));
                 entries.remove(minIndex);
@@ -251,7 +272,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                 dataSet.setValueTextSize(10);
                 dataSet.setValueFormatter(new CustomValueFormatter());
 
-                dataSetMin.setColor(0xFF00BFA5);
+                dataSetMin.setColor(0xFF1bb0f5);
                 dataSetMin.setHighlightEnabled(false);
                 dataSetMin.setValueTextSize(10);
                 dataSetMin.setValueFormatter(new CustomValueFormatter());
@@ -283,7 +304,9 @@ public class PostscriptDetailActivity extends AppCompatActivity {
 
                 averageInterestRateTmp = averageInterestRateTmp/(double)rate.size();
                 double tmp2 = Double.parseDouble(String.format("%.1f",averageInterestRateTmp));
-                averageInterestRate.setText(String.valueOf(tmp2)+"%");
+                //averageInterestRate.setText(String.valueOf(tmp2)+"%");
+                maxRateText.setText(maxRate + "%");
+                minRateText.setText(minRate + "%");
 
                 postscriptDetail.execute();
             }else if(result == 1){
@@ -351,7 +374,8 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                         bankInfo = data.getString("company_name");
                         nameInfo = data.getString("name");
                         loanTypeInfo = data.getString("loan_type");
-                        regionInfo = data.getString("region_1") + " " + data.getString("region_2") + " " + data.getString("region_3");
+                        //regionInfo = data.getString("region_1") + " " + data.getString("region_2") + " " + data.getString("region_3");
+                        regionInfo = data.getString("region_1") + " " + data.getString("region_2");
                         aptInfo = data.getString("apt_name");
                         starInfo = (float) data.getDouble("score");
                         contentInfo = data.getString("content");
@@ -383,7 +407,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                         .placeholder(R.drawable.loading)
                         .error(R.drawable.error)
                         .into(image);
-                bank.setText(bankInfo);
+                //bank.setText(bankInfo);
                 name.setText(nameInfo);
 
                 if(loanTypeInfo.equals("주택담보대출")){
@@ -392,9 +416,11 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                     loanType.setImageResource(R.drawable.lease_loan);
                 }
 
-                pastTime.setText(TimeUtil.timeParsing(pastTimeInfo));
-                region.setText(regionInfo);
-                apt.setText(aptInfo);
+                //pastTime.setText(TimeUtil.timeParsing(pastTimeInfo));
+                //region.setText(regionInfo);
+
+                aptTime.setText(regionInfo + " / " + TimeUtil.timeParsing(pastTimeInfo));
+                apt.setText(aptInfo + " 대출 고객");
                 starRatingBar.setRating(starInfo);
                 starRatingBar.setEnabled(false);
                 content.setText(contentInfo);

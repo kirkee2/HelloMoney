@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,9 +80,9 @@ public class Region3Fragment extends Fragment {
 
         stringArraylist = new ArrayList<>();
         selectRegionRecyclerViewAdapter = new SelectRegionRecyclerViewAdapter(getActivity(),2);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),3);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
 
-        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         requestRegion3 = new RequestRegion3();
         requestRegion3.execute();

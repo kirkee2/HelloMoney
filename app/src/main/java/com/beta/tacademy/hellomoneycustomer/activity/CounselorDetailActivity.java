@@ -70,7 +70,7 @@ public class CounselorDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        toolbar.setTitle(getResources().getString(R.string.counselor_detail));
+        //toolbar.setTitle(getResources().getString(R.string.counselor_detail));
 
         activity = this;
         Intent intent = getIntent();

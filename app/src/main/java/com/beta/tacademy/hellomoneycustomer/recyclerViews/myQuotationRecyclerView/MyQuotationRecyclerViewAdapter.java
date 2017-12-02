@@ -63,10 +63,10 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     }
 
     private class MyQuotationViewHolder extends RecyclerView.ViewHolder {
-        TextView region;
+        //TextView region;
         TextView apt;
-        TextView size;
-        TextView type;
+        //TextView size;
+       //TextView type;
         TextView currentQuotation;
         TextView leftTime;
         LinearLayout linearLayout;
@@ -74,10 +74,10 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         private MyQuotationViewHolder(View itemView) {
             super(itemView);
-            region = (TextView)itemView.findViewById(R.id.region);
+            //region = (TextView)itemView.findViewById(R.id.region);
             apt = (TextView)itemView.findViewById(R.id.apt);
-            size = (TextView) itemView.findViewById(R.id.size);
-            type = (TextView)itemView.findViewById(R.id.type);
+            //size = (TextView) itemView.findViewById(R.id.size);
+            //type = (TextView)itemView.findViewById(R.id.type);
             currentQuotation = (TextView)itemView.findViewById(R.id.currentQuotation);
             leftTime = (TextView)itemView.findViewById(R.id.leftTime);
             linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
@@ -89,17 +89,17 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final MainPageViewPagerObject valueObject = mainPageViewPagerObjectArrayList.get(position);
 
-        ((MyQuotationViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " " +  valueObject.getRegion3());
+        //((MyQuotationViewHolder) holder).region.setText(valueObject.getRegion1() + " " + valueObject.getRegion2() + " " +  valueObject.getRegion3());
 
         ((MyQuotationViewHolder) holder).apt.setText(valueObject.getApt());
-        ((MyQuotationViewHolder) holder).size.setText(valueObject.getSize());
-        ((MyQuotationViewHolder) holder).type.setText(valueObject.getType());
+        //((MyQuotationViewHolder) holder).size.setText(valueObject.getSize());
+        //((MyQuotationViewHolder) holder).type.setText(valueObject.getType());
 
         ((MyQuotationViewHolder) holder).ongoingSub.setText(valueObject.getOngoingStatus());
         ((MyQuotationViewHolder) holder).currentQuotation.setText(String.valueOf(valueObject.getCurrentQuotation()));
 
         if(valueObject.getOngoingStatus().equals("견적접수중")){
-            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_interection_waiting));
+            //((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_interection_waiting));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.pointTypo,null));
 
             int leftSecond  = valueObject.getLeftSecond();
@@ -109,40 +109,40 @@ public class MyQuotationRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             int second = tmp%60;
 
             if(leftSecond > 0){
-                ((MyQuotationViewHolder) holder).leftTime.setText("마감 " + StringUtil.formatNumber2(hour) + ":" + StringUtil.formatNumber2(minute)  + ":" + StringUtil.formatNumber2(second) + " 전");
+                ((MyQuotationViewHolder) holder).leftTime.setText("마감 " + StringUtil.formatNumber2(hour) + "시간 " + StringUtil.formatNumber2(minute)  + "분 " + StringUtil.formatNumber2(second) + "초");
             }else{
-                ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+                //((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
                 //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
                 ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
                 valueObject.setOngoingStatus("선택대기중");
             }
 
         }else if(valueObject.getOngoingStatus().equals("선택대기중")){
-            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            //((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content2));
             //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("상담중")){
-            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            //((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content3));
             //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("심사중")){
-            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            //((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content4));
             //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
 
         }else if(valueObject.getOngoingStatus().equals("승인완료")){
-            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
+            //((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_ongoing));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content5));
             //((MyQuotationViewHolder) holder).leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
 
         }else{
-            ((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_done));
+            //((MyQuotationViewHolder) holder).linearLayout.setBackground(ContextCompat.getDrawable(activity,R.drawable.ongoing_quotation_fixed_done));
             //((MyQuotationViewHolder) holder).leftTime.setTextColor(ResourcesCompat.getColor(activity.getResources(),R.color.progress,null));
             //((MyQuotationViewHolder) holder).leftTime.setText("퍼센트 사용 후기를 남겨주세요.");
             ((MyQuotationViewHolder) holder).leftTime.setText(activity.getString(R.string.step_content6));

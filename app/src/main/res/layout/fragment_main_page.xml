@@ -15,9 +15,9 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="36dp"
+            android:paddingTop="20dp"
             android:paddingStart="36dp"
-            android:paddingBottom="36dp"
+            android:paddingBottom="20dp"
             android:paddingEnd="47dp">
 
             <TextView
@@ -27,8 +27,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="21sp"
-                android:textColor="@color/title_color"
-                android:text="asdd"/>
+                android:textColor="@color/title_color"/>
 
             <TextView
                 android:id="@+id/aptText"
@@ -51,8 +50,7 @@
                 app:layout_constraintStart_toEndOf="@id/aptText"
                 android:textSize="12sp"
                 android:textColor="@color/title_color"
-                android:lineSpacingExtra="6.2sp"
-                android:text="LG 개포자이"/>
+                android:lineSpacingExtra="6.2sp"/>
 
             <TextView
                 android:id="@+id/leftTimeText"
@@ -75,8 +73,7 @@
                 app:layout_constraintStart_toEndOf="@id/leftTimeText"
                 android:textSize="12sp"
                 android:textColor="@color/title_color"
-                android:lineSpacingExtra="6.2sp"
-                android:text="LG 개포자이"/>
+                android:lineSpacingExtra="6.2sp"/>
 
             <View
                 android:layout_width="2dp"
@@ -99,14 +96,13 @@
                 android:text="견적수"/>
 
             <TextView
-                android:id="@id/currentQuotation"
+                android:id="@+id/currentQuotation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="57sp"
                 android:textColor="#333333"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="1"/>
+                app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>

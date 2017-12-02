@@ -54,7 +54,7 @@ public class MyQuotationFragmentPagerAdapter extends FragmentStatePagerAdapter {
         if(position == 0){
             return "진행중";
         }else{
-            return "완료";
+            return "종료";
         }
     }
 }

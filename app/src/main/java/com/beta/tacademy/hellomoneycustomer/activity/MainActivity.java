@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.common.util.SharedReferenceUtil;
+import com.beta.tacademy.hellomoneycustomer.listView.mainNavi.MainNaviAdapter;
 import com.beta.tacademy.hellomoneycustomer.module.listener.EndlessScrollListener;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
     private View naviHeader;
+    private MainNaviAdapter mainNaviAdapter;
     private MainRecyclerViewAdapter mainRecyclerViewAdapter;
     private ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
     private ArrayList<MainValueObject> mainValueObjectArrayList;
@@ -105,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
         postscriptListUpdate = new PostscriptListUpdate();
         myQuotationUpdateList = new MyQuotationUpdateList();
 
+        mainNaviAdapter = new MainNaviAdapter();
+
+
         uncompletedCount = 0;
         completedCount = 0;
         position = 0;
@@ -123,7 +128,11 @@ public class MainActivity extends AppCompatActivity implements EndlessScrollList
 
         //ActionBarDrawerToggle
 
-        naviList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,new String[]{getString(R.string.how_to),getString(R.string.faq),getString(R.string.contact)}));
+        mainNaviAdapter.addItem(getString(R.string.how_to));
+        mainNaviAdapter.addItem(getString(R.string.faq));
+        mainNaviAdapter.addItem(getString(R.string.contact));
+        naviList.setAdapter(mainNaviAdapter);
+        //naviList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,new String[]{getString(R.string.how_to),getString(R.string.faq),getString(R.string.contact)}));
         naviList.setOnItemClickListener(new DrawerItemClickListener());
         naviList.setClickable(false);
         naviList.addHeaderView(naviHeader);

@@ -101,16 +101,15 @@
 
                 <Button
                     android:id="@+id/step2Button"
-                    android:background="@color/progress"
-                    android:layout_width="wrap_content"
+                    android:layout_width="252dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:gravity="center"
-                    android:textSize="@dimen/medium"
-                    android:textColor="@color/white"
+                    android:textSize="17dp"
+                    android:textColor="#24aaf2"
                     style="?android:attr/borderlessButtonStyle"
                     android:text="@string/choose_apt"/>
             </android.support.constraint.ConstraintLayout>
@@ -169,20 +168,110 @@
                     android:digits="1234567890"
                     android:background="@color/progress"/>
             </LinearLayout>
+<!--
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/step1"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingEnd="18dp"
+                android:paddingStart="18dp"
+                android:paddingTop="8dp"
+                android:weightSum="100">
 
+                <TextView
+                    android:id="@+id/step1Text1"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="@string/loan_type_1"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/step1Text2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/step1Text2"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="@string/loan_type_2"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/step1Text1"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>-->
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/step4"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
-                android:orientation="vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
-                android:weightSum="100"
                 android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="18dp"
+                android:paddingStart="18dp"
+                android:paddingTop="8dp"
+                android:weightSum="100"
                 android:visibility="gone">
 
+                <TextView
+                    android:id="@+id/step4Text1"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="변동금리"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toTopOf="@+id/step4Text2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.01999998" />
+
+                <TextView
+                    android:id="@+id/step4Text2"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="고정금리"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toTopOf="@+id/step4Text3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/step4Text1"
+                    app:layout_constraintVertical_bias="0.110000014" />
+
+                <TextView
+                    android:id="@+id/step4Text3"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="없음"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/step4Text2"
+                    app:layout_constraintVertical_bias="0.26999998" />
+                <!--
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -212,8 +301,8 @@
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
                         android:text="고정금리"/>
-                </LinearLayout>
-
+                </LinearLayout>-->
+                <!--
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -232,7 +321,7 @@
                         android:textSize="@dimen/medium"
                         android:textColor="@color/normalTypo"
                         android:text="상관없음"/>
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <!--
                 <LinearLayout
@@ -259,36 +348,35 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/step5"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
-                android:weightSum="100"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:visibility="gone">
 
                 <DatePicker
                     android:id="@+id/step5DataPicker"
-                    android:layout_width="0dp"
-                    android:layout_weight="100"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:calendarViewShown="false"
                     android:datePickerMode="spinner"
-                    android:descendantFocusability="blocksDescendants"/>
+                    android:descendantFocusability="blocksDescendants"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/step5Button"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:textColor="@color/progress"
                     android:layout_gravity="center"
-                    android:text="@string/send"
-                    android:textSize="@dimen/medium"
+                    android:background="@color/white"
                     android:gravity="center"
-                    android:background="@color/white" />
+                    android:text="@string/send"
+                    android:textColor="#24aaf2"
+                    android:textSize="@dimen/medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -304,6 +392,97 @@
                 android:background="@color/white"
                 android:visibility="gone">
 
+                <TextView
+                    android:id="@+id/step6Text1"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="직장근로자"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toTopOf="@+id/step6Text2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.01999998" />
+
+                <TextView
+                    android:id="@+id/step6Text2"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="개인사업자"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toTopOf="@+id/step4Text3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/step6Text1"
+                    app:layout_constraintVertical_bias="0.110000014" />
+
+                <TextView
+                    android:id="@+id/step6Text3"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    android:text="프리랜서"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/step6Text2"
+                    app:layout_constraintVertical_bias="0.26999998" />
+
+
+               <!-- <TextView
+                    android:id="@+id/step6Text1"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="직장근로자"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/step6Text2"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/step6Text2"
+                    android:layout_width="146dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:text="개인사업자"
+                    android:textColor="#24aaf2"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/step6Text1"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/step6Text3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/request_button"
+                    android:gravity="center"
+                    android:textSize="@dimen/medium"
+                    android:textColor="@color/normalTypo"
+                    android:layout_marginEnd="4dp"
+                    android:text="프리랜서"/>-->
+                <!--
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -351,6 +530,7 @@
                         android:layout_marginEnd="4dp"
                         android:text="프리랜서"/>
                 </LinearLayout>
+                -->
             </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
@@ -396,7 +576,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/step8"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@color/progress"
                 android:visibility="gone">

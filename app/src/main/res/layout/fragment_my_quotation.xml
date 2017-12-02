@@ -10,7 +10,10 @@
         android:layout_height="match_parent"
         android:background="@color/basement"
         android:layout_gravity="center"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:clipToPadding="false"/>
 
     <RelativeLayout
         android:id="@+id/noResult_ongoing"

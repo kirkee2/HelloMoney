@@ -10,12 +10,12 @@
     <string name="ongoing_loan">진행 중 견적</string>
     <string name="finish_loan">종료된 견적</string>
     <string name="my_loan">내 견적 요청함</string>
-    <string name="main_ment_1">최저금리를 찾는 확실한 방법</string>
+    <string name="main_ment_1">최저금리를 찾는 확실한 방법\n주택담보대출은 퍼센트!</string>
     <string name="main_ment_2">주택담보대출은 퍼센트!</string>
     <string name="main_button_ment">새 견적요청 하기</string>
     <string name="current_quotation">견적 수</string>
     <string name="request_quotation">견적 요청</string>
-    <string name="my_quotation">내 견적 요청함</string>
+    <string name="my_quotation">내 견적함</string>
     <string name="quotation_result">견적 요청 결과</string>
     <string name="quotation_result_count">견적 수</string>
     <string name="quotation_list">견적 리스트</string>
@@ -25,7 +25,7 @@
     <string name="show_detail">상세보기 +</string>
     <string name="operation_guide">이용 안내</string>
     <string name="quotation_detail_write_comment">대출 후기 작성하기</string>
-    <string name="postscript_detail">대출 후기 상세</string>
+    <string name="postscript_detail">대출후기</string>
     <string name="loan_interest_rate">대출 금리</string>
     <string name="interest_type">금리 방식</string>
     <string name="go_counselor">상담사 보기</string>

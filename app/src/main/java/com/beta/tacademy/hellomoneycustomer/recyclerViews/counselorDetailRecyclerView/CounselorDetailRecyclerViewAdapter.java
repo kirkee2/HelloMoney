@@ -54,7 +54,7 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         //Header와 Item를 구분하여 view 설정
 
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycler_view_items, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.counselor_detail_recycler_view_item, parent, false);
             return new CounselorDetailViewHolder(view);
         }else if(viewType == TYPE_HEADER){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.counselor_detail_recycler_view_header, parent, false);
@@ -76,14 +76,14 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     private class CounselorDetailHeaderViewHolder extends RecyclerView.ViewHolder {
         CircleImageView image;
-        TextView bank;
+        TextView regionBank;
         TextView name;
         TextView introductionMent;
 
         private CounselorDetailHeaderViewHolder(View itemView) {
             super(itemView);
             image = (CircleImageView)itemView.findViewById(R.id.image);
-            bank = (TextView)itemView.findViewById(R.id.bank);
+            regionBank = (TextView)itemView.findViewById(R.id.regionBank);
             name = (TextView)itemView.findViewById(R.id.name);
             introductionMent = (TextView)itemView.findViewById(R.id.introductionMent);
         }
@@ -93,21 +93,23 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         CardView cardView;
         ImageView typeImage;
         TextView region;
-        TextView apt;
+        //TextView apt;
+        TextView aptTime;
         RatingBar starRatingBar;
-        TextView pastTime;
+        //TextView pastTime;
         TextView content;
-        TextView benefit;
+        //TextView benefit;
 
         private CounselorDetailViewHolder(View itemView) {
             super(itemView);
             typeImage = (ImageView) itemView.findViewById(R.id.typeImage);
             region = (TextView)itemView.findViewById(R.id.region);
-            apt = (TextView)itemView.findViewById(R.id.apt);
+            //apt = (TextView)itemView.findViewById(R.id.apt);
+            aptTime = (TextView)itemView.findViewById(R.id.apt_time);
             starRatingBar = (RatingBar)itemView.findViewById(R.id.starRatingBar);
-            pastTime = (TextView)itemView.findViewById(R.id.pastTime);
+            //pastTime = (TextView)itemView.findViewById(R.id.pastTime);
             content = (TextView)itemView.findViewById(R.id.content);
-            benefit = (TextView)itemView.findViewById(R.id.benefit);
+            //benefit = (TextView)itemView.findViewById(R.id.benefit);
             cardView = (CardView)itemView.findViewById(R.id.cardView);
         }
     }
@@ -125,7 +127,7 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                     .error(R.drawable.error)
                     .into(((CounselorDetailHeaderViewHolder) holder).image);
 
-            ((CounselorDetailHeaderViewHolder) holder).bank.setText(valueObject.getBank());
+            ((CounselorDetailHeaderViewHolder) holder).regionBank.setText(valueObject.getBank());
             ((CounselorDetailHeaderViewHolder) holder).name.setText(valueObject.getName());
             ((CounselorDetailHeaderViewHolder) holder).introductionMent.setText(valueObject.getIntroductionMent());
         } else{
@@ -137,13 +139,12 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 ((CounselorDetailViewHolder) holder).typeImage.setImageResource(R.drawable.lease_loan);
             }
 
-            ((CounselorDetailViewHolder) holder).region.setText(valueObject.getRegion1() +" "+ valueObject.getRegion2() + " "+ valueObject.getRegion3());
-            ((CounselorDetailViewHolder) holder).apt.setText(valueObject.getApt());
+            ((CounselorDetailViewHolder) holder).region.setText(valueObject.getApt() + " 대출 고객");
+            ((CounselorDetailViewHolder) holder).aptTime.setText(valueObject.getRegion1() +" "+ valueObject.getRegion2() + " / " + TimeUtil.timeParsing(valueObject.getPastTime()));
             ((CounselorDetailViewHolder) holder).starRatingBar.setRating(valueObject.getStar());
             ((CounselorDetailViewHolder) holder).starRatingBar.setEnabled(false);
-            ((CounselorDetailViewHolder) holder).pastTime.setText(TimeUtil.timeParsing(valueObject.getPastTime()));
             ((CounselorDetailViewHolder) holder).content.setText(valueObject.getContent());
-
+/*
             if( valueObject.getBenefit() < 0){
                 String benefitString = valueObject.getBenefit() + "만원 대출 조건 보기";
                 final String tmp = valueObject.getBenefit() + "";
@@ -160,7 +161,7 @@ public class CounselorDetailRecyclerViewAdapter extends RecyclerView.Adapter<Rec
                 builder.setSpan(new ForegroundColorSpan(ResourcesCompat.getColor(activity.getResources(),R.color.colorPrimaryDark,null)), 0, tmp.length()+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 ((CounselorDetailViewHolder) holder).benefit.setText(builder);
-            }
+            }*/
 
             ((CounselorDetailViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener(){
                 @Override

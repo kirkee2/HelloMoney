@@ -116,7 +116,7 @@ public class MainPageFragment extends Fragment {
             int second = tmp%60;
 
             if(leftSecond > 0){
-                leftTime.setText(StringUtil.formatNumber2(hour) + "시간 " + StringUtil.formatNumber2(minute)  + "분 " + StringUtil.formatNumber2(second) + "");
+                leftTime.setText(StringUtil.formatNumber2(hour) + "시간 " + StringUtil.formatNumber2(minute)  + "분 " + StringUtil.formatNumber2(second) + "초");
             }else{
                 mainPageViewPagerObject.setOngoingStatus("선택대기중");
                 //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
@@ -140,7 +140,7 @@ public class MainPageFragment extends Fragment {
                             int second = tmp%60;
 
                             if(leftSecond > 0){
-                                leftTime.setText("마감 " + StringUtil.formatNumber2(hour) + ":"+ StringUtil.formatNumber2(minute)  + ":" + StringUtil.formatNumber2(second) + " 전");
+                                leftTime.setText(StringUtil.formatNumber2(hour) + "시간 " + StringUtil.formatNumber2(minute)  + "분 " + StringUtil.formatNumber2(second) + "초");
                             }else{
                                 mainPageViewPagerObject.setOngoingStatus("선택대기중");
                                 //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
