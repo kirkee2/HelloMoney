@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="344dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_gravity="center_horizontal">
 
         <android.support.constraint.ConstraintLayout
@@ -86,13 +87,12 @@
 
                 <RatingBar
                     android:id="@+id/starRatingBar"
-                    style="@android:style/Widget.DeviceDefault.RatingBar.Small"
-                    android:progressDrawable="@drawable/custom_star_rating"
+                    style="@style/customStar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:isIndicator="false"
                     android:numStars="5"
-                    android:stepSize="0.5" />
+                    android:stepSize="0.5"/>
 
                 <TextView
                     android:id="@+id/content"

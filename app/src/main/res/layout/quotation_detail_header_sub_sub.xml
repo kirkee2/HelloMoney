@@ -123,7 +123,7 @@
 
                             <RatingBar
                                 android:id="@+id/starRatingBar"
-                                style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                                style="@style/customStar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="20dp"
                                 android:isIndicator="false"

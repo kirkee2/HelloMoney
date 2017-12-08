@@ -42,21 +42,19 @@ public class MyQuotationFragment extends Fragment {
     ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList;
     Timer timer;
     TimerTask timerTask;
-    int timerCheck;
     int myPage;
 
 
     public MyQuotationFragment() {
-        // Required empty public constructor
     }
 
+/*
     public MyQuotationFragment(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList) {
         this.mainPageViewPagerObjectArrayList = mainPageViewPagerObjectArrayList;
         timerCheck = 0;
     }
+*/
 
-
-    // TODO: Rename and change types and number of parameters
     public static MyQuotationFragment newInstance(ArrayList<MainPageViewPagerObject> mainPageViewPagerObjectArrayList,int myPage) {
         MyQuotationFragment fragment = new MyQuotationFragment();
         Bundle args = new Bundle();
@@ -91,8 +89,8 @@ public class MyQuotationFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
         recyclerView.setAdapter(myQuotationRecyclerViewAdapter);
         if(mainPageViewPagerObjectArrayList.size() == 0){
@@ -116,7 +114,6 @@ public class MyQuotationFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //timerCheck = 0;
                             for (int i = 0; i < mainPageViewPagerObjectArrayList.size(); i++) {
                                 if (mainPageViewPagerObjectArrayList.get(i).getOngoingStatus().equals("견적접수중")) {
                                     if( mainPageViewPagerObjectArrayList.get(i).getLeftSecond() > 0){
@@ -124,15 +121,9 @@ public class MyQuotationFragment extends Fragment {
                                     }else{
                                         mainPageViewPagerObjectArrayList.get(i).setOngoingStatus("선택대기중");
                                     }
-                                    //timerCheck++;
                                 }
                             }
 
-                            /*
-                            if(timerCheck == 0){
-                                timer.cancel();
-                            }
-                            */
                             myQuotationRecyclerViewAdapter.update(mainPageViewPagerObjectArrayList,myPage);
                         }
                     });
@@ -145,8 +136,8 @@ public class MyQuotationFragment extends Fragment {
     }
 
     @Override
-    public void onPause(){
-        super.onPause();
+    public void onStop(){
+        super.onStop();
         if(timer == null){
 
         }else{

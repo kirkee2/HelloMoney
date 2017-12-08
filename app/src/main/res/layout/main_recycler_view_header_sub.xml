@@ -34,6 +34,7 @@
         android:layout_below="@id/pager"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center|bottom"
+        android:layout_marginTop="-10dp"
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp" />

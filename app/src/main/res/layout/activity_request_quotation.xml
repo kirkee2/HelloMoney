@@ -354,7 +354,7 @@
 
                 <DatePicker
                     android:id="@+id/step5DataPicker"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:calendarViewShown="false"
                     android:datePickerMode="spinner"
@@ -383,13 +383,13 @@
                 android:id="@+id/step6"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
-                android:orientation="vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
-                android:weightSum="100"
                 android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="18dp"
+                android:paddingStart="18dp"
+                android:paddingTop="8dp"
+                android:weightSum="100"
                 android:visibility="gone">
 
                 <TextView
@@ -406,7 +406,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.01999998" />
+                    app:layout_constraintVertical_bias="0.005" />
 
                 <TextView
                     android:id="@+id/step6Text2"
@@ -417,12 +417,12 @@
                     android:text="개인사업자"
                     android:textColor="#24aaf2"
                     android:textSize="17sp"
-                    app:layout_constraintBottom_toTopOf="@+id/step4Text3"
+                    app:layout_constraintBottom_toTopOf="@+id/step6Text3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/step6Text1"
-                    app:layout_constraintVertical_bias="0.110000014" />
+                    app:layout_constraintVertical_bias="0.314" />
 
                 <TextView
                     android:id="@+id/step6Text3"
@@ -430,18 +430,18 @@
                     android:layout_height="36dp"
                     android:background="@drawable/request_button"
                     android:gravity="center"
+                    android:text="프리랜서"
                     android:textColor="#24aaf2"
                     android:textSize="17sp"
-                    android:text="프리랜서"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/step6Text2"
-                    app:layout_constraintVertical_bias="0.26999998" />
+                    app:layout_constraintVertical_bias="0.731" />
 
 
-               <!-- <TextView
+                <!-- <TextView
                     android:id="@+id/step6Text1"
                     android:layout_width="146dp"
                     android:layout_height="36dp"

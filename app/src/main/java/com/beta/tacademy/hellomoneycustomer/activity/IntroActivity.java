@@ -22,11 +22,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import okhttp3.FormBody;
@@ -35,7 +32,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager.getOkHttpNormalClient;
+import static com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager.NETWORK_FAIL;
+import static com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager.NETWORK_ID_NOT_REGISTERED;
+import static com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager.NETWORK_SUCCESS;
 
 public class IntroActivity extends AppCompatActivity {
     private ViewPager viewPager;
@@ -44,11 +43,13 @@ public class IntroActivity extends AppCompatActivity {
     private Button startButton;
     private ProgressBar progressBar;
 
-    private IdCheck idCheck;
-    private FCMCheck fcmCheck;
-    private IdRegister idRegister;
-
     private IntroFragmentPagerAdapter introFragmentPagerAdapter;
+
+    private PermissionListener permissionlistener;
+
+    private IsIdRegistered isIdRegistered;
+    private IsFCMRegistered isFCMRegistered;
+    private RegisterId registerId;
 
     String checkFCMToken;
 
@@ -57,28 +58,39 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
+        initView();
+        initVariable();
+        initListener();
+        initNetwork();
+    }
+
+    private void initView() {
         viewPager = (ViewPager) findViewById(R.id.introViewPager);
         tabLayout = (TabLayout) findViewById(R.id.introTab);
         introFragmentPagerAdapter = new IntroFragmentPagerAdapter(getSupportFragmentManager());
         skip = (TextView) findViewById(R.id.skip);
         startButton = (Button) findViewById(R.id.startButton);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        idCheck =new IdCheck();
-        fcmCheck = new FCMCheck();
-        idRegister = new IdRegister();
+        tabLayout.setupWithViewPager(viewPager, true);
+        viewPager.setAdapter(introFragmentPagerAdapter);
+    }
 
+    private void initListener() {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                startButton.setEnabled(false);
-                skip.setEnabled(false);
                 getPermission();
             }
         });
 
-        tabLayout.setupWithViewPager(viewPager, true);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPermission();
+            }
+        });
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -87,7 +99,7 @@ public class IntroActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == introFragmentPagerAdapter.getCount()-1) {
+                if (position == introFragmentPagerAdapter.getCount() - 1) {
                     tabLayout.setVisibility(TabLayout.INVISIBLE);
                     startButton.setVisibility(View.VISIBLE);
                 } else {
@@ -102,46 +114,52 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-        skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                startButton.setEnabled(false);
-                skip.setEnabled(false);
-                getPermission();
-            }
-        });
-
-        viewPager.setAdapter(introFragmentPagerAdapter);
-        introFragmentPagerAdapter.init();
-    }
-
-    private void getPermission(){
-        PermissionListener permissionlistener = new PermissionListener() {
+        permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                if(SharedReferenceUtil.saveUUID()){
-                    idCheck.execute();
+                if (SharedReferenceUtil.saveUUID()) {
+                    isIdRegistered.execute();
+                } else {
+                    Toast.makeText(getApplication(), "진행중 오류가 발생했습니다. 다시 한번 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    startButton.setEnabled(true);
+                    skip.setEnabled(true);
                 }
             }
 
             @Override
             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(getApplication(),"권한을 설정하지 않으시면 앱을 실행할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "권한을 설정하지 않으시면 앱을 실행할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 startButton.setEnabled(true);
                 skip.setEnabled(true);
             }
         };
+    }
+
+    private void initVariable() {
+        introFragmentPagerAdapter.init();
+    }
+
+    private void initNetwork() {
+        isIdRegistered = new IsIdRegistered();
+        isFCMRegistered = new IsFCMRegistered();
+        registerId = new RegisterId();
+    }
+
+    private void getPermission() {
+        progressBar.setVisibility(View.VISIBLE);
+        startButton.setEnabled(false);
+        skip.setEnabled(false);
 
         new TedPermission(this)
                 .setPermissionListener(permissionlistener)
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setDeniedMessage("권한을 허용하지 않으면 서비스를 사용하실 수 없습니다.\n설정에서 권한을 허용해주세요.")
                 .setPermissions(Manifest.permission.READ_PHONE_STATE)
                 .check();
     }
 
-    private class IdCheck extends AsyncTask<Void, Void, Integer> {
+    private class IsIdRegistered extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -153,10 +171,9 @@ public class IntroActivity extends AppCompatActivity {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
+            JSONObject jsonObject;
 
-            JSONObject jsonObject = null;
-
-            try{
+            try {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 Request request = new Request.Builder()
@@ -169,59 +186,51 @@ public class IntroActivity extends AppCompatActivity {
                 flag = response.isSuccessful();
                 String returedJSON;
 
-                if(flag){
+                if (flag) {
                     returedJSON = response.body().string();
 
-                    try {
-                        jsonObject = new JSONObject(returedJSON);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return 2;
+                    jsonObject = new JSONObject(returedJSON);
+                } else {
+                    return NETWORK_FAIL;
+                }
+
+                if (jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))) {
+                    checkFCMToken = jsonObject.getJSONObject("data").getString("fcm_token");
+
+                    return NETWORK_SUCCESS;
+                } else {
+                    return NETWORK_ID_NOT_REGISTERED;
                 }
             } catch (Exception e) {
-            } finally{
-                if(response != null) {
-                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
+                return NETWORK_FAIL;
+            } finally {
+                if (response != null) {
+                    response.close();
                 }
-            }
-
-            try {
-                if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
-                    JSONObject tmp = jsonObject.getJSONObject("data");
-
-                    checkFCMToken = tmp.getString("fcm_token");
-                    return 0;
-                }else{
-                    return 1;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return 3;
             }
         }
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 0){
-                if(checkFCMToken.equals(FirebaseInstanceId.getInstance().getToken())){
-                    progressBar.setVisibility(View.INVISIBLE);
+            if (result == NETWORK_SUCCESS) {
+                if (checkFCMToken.equals(FirebaseInstanceId.getInstance().getToken())) {
                     startActivity(new Intent(IntroActivity.this, MainActivity.class));
                     SharedReferenceUtil.saveIntro();
                     finish();
-                }else{
-                    fcmCheck.execute();
+                } else {
+                    isFCMRegistered.execute();
                 }
-            }else if(result == 1){
-                idRegister.execute();
-            }else{
-                Toast.makeText(IntroActivity.this,"에러 아이디 체크에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
+            } else if (result == NETWORK_ID_NOT_REGISTERED) {
+                registerId.execute();
+            } else {
+                Toast.makeText(IntroActivity.this, "네트워크 처리 도중 에러가 발생하였습니다.", Toast.LENGTH_LONG).show();
             }
+
+            progressBar.setVisibility(View.GONE);
         }
     }
 
-    private class FCMCheck extends AsyncTask<Void, Void, Integer> {
+    private class IsFCMRegistered extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -233,10 +242,9 @@ public class IntroActivity extends AppCompatActivity {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
+            JSONObject jsonObject;
 
-            JSONObject jsonObject = null;
-
-            try{
+            try {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 RequestBody postBody = new FormBody.Builder()
@@ -253,46 +261,35 @@ public class IntroActivity extends AppCompatActivity {
                 flag = response.isSuccessful();
                 String returedJSON;
 
-                if(flag){
+                if (flag) {
                     returedJSON = response.body().string();
-
-                    try {
-                        jsonObject = new JSONObject(returedJSON);
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return 2;
+                    jsonObject = new JSONObject(returedJSON);
+                } else {
+                    return NETWORK_FAIL;
                 }
-            }catch (Exception e) {
-            } finally{
-                if(response != null) {
-                    response.close(); //3.* 이상에서는 반드시 닫아 준다.
-                }
-            }
 
-            try {
-                if(jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))){
-
-                    return 0;
-                }else{
-                    return 1;
+                if (jsonObject.get(getResources().getString(R.string.url_message)).equals(getResources().getString(R.string.url_success))) {
+                    return NETWORK_SUCCESS;
+                } else {
+                    return NETWORK_FAIL;
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return 3;
+            } catch (Exception e) {
+                return NETWORK_FAIL;
+            } finally {
+                if (response != null) {
+                    response.close();
+                }
             }
         }
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 0){
+            if (result == NETWORK_SUCCESS) {
                 SharedReferenceUtil.saveIntro();
-                progressBar.setVisibility(View.INVISIBLE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
-            }else{
-                Toast.makeText(IntroActivity.this,"푸시 업데이트 실패.",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(IntroActivity.this, "네트워크 처리 도중 에러가 발생하였습니다.", Toast.LENGTH_LONG).show();
             }
 
             progressBar.setVisibility(View.GONE);
@@ -300,10 +297,12 @@ public class IntroActivity extends AppCompatActivity {
     }
 
 
-    private class IdRegister extends AsyncTask<Void, Void, Integer> {
+    private class RegisterId extends AsyncTask<Void, Void, Integer> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -311,9 +310,9 @@ public class IntroActivity extends AppCompatActivity {
             boolean flag;
             Response response = null;
             OkHttpClient toServer;
-            String msg = null;
+            String msg;
 
-            try{
+            try {
                 toServer = OKHttp3ApplyCookieManager.getOkHttpNormalClient();
 
                 RequestBody postBody = new FormBody.Builder()
@@ -330,65 +329,62 @@ public class IntroActivity extends AppCompatActivity {
 
                 flag = response.isSuccessful();
                 String returedJSON;
-                if( flag ){ //성공했다면
+
+                if (flag) { //성공했다면
                     returedJSON = response.body().string();
                     Log.e("resultJSON", returedJSON);
-                    try {
-                        JSONObject jsonObject = new JSONObject(returedJSON);
-                        msg = (String) jsonObject.get(getResources().getString(R.string.url_message));
-                    }catch(JSONException jsone){
-                        Log.e("json에러", jsone.toString());
-                    }
-                }else{
-                    return 2;
+                    JSONObject jsonObject = new JSONObject(returedJSON);
+                    msg = (String) jsonObject.get(getResources().getString(R.string.url_message));
+                } else {
+                    return NETWORK_FAIL;
                 }
-            }catch (UnknownHostException une) {
-            } catch (UnsupportedEncodingException uee) {
+
+                if (msg.equals(getResources().getString(R.string.url_success))) {
+                    return NETWORK_SUCCESS;
+                } else {
+                    return NETWORK_FAIL;
+                }
             } catch (Exception e) {
-            } finally{
-                if(response != null) {
+                return NETWORK_FAIL;
+            } finally {
+                if (response != null) {
                     response.close(); //3.* 이상에서는 반드시 닫아 준다.
                 }
-            }
-
-            if(msg.equals(getResources().getString(R.string.url_success))){
-                return 0;
-            }else{
-                return 1;
             }
         }
 
         @Override
         protected void onPostExecute(Integer result) {
-            //마무리 된 이후에 ProgressBar 제거하고 SwipeRefreshLayout을 사용할 수 있게 설정
-            if(result == 0){
-                Toast.makeText(IntroActivity.this,"아이디 등록 안되있어서 추가함.",Toast.LENGTH_LONG).show();
+            if (result == NETWORK_SUCCESS) {
                 SharedReferenceUtil.saveIntro();
-                progressBar.setVisibility(View.GONE);
                 startActivity(new Intent(IntroActivity.this, MainActivity.class));
                 finish();
-            }else if(result == 1){
-                Toast.makeText(IntroActivity.this,"아이디 등록 안되있지만 추가 못함.",Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(IntroActivity.this,"에러 아이디 등록에서 어딘가 걸림.",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(IntroActivity.this, "네트워크 처리 도중 에러가 발생하였습니다.", Toast.LENGTH_LONG).show();
             }
+
+            progressBar.setVisibility(View.GONE);
         }
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
-        if (idCheck.getStatus() == AsyncTask.Status.RUNNING) {
-            idCheck.cancel(true);
+
+        stopNetWork();
+    }
+
+    private void stopNetWork() {
+        if (isIdRegistered.getStatus() == AsyncTask.Status.RUNNING) {
+            isIdRegistered.cancel(true);
         }
 
-        if (fcmCheck.getStatus() == AsyncTask.Status.RUNNING) {
-            fcmCheck.cancel(true);
+        if (isFCMRegistered.getStatus() == AsyncTask.Status.RUNNING) {
+            isFCMRegistered.cancel(true);
         }
 
-        if (idRegister.getStatus() == AsyncTask.Status.RUNNING) {
-            idRegister.cancel(true);
+        if (registerId.getStatus() == AsyncTask.Status.RUNNING) {
+            registerId.cancel(true);
         }
-
     }
 }

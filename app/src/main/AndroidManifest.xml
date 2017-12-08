@@ -17,12 +17,13 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize|stateHidden"
         tools:replace="android:allowBackup">
-        <service android:name=".module.push.MyFirebaseMessagingService">
+
+        <service android:name=".module.push.HelloMoneyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".module.push.MyFirebaseInstanceIDService">
+        <service android:name=".module.push.HelloMoneyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -76,7 +77,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SelectRegionAptSizeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

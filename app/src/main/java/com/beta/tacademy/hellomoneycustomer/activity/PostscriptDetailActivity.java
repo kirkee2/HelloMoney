@@ -77,6 +77,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
     private TextView aptTime;
     private TextView minRateText;
     private TextView maxRateText;
+    private ImageView next;
 
     private PostscriptInterest postscriptInterest;
     private PostscriptDetail postscriptDetail;
@@ -109,6 +110,7 @@ public class PostscriptDetailActivity extends AppCompatActivity {
         aptTime = (TextView)findViewById(R.id.apt_time);
         maxRateText = (TextView)findViewById(R.id.maxRate);
         minRateText = (TextView)findViewById(R.id.minRate);
+        next = (ImageView)findViewById(R.id.next);
 
         activity = this;
         starRatingBar.setEnabled(false);
@@ -130,7 +132,9 @@ public class PostscriptDetailActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+            next.setVisibility(View.VISIBLE);
         }else{
+            next.setVisibility(View.GONE);
         }
         setSupportActionBar(toolbar);
 

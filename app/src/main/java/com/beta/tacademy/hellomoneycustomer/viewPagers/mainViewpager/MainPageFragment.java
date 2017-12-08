@@ -94,8 +94,9 @@ public class MainPageFragment extends Fragment {
         return view;
     }
 
-    public void onResume(){
-        super.onResume();
+    @Override
+    public void onStart(){
+        super.onStart();
 
         //region.setText(mainPageViewPagerObject.getRegion1() + " " + mainPageViewPagerObject.getRegion2() + " " +  mainPageViewPagerObject.getRegion3());
         apt.setText(mainPageViewPagerObject.getApt());
@@ -120,7 +121,7 @@ public class MainPageFragment extends Fragment {
             }else{
                 mainPageViewPagerObject.setOngoingStatus("선택대기중");
                 //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
-                leftTime.setText(getString(R.string.step_content2));
+                leftTime.setText("00시간 00분 00초");
                 if(timer != null){
                     timer.cancel();
                 }
@@ -144,7 +145,7 @@ public class MainPageFragment extends Fragment {
                             }else{
                                 mainPageViewPagerObject.setOngoingStatus("선택대기중");
                                 //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
-                                leftTime.setText(getString(R.string.step_content2));
+                                leftTime.setText("00시간 00분 00초");
                                 if(timer != null){
                                     timer.cancel();
                                 }
@@ -160,28 +161,28 @@ public class MainPageFragment extends Fragment {
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("선택대기중")){
             //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(getString(R.string.step_content2));
+            leftTime.setText("00시간 00분 00초");
             //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step2_small, 0, 0, 0);
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("상담중")){
             //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step3_small, 0, 0, 0);
             //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(getString(R.string.step_content3));
+            leftTime.setText("00시간 00분 00초");
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("심사중")){
             //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step4_small, 0, 0, 0);
             //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(getString(R.string.step_content4));
+            leftTime.setText("00시간 00분 00초");
         }else if(mainPageViewPagerObject.getOngoingStatus().equals("승인완료")){
            // leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step5_small, 0, 0, 0);
             //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_ongoing));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(getString(R.string.step_content5));
+            leftTime.setText("00시간 00분 00초");
         }else{
             //leftTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.step6_small, 0, 0, 0);
             //linearLayout.setBackground(ContextCompat.getDrawable(getActivity(),R.drawable.ongoing_quotation_fixed_done));
             //leftTime.setTextColor(ResourcesCompat.getColor(getActivity().getResources(),R.color.progress,null));
-            leftTime.setText(getString(R.string.step_content6));
+            leftTime.setText("00시간 00분 00초");
         }
 
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -196,8 +197,8 @@ public class MainPageFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         if(timer != null){
             timer.cancel();
         }

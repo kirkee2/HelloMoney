@@ -46,7 +46,7 @@
         android:id="@+id/startButton"
         android:layout_marginBottom="40dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"/>
+        android:layout_marginStart="32dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -55,5 +55,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/colorAccent" />
+        android:indeterminateTint="@color/progress" />
 </FrameLayout>

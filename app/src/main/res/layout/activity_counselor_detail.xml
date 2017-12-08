@@ -4,7 +4,8 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/basement">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -30,7 +31,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:background="@color/basement"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:paddingBottom="25dp"
+        android:clipToPadding="false"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

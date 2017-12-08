@@ -14,7 +14,7 @@ public class CustomAxisValueFormatter implements IAxisValueFormatter {
     /**
      * decimalformat for formatting
      */
-    protected DecimalFormat mFormat;
+    private DecimalFormat mFormat;
 
     public CustomAxisValueFormatter() {
         mFormat = new DecimalFormat("0.00");

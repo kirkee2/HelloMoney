@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.beta.tacademy.hellomoneycustomer.R;
 import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OKHttp3ApplyCookieManager;
-import com.beta.tacademy.hellomoneycustomer.module.httpConnectionModule.OkHttpInitSingtonManager;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainRecyclerViewAdapter;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.mainRecyclerView.MainValueObject;
 import com.beta.tacademy.hellomoneycustomer.recyclerViews.quotationDetailRecyclerView.QuotationDetailHeaderObject;
@@ -47,7 +46,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class QuotationDetailActivity extends AppCompatActivity {
-
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private QuotationDetailRecyclerViewAdapter quotationDetailRecyclerViewAdapter;
@@ -61,11 +59,8 @@ public class QuotationDetailActivity extends AppCompatActivity {
     private int position;
     private int myPage;
 
-
     public Timer timer;
     public TimerTask timerTask;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

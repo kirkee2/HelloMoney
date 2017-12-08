@@ -9,6 +9,10 @@ import okhttp3.OkHttpClient;
 
 public class OKHttp3ApplyCookieManager {
     //쿠키가 없는 OkHttpClient 객체
+    public static final int NETWORK_SUCCESS = 0;
+    public static final int NETWORK_FAIL = -1;
+    public static final int NETWORK_ID_NOT_REGISTERED = 2;
+
     private static OkHttpClient okHttpClient;
 
     //쿠키를 제거하는 클래스
